@@ -139,8 +139,9 @@
         <input id="f_sets" type="text" value="3">
       </div>
       <div class="field">
-        <label for="f_reps">חזרות (ברירת מחדל)</label>
-        <input id="f_reps" type="text" value="10">
+        <label for="f_reps">חזרות או זמן (ברירת מחדל)</label>
+        <input id="f_reps" type="text" value="10 חזרות">
+        <div class="sub">כולל יחידה — למשל "12 חזרות", "30 שניות", "10 חזרות לכל רגל"</div>
       </div>
     </div>
 
@@ -234,7 +235,7 @@ function clearForm(){
   $('formTitle').textContent = 'תרגיל חדש';
   $('f_name').value = ''; $('f_id').value = '';
   $('f_region').selectedIndex = 0; $('f_equipment').selectedIndex = 0;
-  $('f_sets').value = '3'; $('f_reps').value = '10';
+  $('f_sets').value = '3'; $('f_reps').value = '10 חזרות';
   $('f_instructions').value = '';
   $('dropInner').textContent = 'גרור לכאן תמונה, או לחץ לבחירה';
   $('deleteBtn').style.display = 'none';
