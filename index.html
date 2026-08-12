@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בונה דפי תרגילים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Assistant:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F6F1;
+    --paper-raised:#FFFFFF;
+    --ink:#1E2B29;
+    --ink-soft:#5B6C69;
+    --teal:#2B4C4A;
+    --teal-dim:#7FA39E;
+    --line:#DAD9CE;
+    --shoulder:#C9773F;
+    --cervical:#7C8F6E;
+    --thoracic:#8E7A9C;
+    --lumbar:#B85C6B;
+    --hip:#4D7C8A;
+    --knee:#C9A227;
+    --ankle:#5B8266;
+    --wrist:#9B6B4A;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Assistant',sans-serif;
+    font-size:16px;
+    line-height:1.5;
+  }
+  h1,h2,h3{font-family:'Frank Ruhl Libre',serif; margin:0;}
+  .mono{font-family:'Roboto Mono',monospace;}
+
+  /* ---------- App chrome ---------- */
+  header.app-bar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper-raised);
+  }
+  header.app-bar h1{font-size:22px; color:var(--teal); font-weight:700;}
+  header.app-bar .tag{
+    font-family:'Roboto Mono',monospace; font-size:11px; color:var(--ink-soft);
+    letter-spacing:.03em; border:1px solid var(--line); border-radius:20px;
+    padding:3px 10px;
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns:1fr 380px;
+    gap:0;
+    min-height:calc(100vh - 64px);
+  }
+  @media (max-width: 900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Library (left) ---------- */
+  .library{padding:24px 28px;}
+  .filters{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;
+  }
+  .filters input, .filters select{
+    font-family:'Assistant',sans-serif; font-size:14px;
+    padding:8px 12px; border:1px solid var(--line); border-radius:8px;
+    background:var(--paper-raised); color:var(--ink);
+  }
+  .filters input{flex:1; min-width:160px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
+    gap:14px;
+  }
+  .card{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px;
+    position:relative;
+    border-inline-start:5px solid var(--region-color, var(--teal));
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .card .thumb{
+    width:100%; aspect-ratio:1/1; background:#fff;
+    border:1px solid var(--line); border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .card .thumb img{width:100%; height:100%; object-fit:contain;}
+  .card .thumb svg{width:70%; height:70%;}
+  .card .meta{display:flex; flex-direction:column; gap:2px;}
+  .card .name{font-weight:600; font-size:14.5px;}
+  .card .region-label{
+    font-size:11px; color:var(--region-color, var(--ink-soft));
+    font-family:'Roboto Mono',monospace; text-transform:uppercase; letter-spacing:.04em;
+  }
+  .card button.add{
+    margin-top:auto;
+    background:var(--teal); color:#fff; border:none;
+    padding:7px 10px; border-radius:6px; font-size:13px; cursor:pointer;
+    font-family:'Assistant',sans-serif; font-weight:600;
+  }
+  .card button.add:hover{background:#1f3937;}
+  .card button.add:disabled{background:var(--line); color:var(--ink-soft); cursor:default;}
+
+  /* ---------- Sheet builder (right) ---------- */
+  .builder{
+    background:var(--paper-raised);
+    border-inline-start:1px solid var(--line);
+    padding:24px 24px 90px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .builder h2{font-size:17px; color:var(--teal);}
+  .builder .patient-field{
+    font-size:13px; color:var(--ink-soft);
+  }
+  .builder .patient-field input{
+    width:100%; margin-top:4px; padding:8px 10px; font-size:14px;
+    border:1px solid var(--line); border-radius:8px; font-family:'Assistant',sans-serif;
+  }
+  .sheet-list{display:flex; flex-direction:column; gap:10px;}
+  .sheet-empty{
+    color:var(--ink-soft); font-size:13.5px; border:1px dashed var(--line);
+    border-radius:8px; padding:18px; text-align:center;
+  }
+  .sheet-item{
+    border:1px solid var(--line); border-radius:8px; padding:10px 12px;
+    display:flex; align-items:center; gap:10px;
+    border-inline-start:4px solid var(--region-color, var(--teal));
+  }
+  .sheet-item .thumb-sm{
+    width:40px; height:40px; flex:none; background:#fff; border:1px solid var(--line);
+    border-radius:5px; display:flex; align-items:center; justify-content:center;
+  }
+  .sheet-item .thumb-sm svg{width:75%; height:75%;}
+  .sheet-item .info{flex:1; min-width:0;}
+  .sheet-item .info .name{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .sheet-item .reps{display:flex; flex-wrap:wrap; gap:4px; align-items:center; font-size:12px; margin-top:3px;}
+  .sheet-item .reps input{
+    width:56px; text-align:center; border:1px solid var(--line); border-radius:4px;
+    padding:2px 4px; font-family:'Roboto Mono',monospace; font-size:12px;
+  }
+  .sheet-item .reps input.intensity-input{width:90px;}
+  .sheet-item .row-actions{display:flex; gap:4px; flex:none;}
+  .sheet-item .row-actions button{
+    border:none; background:none; cursor:pointer; color:var(--ink-soft);
+    font-size:15px; padding:2px 4px;
+  }
+  .sheet-item .row-actions button:hover{color:var(--ink);}
+
+  .print-btn{
+    position:sticky; bottom:0;
+    background:var(--teal); color:#fff; border:none;
+    padding:13px; border-radius:8px; font-size:15px; font-weight:700;
+    cursor:pointer; font-family:'Assistant',sans-serif;
+  }
+  .print-btn:disabled{background:var(--line); color:var(--ink-soft); cursor:default;}
+  .print-btn:not(:disabled):hover{background:#1f3937;}
+
+  .note{
+    font-size:11.5px; color:var(--ink-soft); line-height:1.5;
+    border-top:1px solid var(--line); padding-top:10px;
+  }
+
+  /* ---------- Print sheet (hidden on screen) ---------- */
+  #print-sheet{display:none;}
+
+  @media print{
+    header.app-bar, .library, .builder{display:none !important;}
+    #print-sheet{
+      display:block;
+      padding:0;
+    }
+    body{background:#fff;}
+    .p-header{
+      display:flex; justify-content:space-between; align-items:baseline;
+      border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:18px;
+    }
+    .p-header h1{font-size:20px;}
+    .p-header .p-patient{font-family:'Roboto Mono',monospace; font-size:13px;}
+    .p-exercise{
+      break-inside:avoid;
+      display:grid; grid-template-columns:100px 1fr; gap:16px;
+      border-bottom:1px solid #ccc; padding:14px 0;
+    }
+    .p-exercise .p-thumb{width:100px; height:100px;}
+    .p-exercise .p-thumb svg{width:100%; height:100%;}
+    .p-exercise h3{font-size:15px; margin-bottom:4px;}
+    .p-exercise .p-dose{
+      font-family:'Roboto Mono',monospace; font-size:12.5px; color:#333; margin-bottom:6px;
+    }
+    .p-exercise .p-instructions{font-size:12.5px; color:#333;}
+    .p-footer{margin-top:20px; font-size:10.5px; color:#888;}
+  }
+</style>
+</head>
+<body>
+
+<header class="app-bar">
+  <h1>בונה דפי תרגילים</h1>
+  <span class="tag">גרסת בדיקה — נתוני דמה</span>
+</header>
+
+<div class="layout">
+
+  <!-- LIBRARY -->
+  <section class="library">
+    <div class="filters">
+      <input id="search" type="text" placeholder="חיפוש תרגיל...">
+      <select id="regionFilter">
+        <option value="">כל האזורים</option>
+      </select>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- BUILDER -->
+  <aside class="builder">
+    <h2>הדף הנוכחי</h2>
+    <label class="patient-field">
+      שם המטופל (לא נשמר, מוצג רק על הדף)
+      <input id="patientName" type="text" placeholder="לא חובה">
+    </label>
+    <div class="sheet-list" id="sheetList">
+      <div class="sheet-empty">עדיין לא נבחרו תרגילים</div>
+    </div>
+    <button class="print-btn" id="printBtn" disabled>הפק דף להדפסה</button>
+    <div class="note">
+      זו סביבת בדיקה: התמונות כאן הן שרטוטי-דמה זמניים, לא המאגר האמיתי.
+      המטרה כרגע היא לבדוק שהאתר נפתח ומתאפשר להדפיס ממנו בעמדת העבודה.
+    </div>
+  </aside>
+
+</div>
+
+<!-- PRINT-ONLY SHEET -->
+<div id="print-sheet">
+  <div class="p-header">
+    <h1>תוכנית תרגילים</h1>
+    <div class="p-patient" id="pPatient"></div>
+  </div>
+  <div id="pExercises"></div>
+  <div class="p-footer">הופק באמצעות בונה דפי תרגילים — גרסת בדיקה</div>
+</div>
+
+<script>
+/* ============================================================
+   DATA LAYER
+   ------------------------------------------------------------
+   This is placeholder sample data so the app is testable today.
+   In production, replace this block with:
+
+     let EXERCISES = [];
+     fetch('./exercises.json')
+       .then(r => r.json())
+       .then(data => { EXERCISES = data; init(); });
+
+   and point each card's image at `./images/${ex.image_file}`
+   instead of the inline placeholder SVGs used below.
+
+   NOTE ON DOSAGE FIELDS: default_sets / default_reps / default_intensity_he
+   are free text on purpose (e.g. "6-10", "עד RIR 3-4") — not numbers.
+   When irritability-based dosage presets are added later, they'll live
+   in a new `dosage_by_irritability` object per exercise (see chat),
+   and a global irritability toggle will just swap which preset feeds
+   these same three fields. No schema change needed here for that.
+   ============================================================ */
+
+const REGION_LABELS = {
+  shoulder:"כתף", cervical:"צוואר", thoracic:"גב עליון",
+  lumbar:"גב תחתון", hip:"ירך", knee:"ברך", ankle:"קרסול", wrist:"שורש כף יד"
+};
+
+// Simple placeholder line-figure icons per region, standing in for
+// the real minimalist illustrations that will come from the image pipeline.
+function placeholderSVG(region){
+  const icons = {
+    shoulder:`<circle cx="50" cy="20" r="8"/><line x1="50" y1="28" x2="50" y2="60"/><line x1="50" y1="35" x2="25" y2="20"/><line x1="50" y1="35" x2="75" y2="50"/><line x1="50" y1="60" x2="35" y2="90"/><line x1="50" y1="60" x2="65" y2="90"/>`,
+    cervical:`<circle cx="50" cy="22" r="8"/><line x1="50" y1="30" x2="50" y2="65"/><line x1="50" y1="38" x2="30" y2="55"/><line x1="50" y1="38" x2="70" y2="55"/><line x1="50" y1="65" x2="38" y2="92"/><line x1="50" y1="65" x2="62" y2="92"/>`,
+    thoracic:`<circle cx="50" cy="18" r="8"/><line x1="50" y1="26" x2="50" y2="62"/><line x1="50" y1="34" x2="28" y2="45"/><line x1="50" y1="34" x2="72" y2="45"/><line x1="50" y1="62" x2="36" y2="90"/><line x1="50" y1="62" x2="64" y2="90"/>`,
+    lumbar:`<circle cx="50" cy="18" r="8"/><path d="M50 26 Q60 45 50 62"/><line x1="50" y1="34" x2="30" y2="42"/><line x1="50" y1="34" x2="70" y2="42"/><line x1="50" y1="62" x2="38" y2="90"/><line x1="50" y1="62" x2="62" y2="90"/>`,
+    hip:`<circle cx="50" cy="16" r="8"/><line x1="50" y1="24" x2="50" y2="55"/><line x1="50" y1="30" x2="32" y2="42"/><line x1="50" y1="30" x2="68" y2="42"/><line x1="50" y1="55" x2="30" y2="70"/><line x1="30" y1="70" x2="30" y2="92"/><line x1="50" y1="55" x2="62" y2="92"/>`,
+    knee:`<circle cx="50" cy="14" r="8"/><line x1="50" y1="22" x2="50" y2="50"/><line x1="50" y1="28" x2="34" y2="38"/><line x1="50" y1="28" x2="66" y2="38"/><line x1="50" y1="50" x2="42" y2="70"/><line x1="42" y1="70" x2="55" y2="92"/><line x1="50" y1="50" x2="58" y2="72"/><line x1="58" y1="72" x2="58" y2="92"/>`,
+    ankle:`<circle cx="50" cy="14" r="8"/><line x1="50" y1="22" x2="50" y2="55"/><line x1="50" y1="28" x2="35" y2="40"/><line x1="50" y1="28" x2="65" y2="40"/><line x1="50" y1="55" x2="42" y2="85"/><line x1="42" y1="85" x2="58" y2="90"/><line x1="50" y1="55" x2="60" y2="85"/>`,
+    wrist:`<circle cx="50" cy="18" r="8"/><line x1="50" y1="26" x2="50" y2="60"/><line x1="50" y1="32" x2="28" y2="48"/><line x1="28" y1="48" x2="20" y2="46"/><line x1="50" y1="32" x2="72" y2="48"/><line x1="50" y1="60" x2="38" y2="90"/><line x1="50" y1="60" x2="62" y2="90"/>`
+  };
+  return `<svg viewBox="0 0 100 100" fill="none" stroke="#1E2B29" stroke-width="3.2" stroke-linecap="round">${icons[region]||icons.shoulder}</svg>`;
+}
+
+let EXERCISES = [];
+
+// Load exercises from external exercises.json
+fetch('./exercises.json')
+  .then(r => r.json())
+  .then(data => {
+    // Normalize data: convert sets/reps to strings, ensure intensity field exists
+    EXERCISES = data.map(ex => ({
+      ...ex,
+      default_sets: String(ex.default_sets || ""),
+      default_reps: String(ex.default_reps || ""),
+      default_intensity_he: ex.default_intensity_he || ""
+    }));
+    init();
+  })
+  .catch(err => {
+    console.error("Failed to load exercises.json:", err);
+    document.getElementById('grid').innerHTML = `
+      <div style="grid-column: 1/-1; padding: 20px; color: #c33; font-size: 14px;">
+        <strong>שגיאה:</strong> לא הצליח לטעון את exercises.json.<br>
+        ודא שהקובץ נמצא באותה תיקייה כמו index.html
+      </div>
+    `;
+  });
+let sheet = []; // { ex, sets, reps }
+
+function init(){
+  const regionSelect = document.getElementById('regionFilter');
+  Object.keys(REGION_LABELS).forEach(r=>{
+    const opt = document.createElement('option');
+    opt.value = r; opt.textContent = REGION_LABELS[r];
+    regionSelect.appendChild(opt);
+  });
+  renderGrid();
+  document.getElementById('search').addEventListener('input', renderGrid);
+  regionSelect.addEventListener('change', renderGrid);
+  document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
+}
+
+function renderGrid(){
+  const q = document.getElementById('search').value.trim();
+  const region = document.getElementById('regionFilter').value;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  EXERCISES
+    .filter(ex => (!region || ex.region===region) && (!q || ex.name_he.includes(q)))
+    .forEach(ex=>{
+      const inSheet = sheet.some(s=>s.ex.id===ex.id);
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.setProperty('--region-color', `var(--${ex.region})`);
+      card.innerHTML = `
+        <div class="thumb"><img src="./images/${ex.image_file}" onerror="this.replaceWith(this.parentNode.appendChild(document.createElement('svg')).outerHTML = '${placeholderSVG(ex.region)}')" alt="${ex.name_he}"></div>
+        <div class="meta">
+          <div class="name">${ex.name_he}</div>
+          <div class="region-label">${REGION_LABELS[ex.region]}</div>
+        </div>
+        <button class="add" ${inSheet?'disabled':''}>${inSheet?'נוסף ✓':'הוסף לדף'}</button>
+      `;
+      card.querySelector('button.add').addEventListener('click', ()=> addToSheet(ex));
+      grid.appendChild(card);
+    });
+}
+
+function addToSheet(ex){
+  if (sheet.some(s=>s.ex.id===ex.id)) return;
+  sheet.push({ ex, sets: ex.default_sets, reps: ex.default_reps, intensity: ex.default_intensity_he || "" });
+  renderSheet();
+  renderGrid();
+}
+
+function removeFromSheet(id){
+  sheet = sheet.filter(s=>s.ex.id!==id);
+  renderSheet();
+  renderGrid();
+}
+
+function moveInSheet(id, dir){
+  const i = sheet.findIndex(s=>s.ex.id===id);
+  const j = i+dir;
+  if (j<0 || j>=sheet.length) return;
+  [sheet[i], sheet[j]] = [sheet[j], sheet[i]];
+  renderSheet();
+}
+
+function renderSheet(){
+  const list = document.getElementById('sheetList');
+  const printBtn = document.getElementById('printBtn');
+  if (sheet.length===0){
+    list.innerHTML = '<div class="sheet-empty">עדיין לא נבחרו תרגילים</div>';
+    printBtn.disabled = true;
+    return;
+  }
+  printBtn.disabled = false;
+  list.innerHTML = '';
+  sheet.forEach((s, idx)=>{
+    const row = document.createElement('div');
+    row.className = 'sheet-item';
+    row.style.setProperty('--region-color', `var(--${s.ex.region})`);
+    row.innerHTML = `
+      <div class="thumb-sm">${placeholderSVG(s.ex.region)}</div>
+      <div class="info">
+        <div class="name">${s.ex.name_he}</div>
+        <div class="reps">
+          <input type="text" class="sets-input" value="${s.sets}" placeholder="סטים"> ×
+          <input type="text" class="reps-input" value="${s.reps}" placeholder="חזרות">
+          <input type="text" class="intensity-input" value="${s.intensity}" placeholder="עצימות (לא חובה)">
+        </div>
+      </div>
+      <div class="row-actions">
+        <button class="up" title="הזז למעלה" ${idx===0?'disabled':''}>↑</button>
+        <button class="down" title="הזז למטה" ${idx===sheet.length-1?'disabled':''}>↓</button>
+        <button class="del" title="הסר">✕</button>
+      </div>
+    `;
+    row.querySelector('.sets-input').addEventListener('input', e=> s.sets = e.target.value);
+    row.querySelector('.reps-input').addEventListener('input', e=> s.reps = e.target.value);
+    row.querySelector('.intensity-input').addEventListener('input', e=> s.intensity = e.target.value);
+    row.querySelector('.up').addEventListener('click', ()=> moveInSheet(s.ex.id, -1));
+    row.querySelector('.down').addEventListener('click', ()=> moveInSheet(s.ex.id, 1));
+    row.querySelector('.del').addEventListener('click', ()=> removeFromSheet(s.ex.id));
+    list.appendChild(row);
+  });
+}
+
+function buildPrintSheet(){
+  const name = document.getElementById('patientName').value.trim();
+  document.getElementById('pPatient').textContent = name ? `שם: ${name}` : '';
+  const container = document.getElementById('pExercises');
+  container.innerHTML = '';
+  sheet.forEach(s=>{
+    const div = document.createElement('div');
+    div.className = 'p-exercise';
+    div.innerHTML = `
+      <div class="p-thumb"><img src="./images/${s.ex.image_file}" alt="${s.ex.name_he}"></div>
+      <div>
+        <h3>${s.ex.name_he}</h3>
+        <div class="p-dose">${s.sets} סטים × ${s.reps} חזרות${s.intensity ? ' — ' + s.intensity : ''}</div>
+        <div class="p-instructions">${s.ex.instructions_he==='TODO' ? '' : s.ex.instructions_he}</div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+init();
+</script>
+</body>
+</html>
