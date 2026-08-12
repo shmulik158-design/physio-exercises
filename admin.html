@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניהול מאגר התרגילים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Assistant:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F6F1; --paper-raised:#FFFFFF;
+    --ink:#1E2B29; --ink-soft:#5B6C69;
+    --teal:#2B4C4A; --line:#DAD9CE;
+    --danger:#B85C6B; --ok:#4B7A5A;
+    --shoulder:#C9773F; --cervical:#7C8F6E; --thoracic:#8E7A9C; --lumbar:#B85C6B;
+    --hip:#4D7C8A; --knee:#C9A227; --ankle:#5B8266; --wrist:#9B6B4A;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink);
+       font-family:'Assistant',sans-serif; font-size:16px; line-height:1.5;}
+  h1,h2{font-family:'Frank Ruhl Libre',serif; margin:0;}
+
+  header.app-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:16px 26px; border-bottom:1px solid var(--line); background:var(--paper-raised);
+  }
+  header.app-bar h1{font-size:20px; color:var(--teal);}
+  header.app-bar .right{display:flex; align-items:center; gap:12px;}
+  .count{font-family:'Roboto Mono',monospace; font-size:12px; color:var(--ink-soft);}
+
+  button{font-family:'Assistant',sans-serif; font-weight:600; cursor:pointer; border:none; border-radius:7px;}
+  .btn-primary{background:var(--teal); color:#fff; padding:9px 16px; font-size:14px;}
+  .btn-primary:hover{background:#1f3937;}
+  .btn-primary:disabled{background:var(--line); color:var(--ink-soft); cursor:default;}
+  .btn-ghost{background:none; color:var(--ink-soft); padding:8px 12px; font-size:13.5px; border:1px solid var(--line);}
+  .btn-ghost:hover{color:var(--ink); border-color:var(--ink-soft);}
+  .btn-danger{background:none; color:var(--danger); padding:8px 12px; font-size:13.5px; border:1px solid var(--line);}
+  .btn-danger:hover{background:var(--danger); color:#fff; border-color:var(--danger);}
+
+  .layout{display:grid; grid-template-columns:360px 1fr; min-height:calc(100vh - 62px);}
+  @media (max-width:900px){ .layout{grid-template-columns:1fr;} }
+
+  /* ---- list ---- */
+  .list-pane{border-inline-end:1px solid var(--line); background:var(--paper-raised);
+             padding:18px; display:flex; flex-direction:column; gap:12px; max-height:calc(100vh - 62px); overflow-y:auto;}
+  .list-pane input.search{width:100%; padding:8px 12px; font-size:14px; font-family:inherit;
+                          border:1px solid var(--line); border-radius:7px;}
+  .ex-row{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:7px;
+          cursor:pointer; border:1px solid transparent; border-inline-start:4px solid var(--region-color,var(--teal));}
+  .ex-row:hover{background:var(--paper);}
+  .ex-row.active{background:var(--paper); border-color:var(--line); border-inline-start-color:var(--region-color,var(--teal));}
+  .ex-row img{width:38px; height:38px; flex:none; object-fit:contain; background:#fff;
+              border:1px solid var(--line); border-radius:5px;}
+  .ex-row .t{min-width:0;}
+  .ex-row .t .n{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .ex-row .t .i{font-family:'Roboto Mono',monospace; font-size:10.5px; color:var(--ink-soft);
+                white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+  /* ---- form ---- */
+  .form-pane{padding:24px 28px; max-width:720px;}
+  .form-pane h2{font-size:17px; color:var(--teal); margin-bottom:4px;}
+  .hint{font-size:12.5px; color:var(--ink-soft); margin-bottom:18px;}
+  .field{margin-bottom:15px;}
+  .field label{display:block; font-size:13px; color:var(--ink-soft); margin-bottom:4px; font-weight:600;}
+  .field input, .field select, .field textarea{
+    width:100%; padding:9px 12px; font-size:14.5px; font-family:'Assistant',sans-serif;
+    border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--ink);
+  }
+  .field input.mono{font-family:'Roboto Mono',monospace; font-size:13.5px;}
+  .field textarea{min-height:110px; resize:vertical; line-height:1.6;}
+  .field .sub{font-size:11.5px; color:var(--ink-soft); margin-top:3px;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+
+  .drop{
+    border:2px dashed var(--line); border-radius:9px; padding:18px; text-align:center;
+    color:var(--ink-soft); font-size:13.5px; cursor:pointer; background:#fff;
+  }
+  .drop:hover, .drop.over{border-color:var(--teal); color:var(--teal);}
+  .drop img{max-width:150px; max-height:150px; display:block; margin:0 auto 8px;}
+
+  .actions{display:flex; gap:10px; align-items:center; margin-top:22px;
+           border-top:1px solid var(--line); padding-top:18px;}
+  .actions .spacer{flex:1;}
+
+  .msg{margin-top:16px; padding:11px 14px; border-radius:7px; font-size:13.5px; white-space:pre-wrap;}
+  .msg.err{background:#FBEDEF; color:#8C3A47; border:1px solid #E8C7CD;}
+  .msg.ok{background:#EDF4EF; color:#375C44; border:1px solid #C7DDCF;}
+  .msg.busy{background:var(--paper); color:var(--ink-soft); border:1px solid var(--line);}
+  .msg:empty{display:none;}
+</style>
+</head>
+<body>
+
+<header class="app-bar">
+  <h1>ניהול מאגר התרגילים</h1>
+  <div class="right">
+    <span class="count" id="count"></span>
+    <button class="btn-ghost" id="newBtn">+ תרגיל חדש</button>
+    <button class="btn-primary" id="publishBtn">פרסם לאתר</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="list-pane">
+    <input class="search" id="search" type="text" placeholder="חיפוש במאגר...">
+    <div id="list"></div>
+  </aside>
+
+  <main class="form-pane">
+    <h2 id="formTitle">תרגיל חדש</h2>
+    <div class="hint" id="formHint">מלא את השדות וצרף תמונה. השינוי נשמר מקומית, ועולה לאתר בלחיצה על "פרסם לאתר".</div>
+
+    <div class="field">
+      <label for="f_name">שם התרגיל (עברית)</label>
+      <input id="f_name" type="text" placeholder="לדוגמה: הרמות אגן על כדור">
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="f_region">אזור גוף</label>
+        <select id="f_region"></select>
+      </div>
+      <div class="field">
+        <label for="f_equipment">ציוד</label>
+        <select id="f_equipment"></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="f_id">מזהה טכני (שם קובץ התמונה)</label>
+      <input id="f_id" class="mono" type="text" placeholder="hip_bridge_ball">
+      <div class="sub">אנגלית קטנה, קו תחתון במקום רווח. לוריאציה של תרגיל קיים: הוסף בסוף <span style="font-family:'Roboto Mono',monospace">_v2</span></div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="f_sets">סטים (ברירת מחדל)</label>
+        <input id="f_sets" type="text" value="3">
+      </div>
+      <div class="field">
+        <label for="f_reps">חזרות (ברירת מחדל)</label>
+        <input id="f_reps" type="text" value="10">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="f_instructions">הוראות למטופל</label>
+      <textarea id="f_instructions" placeholder="ההוראות שיודפסו על הדף. אפשר להשאיר ריק ולמלא בהמשך."></textarea>
+    </div>
+
+    <div class="field">
+      <label>תמונה</label>
+      <div class="drop" id="drop">
+        <div id="dropInner">גרור לכאן תמונה, או לחץ לבחירה</div>
+      </div>
+      <input type="file" id="file" accept="image/*" hidden>
+      <div class="sub">התמונה תישמר אוטומטית בשם הנכון ובגודל מותאם. אין צורך לשנות שם או להקטין מראש.</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" id="saveBtn">שמור</button>
+      <button class="btn-ghost" id="cancelBtn">נקה טופס</button>
+      <div class="spacer"></div>
+      <button class="btn-danger" id="deleteBtn" style="display:none">מחק תרגיל</button>
+    </div>
+
+    <div class="msg" id="msg"></div>
+  </main>
+
+</div>
+
+<script>
+const REGION_LABELS = {
+  shoulder:"כתף", cervical:"צוואר", thoracic:"גב עליון", lumbar:"גב תחתון",
+  hip:"ירך", knee:"ברך", ankle:"קרסול", wrist:"שורש כף יד"
+};
+const EQUIPMENT_LABELS = {
+  "none":"ללא ציוד", "resistance band":"גומיית התנגדות",
+  "chair":"כיסא / משטח מוגבה", "wall":"קיר", "small ball":"כדור קטן"
+};
+
+let EXERCISES = [];
+let editingId = null;      // null = creating a new one
+let pendingImage = null;   // dataURL of a newly chosen image
+
+const $ = id => document.getElementById(id);
+
+/* ---------- boot ---------- */
+fetch('/api/data').then(r=>r.json()).then(d=>{
+  d.regions.forEach(r=>{
+    const o = document.createElement('option');
+    o.value = r; o.textContent = REGION_LABELS[r] || r;
+    $('f_region').appendChild(o);
+  });
+  d.equipment.forEach(e=>{
+    const o = document.createElement('option');
+    o.value = e; o.textContent = EQUIPMENT_LABELS[e] || e;
+    $('f_equipment').appendChild(o);
+  });
+  EXERCISES = d.exercises;
+  renderList();
+}).catch(()=> setMsg('err', 'לא הצלחתי להתחבר לשרת המקומי. ודא שהחלון השחור עדיין פתוח.'));
+
+/* ---------- list ---------- */
+function renderList(){
+  const q = $('search').value.trim();
+  const list = $('list');
+  list.innerHTML = '';
+  EXERCISES
+    .filter(ex => !q || ex.name_he.includes(q) || ex.id.includes(q))
+    .forEach(ex=>{
+      const row = document.createElement('div');
+      row.className = 'ex-row' + (ex.id === editingId ? ' active' : '');
+      row.style.setProperty('--region-color', `var(--${ex.region})`);
+      row.innerHTML = `
+        <img src="/images/${ex.image_file}?t=${Date.now()}" alt="">
+        <div class="t">
+          <div class="n"></div>
+          <div class="i"></div>
+        </div>`;
+      row.querySelector('.n').textContent = ex.name_he;
+      row.querySelector('.i').textContent = ex.id;
+      row.addEventListener('click', ()=> loadForEdit(ex.id));
+      list.appendChild(row);
+    });
+  $('count').textContent = `${EXERCISES.length} תרגילים`;
+}
+$('search').addEventListener('input', renderList);
+
+/* ---------- form ---------- */
+function clearForm(){
+  editingId = null; pendingImage = null;
+  $('formTitle').textContent = 'תרגיל חדש';
+  $('f_name').value = ''; $('f_id').value = '';
+  $('f_region').selectedIndex = 0; $('f_equipment').selectedIndex = 0;
+  $('f_sets').value = '3'; $('f_reps').value = '10';
+  $('f_instructions').value = '';
+  $('dropInner').textContent = 'גרור לכאן תמונה, או לחץ לבחירה';
+  $('deleteBtn').style.display = 'none';
+  setMsg('', '');
+  renderList();
+}
+
+function loadForEdit(id){
+  const ex = EXERCISES.find(e=>e.id===id);
+  if (!ex) return;
+  editingId = id; pendingImage = null;
+  $('formTitle').textContent = 'עריכת תרגיל';
+  $('f_name').value = ex.name_he;
+  $('f_id').value = ex.id;
+  $('f_region').value = ex.region;
+  $('f_equipment').value = ex.equipment;
+  $('f_sets').value = ex.default_sets;
+  $('f_reps').value = ex.default_reps;
+  $('f_instructions').value = ex.instructions_he === 'TODO' ? '' : ex.instructions_he;
+  $('dropInner').innerHTML = `<img src="/images/${ex.image_file}?t=${Date.now()}" alt=""><div>התמונה הנוכחית — גרור חדשה כדי להחליף</div>`;
+  $('deleteBtn').style.display = '';
+  setMsg('', '');
+  renderList();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* auto-suggest an id from region while typing a new exercise */
+$('f_region').addEventListener('change', ()=>{
+  if (editingId || $('f_id').value.trim()) return;
+  $('f_id').placeholder = $('f_region').value + '_...';
+});
+
+/* ---------- image handling: downscale + force PNG ---------- */
+const drop = $('drop');
+drop.addEventListener('click', ()=> $('file').click());
+drop.addEventListener('dragover', e=>{ e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', ()=> drop.classList.remove('over'));
+drop.addEventListener('drop', e=>{
+  e.preventDefault(); drop.classList.remove('over');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+$('file').addEventListener('change', e=>{
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+
+function handleFile(file){
+  if (!file.type.startsWith('image/')) return setMsg('err','הקובץ שנבחר אינו תמונה.');
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const MAX = 512;   // plenty for both the on-screen grid and 300dpi print
+      let {width:w, height:h} = img;
+      if (w > MAX || h > MAX){
+        const s = MAX / Math.max(w,h);
+        w = Math.round(w*s); h = Math.round(h*s);
+      }
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0,0,w,h);   // flatten transparency to white
+      ctx.drawImage(img, 0, 0, w, h);
+      pendingImage = c.toDataURL('image/png');
+      $('dropInner').innerHTML = `<img src="${pendingImage}" alt=""><div>תמונה חדשה נבחרה (${w}×${h})</div>`;
+      setMsg('', '');
+    };
+    img.onerror = ()=> setMsg('err','לא הצלחתי לקרוא את התמונה.');
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ---------- save / delete / publish ---------- */
+function setMsg(kind, text){
+  const m = $('msg');
+  m.className = 'msg' + (kind ? ' ' + kind : '');
+  m.textContent = text;
+}
+
+$('saveBtn').addEventListener('click', async ()=>{
+  const payload = {
+    original_id: editingId,
+    id: $('f_id').value.trim(),
+    name_he: $('f_name').value,
+    region: $('f_region').value,
+    equipment: $('f_equipment').value,
+    default_sets: $('f_sets').value.trim(),
+    default_reps: $('f_reps').value.trim(),
+    instructions_he: $('f_instructions').value,
+    image_data: pendingImage
+  };
+  setMsg('busy','שומר...');
+  const r = await fetch('/api/exercise', {
+    method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+  });
+  const d = await r.json();
+  if (!d.ok) return setMsg('err', d.errors.join('\n'));
+  EXERCISES = d.exercises;
+  const savedName = payload.name_he;
+  clearForm();
+  setMsg('ok', `"${savedName}" נשמר. לחץ "פרסם לאתר" כדי שיופיע גם למי שנכנס מבחוץ.`);
+});
+
+$('deleteBtn').addEventListener('click', async ()=>{
+  if (!editingId) return;
+  const ex = EXERCISES.find(e=>e.id===editingId);
+  if (!confirm(`למחוק את "${ex.name_he}" מהמאגר? גם קובץ התמונה יימחק.`)) return;
+  setMsg('busy','מוחק...');
+  const r = await fetch('/api/delete', {
+    method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id: editingId})
+  });
+  const d = await r.json();
+  if (!d.ok) return setMsg('err', d.errors.join('\n'));
+  EXERCISES = d.exercises;
+  clearForm();
+  setMsg('ok','התרגיל נמחק. לחץ "פרסם לאתר" כדי לעדכן את האתר.');
+});
+
+$('publishBtn').addEventListener('click', async ()=>{
+  setMsg('busy','מפרסם לאתר...');
+  $('publishBtn').disabled = true;
+  try{
+    const r = await fetch('/api/publish', {method:'POST'});
+    const d = await r.json();
+    setMsg(d.ok ? 'ok' : 'err', d.ok ? d.message : d.errors.join('\n'));
+  } catch(e){
+    setMsg('err','הפרסום נכשל: ' + e.message);
+  }
+  $('publishBtn').disabled = false;
+});
+
+$('newBtn').addEventListener('click', clearForm);
+$('cancelBtn').addEventListener('click', clearForm);
+</script>
+</body>
+</html>

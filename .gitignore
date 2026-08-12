@@ -1,0 +1,8 @@
+# Local-only files that should not be published to the site.
+
+# Original full-size images kept as a local backup (the published
+# copies in images/ are downscaled to 512px).
+תמונות למאגר התרגילים/
+
+# Superseded duplicate of index.html
+exercise-sheet-app.html

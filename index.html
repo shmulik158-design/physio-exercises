@@ -352,7 +352,7 @@ function renderGrid(){
       card.className = 'card';
       card.style.setProperty('--region-color', `var(--${ex.region})`);
       card.innerHTML = `
-        <div class="thumb"><img src="./images/${ex.image_file}" onerror="handleImgError(this, '${ex.region}')" alt="${ex.name_he}"></div>
+        <div class="thumb"><img src="./images/${ex.image_file}" loading="lazy" decoding="async" onerror="handleImgError(this, '${ex.region}')" alt="${ex.name_he}"></div>
         <div class="meta">
           <div class="name">${ex.name_he}</div>
           <div class="region-label">${REGION_LABELS[ex.region]}</div>
