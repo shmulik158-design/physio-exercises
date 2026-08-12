@@ -257,7 +257,7 @@
   },
   {
     "id": "hip_extension_band",
-    "name_he": "הארכת ירך עם גומייה",
+    "name_he": "פשיטת ירך עם גומייה",
     "region": "hip",
     "equipment": "resistance band",
     "image_file": "hip_extension_band.png",
@@ -268,7 +268,7 @@
   },
   {
     "id": "hip_extension_band_v2",
-    "name_he": "הארכת ירך עם גומייה - וריאציה",
+    "name_he": "פשיטת ירך עם גומייה - וריאציה",
     "region": "hip",
     "equipment": "resistance band",
     "image_file": "hip_extension_theraband_v2.png",

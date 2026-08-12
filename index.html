@@ -294,6 +294,12 @@ function placeholderSVG(region){
   return `<svg viewBox="0 0 100 100" fill="none" stroke="#1E2B29" stroke-width="3.2" stroke-linecap="round">${icons[region]||icons.shoulder}</svg>`;
 }
 
+function handleImgError(imgEl, region){
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = placeholderSVG(region);
+  imgEl.replaceWith(wrapper.firstElementChild);
+}
+
 let EXERCISES = [];
 
 // Load exercises from external exercises.json
@@ -320,17 +326,17 @@ fetch('./exercises.json')
   });
 let sheet = []; // { ex, sets, reps }
 
+let initialized = false;
+
 function init(){
-  const regionSelect = document.getElementById('regionFilter');
-  Object.keys(REGION_LABELS).forEach(r=>{
-    const opt = document.createElement('option');
-    opt.value = r; opt.textContent = REGION_LABELS[r];
-    regionSelect.appendChild(opt);
-  });
+  populateRegionFilter();
   renderGrid();
-  document.getElementById('search').addEventListener('input', renderGrid);
-  regionSelect.addEventListener('change', renderGrid);
-  document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
+  if (!initialized){
+    document.getElementById('search').addEventListener('input', renderGrid);
+    document.getElementById('regionFilter').addEventListener('change', renderGrid);
+    document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
+    initialized = true;
+  }
 }
 
 function renderGrid(){
@@ -346,7 +352,7 @@ function renderGrid(){
       card.className = 'card';
       card.style.setProperty('--region-color', `var(--${ex.region})`);
       card.innerHTML = `
-        <div class="thumb"><img src="./images/${ex.image_file}" onerror="this.replaceWith(this.parentNode.appendChild(document.createElement('svg')).outerHTML = '${placeholderSVG(ex.region)}')" alt="${ex.name_he}"></div>
+        <div class="thumb"><img src="./images/${ex.image_file}" onerror="handleImgError(this, '${ex.region}')" alt="${ex.name_he}"></div>
         <div class="meta">
           <div class="name">${ex.name_he}</div>
           <div class="region-label">${REGION_LABELS[ex.region]}</div>
@@ -416,6 +422,16 @@ function renderSheet(){
     row.querySelector('.down').addEventListener('click', ()=> moveInSheet(s.ex.id, 1));
     row.querySelector('.del').addEventListener('click', ()=> removeFromSheet(s.ex.id));
     list.appendChild(row);
+  });
+}
+
+function populateRegionFilter(){
+  const regionSelect = document.getElementById('regionFilter');
+  regionSelect.querySelectorAll('option:not([value=""])').forEach(o => o.remove());
+  Object.keys(REGION_LABELS).forEach(r=>{
+    const opt = document.createElement('option');
+    opt.value = r; opt.textContent = REGION_LABELS[r];
+    regionSelect.appendChild(opt);
   });
 }
 
