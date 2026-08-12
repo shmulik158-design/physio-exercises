@@ -25,6 +25,10 @@ const EQUIPMENT = ['none', 'resistance band', 'chair', 'wall', 'small ball'];
 
 /* ---------- data helpers ---------- */
 
+// Coerce whatever the client sent into a trimmed string, so a malformed
+// request produces a clear validation error instead of a 500.
+const str = v => (v === null || v === undefined ? '' : String(v)).trim();
+
 function readExercises() {
   let raw = fs.readFileSync(JSON_PATH, 'utf8');
   if (raw.charCodeAt(0) === 0xFEFF) raw = raw.slice(1); // strip BOM if present
@@ -123,15 +127,14 @@ const server = http.createServer(async (req, res) => {
       const isNew = idx === -1;
 
       const ex = {
-        id: (body.id || '').trim(),
-        name_he: (body.name_he || '').trim(),
-        region: body.region,
-        equipment: body.equipment,
-        image_file: (body.id || '').trim() + '.png',
-        default_sets: body.default_sets,
-        default_reps: body.default_reps,
-        instructions_he: (body.instructions_he || '').trim() || 'TODO',
-        prompt_version: 'v1'
+        id: str(body.id),
+        name_he: str(body.name_he),
+        region: str(body.region),
+        equipment: str(body.equipment),
+        image_file: str(body.id) + '.png',
+        default_sets: str(body.default_sets),
+        default_reps: str(body.default_reps),
+        instructions_he: str(body.instructions_he) || 'TODO'
       };
 
       const errors = validate(ex, list, isNew || body.id !== body.original_id);

@@ -7,9 +7,7 @@
     "image_file": "knee_squat_bw.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "לעמוד זקוף עם הרגליים ברוחב הכתפיים. לרדת לאט תוך כיפוף הירכיים והברכיים, עד שהברכיים כפופות בכ-90 מעלות. הגב נשאר ישר והעקבים צמודים לרצפה לאורך כל התנועה. לחזור לעמידה בשליטה.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Bodyweight squat\nVIEW: lateral from the right\nSTART POSITION: Standing upright, feet shoulder-width apart, knees extended at 0 degrees, hips neutral, arms at sides\nEQUIPMENT: none\nMOVEMENT: Hips and knees flex as the figure lowers into a squat; knees flex to approximately 90 degrees, hips flex to approximately 90 degrees, arms extend forward at shoulder height for counterbalance\nHOLD STILL: Feet remain flat on the floor and do not lift at the heels, spine stays straight and neutral (not rounded)"
+    "instructions_he": "לעמוד זקוף עם הרגליים ברוחב הכתפיים. לרדת לאט תוך כיפוף הירכיים והברכיים, עד שהברכיים כפופות בכ-90 מעלות. הגב נשאר ישר והעקבים צמודים לרצפה לאורך כל התנועה. לחזור לעמידה בשליטה."
   },
   {
     "id": "hip_sit_to_stand",
@@ -19,9 +17,7 @@
     "image_file": "hip_sit_to_stand.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "לשבת בקדמת הכיסא, כפות הרגליים שטוחות על הרצפה מתחת לברכיים. להטות מעט את פלג הגוף העליון קדימה ולקום לעמידה מלאה. להתיישב חזרה לאט ובשליטה, בלי ליפול על הכיסא. כפות הרגליים נשארות במקום לאורך כל התנועה.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Sit-to-stand from a chair\nVIEW: lateral from the right\nSTART POSITION: Seated on a chair, hips and knees flexed at approximately 90 degrees, feet flat on the floor beneath the knees, torso upright\nEQUIPMENT: standard chair without armrests, seat height approximately at knee height, figure seated on it, seen from the side\nMOVEMENT: Figure rises to standing; hips and knees extend from 90 degrees to 0 degrees, torso leans slightly forward during the rise then returns upright, arms extend forward or push off thighs for momentum\nHOLD STILL: Feet remain flat and stationary on the floor throughout, spine stays neutral and does not round"
+    "instructions_he": "לשבת בקדמת הכיסא, כפות הרגליים שטוחות על הרצפה מתחת לברכיים. להטות מעט את פלג הגוף העליון קדימה ולקום לעמידה מלאה. להתיישב חזרה לאט ובשליטה, בלי ליפול על הכיסא. כפות הרגליים נשארות במקום לאורך כל התנועה."
   },
   {
     "id": "hip_sit_to_stand_single_leg",
@@ -31,9 +27,7 @@
     "image_file": "hip_sit_to_stand_single_leg.png",
     "default_sets": "3",
     "default_reps": "8 חזרות לכל רגל",
-    "instructions_he": "לשבת בקדמת הכיסא, כף רגל אחת שטוחה על הרצפה מתחת לברך. לשלוח את הרגל השנייה קדימה באוויר, עם כיפוף קל בברך. לקום לעמידה על הרגל התומכת בלבד ולהתיישב חזרה לאט. האגן נשאר ישר לאורך כל התנועה, בלי לצנוח לצד.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Single-leg sit-to-stand from a chair\nVIEW: lateral from the right\nSTART POSITION: Seated on a chair, right foot flat on the floor beneath the knee with the knee flexed approximately 90 degrees, left leg lifted with the hip flexed forward and the knee slightly flexed, left foot off the floor, torso upright, arms extended forward for balance\nEQUIPMENT: standard chair without armrests, seat height approximately at knee height\nMOVEMENT: Figure rises to standing using only the right leg; the right hip and knee extend from 90 degrees to 0 degrees while the left leg remains lifted forward with the knee slightly flexed throughout\nHOLD STILL: The pelvis stays level and stable, without rotating or hiking to one side, the left foot stays off the floor for the entire movement"
+    "instructions_he": "לשבת בקדמת הכיסא, כף רגל אחת שטוחה על הרצפה מתחת לברך. לשלוח את הרגל השנייה קדימה באוויר, עם כיפוף קל בברך. לקום לעמידה על הרגל התומכת בלבד ולהתיישב חזרה לאט. האגן נשאר ישר לאורך כל התנועה, בלי לצנוח לצד."
   },
   {
     "id": "hip_bridge",
@@ -43,9 +37,7 @@
     "image_file": "hip_bridge.png",
     "default_sets": "3",
     "default_reps": "12 חזרות",
-    "instructions_he": "לשכב על הגב, הברכיים כפופות וכפות הרגליים שטוחות על הרצפה ברוחב האגן. להרים את האגן עד שהגוף יוצר קו ישר מהכתפיים עד הברכיים. הכתפיים נשארות צמודות לרצפה והברכיים לא נפתחות החוצה. לרדת לאט.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Supine bridge (pelvic lift)\nVIEW: lateral from the right, figure lying horizontally\nSTART POSITION: Lying supine, knees flexed approximately 90 degrees, feet flat on the floor hip-width apart, arms resting at sides, hips resting on the floor\nEQUIPMENT: none\nMOVEMENT: Hips lift off the floor into extension until the body forms a straight line from shoulders to knees; hips extend to approximately 0 degrees (neutral)\nHOLD STILL: Shoulders and upper back remain in contact with the floor, feet stay flat and stationary, knees do not splay outward"
+    "instructions_he": "לשכב על הגב, הברכיים כפופות וכפות הרגליים שטוחות על הרצפה ברוחב האגן. להרים את האגן עד שהגוף יוצר קו ישר מהכתפיים עד הברכיים. הכתפיים נשארות צמודות לרצפה והברכיים לא נפתחות החוצה. לרדת לאט."
   },
   {
     "id": "hip_bridge_heels_elevated",
@@ -55,9 +47,7 @@
     "image_file": "hip_bridge_heels_elevated.png",
     "default_sets": "3",
     "default_reps": "12 חזרות",
-    "instructions_he": "לשכב על הגב ולהניח את העקבים על משטח מוגבה, הברכיים כפופות בכ-135 מעלות. ללחוץ דרך העקבים ולהרים את האגן עד לקו ישר בין הכתפיים לברכיים. זווית הברך נשארת קבועה לאורך התנועה, והאגן נשאר ישר בלי לצנוח לצד. לרדת לאט.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Bridge with heels elevated on a raised surface (hamstring emphasis)\nVIEW: lateral from the right, figure lying horizontally\nSTART POSITION: Lying supine, heels resting on the edge of an elevated surface, knees flexed approximately 135 degrees, hips resting on the floor, arms resting at sides\nEQUIPMENT: chair or low step used as an elevated surface, positioned so the heels rest on its edge, approximately 40-45 cm high\nMOVEMENT: Hips lift off the floor into extension, pressing down through the heels, the knee angle staying close to 135 degrees throughout the lift\nHOLD STILL: Knee angle stays at approximately 135 degrees and does not extend or flex further, the pelvis stays level and stable without rotating to one side, shoulders remain in contact with the floor"
+    "instructions_he": "לשכב על הגב ולהניח את העקבים על משטח מוגבה, הברכיים כפופות בכ-135 מעלות. ללחוץ דרך העקבים ולהרים את האגן עד לקו ישר בין הכתפיים לברכיים. זווית הברך נשארת קבועה לאורך התנועה, והאגן נשאר ישר בלי לצנוח לצד. לרדת לאט."
   },
   {
     "id": "sh_wall_slide_flexion",
@@ -67,9 +57,7 @@
     "image_file": "sh_wall_slide_flexion.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "לעמוד מול הקיר במרחק צעד קטן ולהניח את כף היד עליו בגובה החזה. להחליק את היד כלפי מעלה על הקיר עד לגובה המרבי שאפשר בלי כאב, כשהמרפק נשאר ישר. כפות הרגליים נשארות במקום והגב התחתון לא נקשת. להחזיק רגע ולהחליק חזרה למטה.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Shoulder flexion wall slide stretch\nVIEW: lateral from the right\n[CHECK] START POSITION: Standing facing the wall, right hand placed on the wall at approximately chest height, shoulder flexed approximately 90 degrees, elbow extended, feet a small step back from the wall\nEQUIPMENT: wall, figure standing facing it with hand in contact\nMOVEMENT: The hand slides upward along the wall, shoulder flexion increasing toward near-full range (approximately 170 degrees), elbow remaining extended\n[CHECK] HOLD STILL: Feet remain planted in place without stepping, hips and lower back stay stable without arching, torso may lean slightly toward the wall"
+    "instructions_he": "לעמוד מול הקיר במרחק צעד קטן ולהניח את כף היד עליו בגובה החזה. להחליק את היד כלפי מעלה על הקיר עד לגובה המרבי שאפשר בלי כאב, כשהמרפק נשאר ישר. כפות הרגליים נשארות במקום והגב התחתון לא נקשת. להחזיק רגע ולהחליק חזרה למטה."
   },
   {
     "id": "lumbar_side_glide",
@@ -79,9 +67,7 @@
     "image_file": "lumbar_side_glide.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "לעמוד עם הצד אל הקיר, המרפק כפוף ב-90 מעלות והזרוע כולה צמודה לקיר. להצמיד את הרגל הקרובה לקיר אל הרגל הרחוקה, בלי להרחיק את פלג הגוף העליון מהקיר. לדחוף את האגן לכיוון הקיר בעזרת היד הרחוקה, בלי לסובב את הגוף. לחזור לאט לתנוחת ההתחלה.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Lumbar lateral (side) glide with wall contact (McKenzie style)\nVIEW: frontal\nSTART POSITION: Standing with both feet pressed firmly together (heels touching, toes touching), facing forward; the entire right side of the body from the right foot up through the right hip, right torso, and right shoulder is in contact with a vertical wall on the right side; right elbow is flexed 90 degrees, right hand and entire right forearm pressed flat against the wall\nEQUIPMENT: wall shown as a simple vertical black line on the right side of the frame\nMOVEMENT: The entire trunk bends sharply to the right with a pronounced lateral flexion, creating a strong C-shaped curve through the spine; the right hip presses hard against the wall while the left side of the torso curves outward away from the wall; the space between the left shoulder and left hip widens noticeably compared to the right side\nHOLD STILL: Both feet remain pressed together (heels and toes in contact) and planted on the ground, knees stay fully extended, no trunk rotation, right side of body remains in firm contact with the wall throughout"
+    "instructions_he": "לעמוד עם הצד אל הקיר, המרפק כפוף ב-90 מעלות והזרוע כולה צמודה לקיר. להצמיד את הרגל הקרובה לקיר אל הרגל הרחוקה, בלי להרחיק את פלג הגוף העליון מהקיר. לדחוף את האגן לכיוון הקיר בעזרת היד הרחוקה, בלי לסובב את הגוף. לחזור לאט לתנוחת ההתחלה."
   },
   {
     "id": "ankle_tandem_stance",
@@ -91,9 +77,7 @@
     "image_file": "ankle_tandem_stance.png",
     "default_sets": "3",
     "default_reps": "30 שניות לכל רגל",
-    "instructions_he": "לעמוד עם כף רגל אחת ישירות לפני השנייה, כך שהעקב הקדמי נוגע בבהונות האחוריות ושתי הרגליים על קו אחד. לשמור על שיווי משקל בלי להזיז את הרגליים. אם צריך — לעמוד ליד קיר ולהיעזר בקצות האצבעות בלבד. להחליף רגל בין הסטים.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n- CRITICAL: The entire figure (head, torso, and legs) must be shown in direct frontal view, looking straight at the camera. Do NOT show the head at an angle or three-quarter view.\n\nEXERCISE: Tandem stance\nVIEW: frontal (direct front, entire figure facing camera)\nSTART POSITION: Standing facing directly forward with both feet positioned in a straight line from front to back; right foot placed directly ahead of left foot with the right heel touching or overlapping the left toes; both feet appear aligned along a single centerline with no space between them side-to-side\nEQUIPMENT: none\nMOVEMENT: Static hold; no movement, the figure maintains the tandem foot position while balancing\nHOLD STILL: Both feet remain in the strict heel-to-toe line (right foot forward, left foot back) without shifting, pelvis and shoulders stay level and symmetrical, head faces forward, no sway"
+    "instructions_he": "לעמוד עם כף רגל אחת ישירות לפני השנייה, כך שהעקב הקדמי נוגע בבהונות האחוריות ושתי הרגליים על קו אחד. לשמור על שיווי משקל בלי להזיז את הרגליים. אם צריך — לעמוד ליד קיר ולהיעזר בקצות האצבעות בלבד. להחליף רגל בין הסטים."
   },
   {
     "id": "ankle_short_foot",
@@ -103,9 +87,7 @@
     "image_file": "ankle_short_foot.png",
     "default_sets": "3",
     "default_reps": "10 החזקות של 5 שניות",
-    "instructions_he": "לשבת או לעמוד כשכף הרגל שטוחה על הרצפה. לקרב את כרית כף הרגל אל העקב כך שקשת כף הרגל מתרוממת מעט — בלי לכווץ את האצבעות ובלי להרים את העקב או את הבהונות. להחזיק ולשחרר לאט.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a human foot and lower leg demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE (close-up variant for this exercise only):\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Close-up of a single bare foot and lower leg up to mid-shin only, no face, torso, or rest of the body visible.\n- Simplified anatomical foot shape showing the arch and toes, no skin texture or toenail detail.\n- Anatomically correct proportions. Arch and toes clearly readable and unambiguous.\n- Foot and lower leg fill most of the frame with even margin on all sides. Square 1:1 composition, foot centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene (equipment: none).\n\nEXERCISE: Short foot exercise (arch doming), close-up of the foot\nVIEW: [CHECK] medial (inner-side) view of the foot showing the arch, foot resting on the ground\nSTART POSITION: Bare right foot flat on the ground, toes relaxed and straight, arch in its normal resting height\nEQUIPMENT: none\n[CHECK] MOVEMENT: The arch domes upward as the ball of the foot draws toward the heel, shortening the foot's length, without curling the toes\nHOLD STILL: Toes remain flat and straight on the ground without curling or gripping, both the heel and the ball of the foot stay in contact with the ground"
+    "instructions_he": "לשבת או לעמוד כשכף הרגל שטוחה על הרצפה. לקרב את כרית כף הרגל אל העקב כך שקשת כף הרגל מתרוממת מעט — בלי לכווץ את האצבעות ובלי להרים את העקב או את הבהונות. להחזיק ולשחרר לאט."
   },
   {
     "id": "sh_lower_trap_band",
@@ -115,9 +97,7 @@
     "image_file": "sh_lower_trap_band.png",
     "default_sets": "3",
     "default_reps": "12 חזרות",
-    "instructions_he": "לאחוז בגומייה המעוגנת גבוה מעל גובה הראש, שתי הידיים למעלה והמרפקים ישרים. למשוך את הידיים כלפי מטה והחוצה באלכסון, עד שהן מגיעות לצדי הגוף. בסוף התנועה להרגיש את השכמות נמשכות מטה ופנימה. הגוף נשאר זקוף בלי להישען אחורה. לחזור לאט.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Lower trapezius exercise with resistance band (diagonal pull)\nVIEW: three-quarter\n[CHECK] START POSITION: Standing, band anchored high overhead in front of the figure, both arms raised overhead grasping the band with elbows extended, shoulders flexed approximately 170 degrees\nEQUIPMENT: resistance band anchored at a high point overhead, held with both hands\n[CHECK] MOVEMENT: Arms pull down and outward in a diagonal pattern, shoulders moving from flexion toward extension and abduction, finishing with arms near the sides at approximately 30-45 degrees from the body\n[CHECK] HOLD STILL: Torso remains upright without leaning backward, shoulder blades draw down and together at the end position, elbows stay extended throughout"
+    "instructions_he": "לעגן את הגומייה מתחת לכף הרגל, ולאחוז בקצה השני ביד הנגדית כך שהגומייה חוצה את הגוף באלכסון. למשוך את היד בתנועה רחבה כלפי מעלה והחוצה, עד שהזרוע ישרה מעל גובה הכתף. בסוף התנועה להרגיש את השכמה נמשכת מטה ופנימה, והגוף נשאר זקוף בלי להישען אחורה. לחזור לאט ובשליטה."
   },
   {
     "id": "sh_middle_trap_band",
@@ -127,9 +107,7 @@
     "image_file": "sh_middle_trap_band.png",
     "default_sets": "3",
     "default_reps": "12 חזרות",
-    "instructions_he": "לאחוז בגומייה המעוגנת לפנים בגובה החזה, הידיים שלוחות קדימה בגובה הכתפיים. למשוך את הגומייה אחורה תוך כיפוף המרפקים, ולקרב את השכמות זו לזו. המרפקים נשארים בגובה הכתפיים והכתפיים לא עולות לכיוון האוזניים. לחזור לאט.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Middle trapezius exercise with resistance band (horizontal row)\nVIEW: three-quarter\n[CHECK] START POSITION: Standing, band anchored in front at chest height, both arms extended forward at shoulder height holding the band, elbows extended, shoulders flexed approximately 90 degrees\nEQUIPMENT: resistance band anchored in front of the figure at chest height, held with both hands\nMOVEMENT: Arms pull the band backward horizontally, elbows bending toward approximately 90 degrees as the shoulder blades squeeze together, shoulders moving into horizontal abduction\n[CHECK] HOLD STILL: Torso remains upright and stationary without leaning backward, shoulders stay level without shrugging upward, elbows stay at shoulder height throughout"
+    "instructions_he": "לאחוז בגומייה בשתי הידיים, הזרועות שלוחות מעט מעל גובה הראש. למתוח את הגומייה לצדדים ובו זמנית להוריד את הידיים, עד לגובה עצמות הבריח. בסוף התנועה השכמות מתקרבות זו לזו, והכתפיים לא עולות לכיוון האוזניים. לחזור לאט לתנוחת ההתחלה."
   },
   {
     "id": "knee_step_up",
@@ -139,9 +117,7 @@
     "image_file": "knee_step_up.png",
     "default_sets": "3",
     "default_reps": "10 חזרות לכל רגל",
-    "instructions_he": "לעמוד מול המדרגה ולהניח עליה כף רגל אחת במלואה. לדחוף דרך הרגל שעל המדרגה ולעלות לעמידה מלאה, תוך הרמת הרגל השנייה. הגוף נשאר זקוף והאגן ישר, בלי לצנוח לצד. לרדת לאט ובשליטה.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Step-up\nVIEW: lateral from the right\n[CHECK] START POSITION: Standing in front of an elevated step, right foot placed flat on top of the step, left foot on the floor behind, hips and knees slightly flexed\nEQUIPMENT: chair or step used as an elevated platform in front of the figure, approximately 20-25 cm high\nMOVEMENT: The figure pushes up through the right leg, the right hip and knee extending toward 0 degrees, the left leg lifting off the floor and rising until the left thigh is level with the hip (hip flexed approximately 90 degrees), ending with the figure standing on top of the step on the right leg\n[CHECK] HOLD STILL: The right foot remains flat and stationary on the step throughout, the torso stays upright without leaning forward, the pelvis stays level"
+    "instructions_he": "לעמוד מול המדרגה ולהניח עליה כף רגל אחת במלואה. לדחוף דרך הרגל שעל המדרגה ולעלות לעמידה מלאה, תוך הרמת הרגל השנייה. הגוף נשאר זקוף והאגן ישר, בלי לצנוח לצד. לרדת לאט ובשליטה."
   },
   {
     "id": "knee_step_down",
@@ -151,9 +127,7 @@
     "image_file": "knee_step_down.png",
     "default_sets": "3",
     "default_reps": "10 חזרות לכל רגל",
-    "instructions_he": "לעמוד על המדרגה על רגל אחת, הרגל השנייה מורמת בחזית. לכופף לאט את הברך התומכת ולהוריד את הרגל החופשית לכיוון הרצפה, עד נגיעה קלה בלבד. הברך נשארת מעל כף הרגל ולא נופלת פנימה, והאגן נשאר ישר. לחזור למעלה בשליטה.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Step-down\nVIEW: lateral from the right\nSTART POSITION: Standing on top of an elevated step on the right foot, left leg lifted with hip and knee flexed, right knee extended supporting the full body weight\nEQUIPMENT: chair or step used as an elevated platform, figure standing on top of it\n[CHECK] MOVEMENT: The right knee flexes to approximately 60-90 degrees as the figure lowers the left leg down toward the floor in a controlled descent, the left foot lightly touching or hovering just above the floor at the bottom\n[CHECK] HOLD STILL: The pelvis stays level without dropping to one side, the right knee stays aligned over the right foot without collapsing inward, the torso remains upright"
+    "instructions_he": "לעמוד על המדרגה על רגל אחת, הרגל השנייה מורמת בחזית. לכופף לאט את הברך התומכת ולהוריד את הרגל החופשית לכיוון הרצפה, עד נגיעה קלה בלבד. הברך נשארת מעל כף הרגל ולא נופלת פנימה, והאגן נשאר ישר. לחזור למעלה בשליטה."
   },
   {
     "id": "hip_active_slr",
@@ -163,9 +137,7 @@
     "image_file": "hip_active_slr.png",
     "default_sets": "3",
     "default_reps": "12 חזרות לכל רגל",
-    "instructions_he": "לשכב על הגב, רגל אחת ישרה על הרצפה והשנייה כפופה עם כף הרגל על הרצפה. להרים את הרגל הישרה כלפי מעלה בלי לכופף את הברך, עד לגובה הברך הכפופה. הגב התחתון נשאר צמוד לרצפה לאורך כל התנועה. לרדת לאט.",
-    "prompt_version": "v1",
-    "image_prompt": "Minimalist black-and-white line drawing of a single human figure demonstrating a physiotherapy exercise, in the style of a clinical instruction manual.\n\nSTYLE:\n- Pure white background. No shading, no gradients, no color, no texture, no floor, no shadow.\n- Uniform black outline, consistent medium-thick stroke weight, clean vector-like appearance.\n- Genderless generic adult figure. Simple oval head, no facial features, no hair detail.\n- Simplified mitten-style hands, no individual fingers.\n- Plain fitted clothing, no logos, no patterns, no text. Bare feet.\n- Anatomically correct proportions. Joints clearly readable and unambiguous.\n- Full figure inside frame with even margin on all sides. Square 1:1 composition, figure centered.\n- NO text, NO numbers, NO labels, NO arrows, NO watermark.\n- No objects in the scene except the equipment listed below.\n\nEXERCISE: Active straight leg raise (SLR)\nVIEW: lateral from the right, figure lying horizontally\nSTART POSITION: Lying supine, right leg extended flat on the floor, left knee flexed approximately 90 degrees with the left foot flat on the floor, arms resting at sides\nEQUIPMENT: none\n[CHECK] MOVEMENT: The right leg lifts straight up off the floor with the knee kept fully extended, the hip flexing to approximately 45 degrees (commonly cued to match the height of the opposite bent knee)\nHOLD STILL: The left foot and the lower back remain flat and stationary on the floor throughout, the right knee stays fully extended without bending, the pelvis does not rotate"
+    "instructions_he": "לשכב על הגב, רגל אחת ישרה על הרצפה והשנייה כפופה עם כף הרגל על הרצפה. להרים את הרגל הישרה כלפי מעלה בלי לכופף את הברך, עד לגובה הברך הכפופה. הגב התחתון נשאר צמוד לרצפה לאורך כל התנועה. לרדת לאט."
   },
   {
     "id": "sh_assisted_flexion_band",
@@ -175,8 +147,7 @@
     "image_file": "sh_assisted_flexion_band.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "לעמוד ולאחוז בגומייה בשתי הידיים לפני הגוף, המרפקים ישרים. להרים את שתי הידיים יחד קדימה ומעלה, כשהיד הבריאה מסייעת לחלשה דרך הגומייה. לעלות עד הגובה המרבי שאפשר בלי כאב. הגוף נשאר זקוף, בלי לקשת את הגב התחתון. לרדת לאט.",
-    "prompt_version": "v1"
+    "instructions_he": "לעגן את הגומייה בנקודה גבוהה ולאחוז בקצה שלה ביד שעליה מבצעים את התרגיל. לאפשר לגומייה למשוך את היד כלפי מעלה בהדרגה ובשליטה, עד לגובה המרבי שאפשר בלי כאב. הגוף נשאר זקוף בלי לקשת את הגב התחתון, והכתף לא עולה לכיוון האוזן. להוריד את היד לאט בחזרה."
   },
   {
     "id": "knee_squat_bw_v2",
@@ -186,8 +157,7 @@
     "image_file": "knee_squat_bw_v2.png",
     "default_sets": "3",
     "default_reps": "30 שניות",
-    "instructions_he": "להישען עם הגב על הקיר ולהזיז את כפות הרגליים קדימה, ברוחב הכתפיים. להחליק מטה לאורך הקיר עד שהברכיים כפופות בכ-90 מעלות. הגב נשאר צמוד לקיר לאורך כל התרגיל והברכיים מעל כפות הרגליים. להחזיק את התנוחה ולנשום רגיל.",
-    "prompt_version": "v1"
+    "instructions_he": "להישען עם הגב על הקיר ולהזיז את כפות הרגליים קדימה, ברוחב הכתפיים. להחליק מטה לאורך הקיר עד שהברכיים כפופות בכ-90 מעלות. הגב נשאר צמוד לקיר לאורך כל התרגיל והברכיים מעל כפות הרגליים. להחזיק את התנוחה ולנשום רגיל."
   },
   {
     "id": "hip_bridge_v2",
@@ -197,8 +167,7 @@
     "image_file": "hip_bridge_v2.png",
     "default_sets": "3",
     "default_reps": "10 חזרות לכל רגל",
-    "instructions_he": "לשכב על הגב, ברך אחת כפופה וכף הרגל על הרצפה. ליישר את הרגל השנייה ולהרים אותה מהרצפה. להרים את האגן עד לקו ישר בין הכתפיים לברך התומכת, כשהרגל המורמת נשארת ישרה. האגן נשאר ישר לחלוטין, בלי לצנוח לצד הרגל המורמת. לרדת לאט.",
-    "prompt_version": "v1"
+    "instructions_he": "לשכב על הגב, ברך אחת כפופה וכף הרגל על הרצפה. ליישר את הרגל השנייה ולהרים אותה מהרצפה. להרים את האגן עד לקו ישר בין הכתפיים לברך התומכת, כשהרגל המורמת נשארת ישרה. האגן נשאר ישר לחלוטין, בלי לצנוח לצד הרגל המורמת. לרדת לאט."
   },
   {
     "id": "hip_glutmax_stretch",
@@ -208,8 +177,7 @@
     "image_file": "hip_glutmax_stretch.png",
     "default_sets": "3",
     "default_reps": "30 שניות לכל צד",
-    "instructions_he": "לשכב על הגב, ברך אחת כפופה וכף הרגל על הרצפה. לאחוז בברך השנייה בשתי הידיים ולמשוך אותה לכיוון החזה, עד להרגשת מתיחה בעכוז. להחזיק את המתיחה בנשימה רגועה. הראש והכתפיים נשארים מונחים על הרצפה.",
-    "prompt_version": "v1"
+    "instructions_he": "לשכב על הגב, ברך אחת כפופה וכף הרגל על הרצפה. לאחוז בברך השנייה בשתי הידיים ולמשוך אותה לכיוון החזה, עד להרגשת מתיחה בעכוז. להחזיק את המתיחה בנשימה רגועה. הראש והכתפיים נשארים מונחים על הרצפה."
   },
   {
     "id": "hip_glutmax_stretch_v2",
@@ -219,8 +187,7 @@
     "image_file": "hip_glutmax_stretch_v2.png",
     "default_sets": "3",
     "default_reps": "30 שניות לכל צד",
-    "instructions_he": "לשכב על הגב ולהניח את הקרסול של הרגל הנמתחת על הברך של הרגל השנייה. להשחיל את היד בין הרגליים, לאחוז בירך התחתונה ולמשוך אותה לכיוון החזה, עד להרגשת מתיחה בעומק העכוז. להחזיק את המתיחה בנשימה רגועה, בלי להרים את הראש מהרצפה.",
-    "prompt_version": "v1"
+    "instructions_he": "לשכב על הגב ולהניח את הקרסול של הרגל הנמתחת על הברך של הרגל השנייה. להשחיל את היד בין הרגליים, לאחוז בירך התחתונה ולמשוך אותה לכיוון החזה, עד להרגשת מתיחה בעומק העכוז. להחזיק את המתיחה בנשימה רגועה, בלי להרים את הראש מהרצפה."
   },
   {
     "id": "hip_bird_dog",
@@ -230,8 +197,7 @@
     "image_file": "hip_bird_dog.png",
     "default_sets": "3",
     "default_reps": "10 חזרות לכל צד",
-    "instructions_he": "לעמוד על ארבע, הידיים מתחת לכתפיים והברכיים מתחת לאגן. לשלוח יד אחת קדימה ואת הרגל הנגדית אחורה, עד לקו ישר מכף היד לכף הרגל. האגן והגב נשארים יציבים לחלוטין — בלי סיבוב ובלי צניחה לצד. לחזור לאט ולהחליף צד.",
-    "prompt_version": "v1"
+    "instructions_he": "לעמוד על ארבע, הידיים מתחת לכתפיים והברכיים מתחת לאגן. לשלוח יד אחת קדימה ואת הרגל הנגדית אחורה, עד לקו ישר מכף היד לכף הרגל. האגן והגב נשארים יציבים לחלוטין — בלי סיבוב ובלי צניחה לצד. לחזור לאט ולהחליף צד."
   },
   {
     "id": "ankle_heels_raises",
@@ -241,8 +207,7 @@
     "image_file": "ankle_heels_raises.png",
     "default_sets": "3",
     "default_reps": "15 חזרות",
-    "instructions_he": "לעמוד זקוף עם הרגליים ברוחב האגן. להתרומם לאט על קצות האצבעות עד לגובה המרבי, ולהחזיק רגע בנקודה העליונה. לרדת לאט ובשליטה עד שהעקבים נוגעים ברצפה. אפשר להיעזר קלות בקיר או במשענת לשיווי משקל.",
-    "prompt_version": "v1"
+    "instructions_he": "לעמוד זקוף עם הרגליים ברוחב האגן. להתרומם לאט על קצות האצבעות עד לגובה המרבי, ולהחזיק רגע בנקודה העליונה. לרדת לאט ובשליטה עד שהעקבים נוגעים ברצפה. אפשר להיעזר קלות בקיר או במשענת לשיווי משקל."
   },
   {
     "id": "hip_abduction_band",
@@ -252,8 +217,7 @@
     "image_file": "hip_abduction_band.png",
     "default_sets": "3",
     "default_reps": "12 חזרות לכל רגל",
-    "instructions_he": "לעמוד זקוף עם גומייה סביב הקרסוליים והידיים על המותניים. להעביר את המשקל לרגל אחת ולהרחיק את הרגל השנייה הצידה כנגד התנגדות הגומייה, כשהברך ישרה. הגוף נשאר זקוף — בלי להטות את פלג הגוף העליון לצד הנגדי. לחזור לאט.",
-    "prompt_version": "v1"
+    "instructions_he": "לעמוד זקוף עם גומייה סביב הקרסוליים והידיים על המותניים. להעביר את המשקל לרגל אחת ולהרחיק את הרגל השנייה הצידה כנגד התנגדות הגומייה, כשהברך ישרה. הגוף נשאר זקוף — בלי להטות את פלג הגוף העליון לצד הנגדי. לחזור לאט."
   },
   {
     "id": "hip_extension_band",
@@ -263,8 +227,7 @@
     "image_file": "hip_extension_band.png",
     "default_sets": "3",
     "default_reps": "12 חזרות לכל רגל",
-    "instructions_he": "לעמוד זקוף עם גומייה סביב הירכיים, מעל הברכיים. להעביר את המשקל לרגל אחת ולשלוח את הרגל השנייה אחורה כנגד התנגדות הגומייה, כשהברך ישרה. הגב נשאר ישר בלי להיקשת, והתנועה מגיעה מהירך בלבד. לחזור לאט.",
-    "prompt_version": "v1"
+    "instructions_he": "לעמוד זקוף עם גומייה סביב הירכיים, מעל הברכיים. להעביר את המשקל לרגל אחת ולשלוח את הרגל השנייה אחורה כנגד התנגדות הגומייה, כשהברך ישרה. הגב נשאר ישר בלי להיקשת, והתנועה מגיעה מהירך בלבד. לחזור לאט."
   },
   {
     "id": "hip_extension_band_v2",
@@ -274,8 +237,7 @@
     "image_file": "hip_extension_theraband_v2.png",
     "default_sets": "3",
     "default_reps": "12 חזרות לכל רגל",
-    "instructions_he": "אותה תנועה כמו פשיטת ירך עם גומייה, אלא שהגומייה נמצאת סביב הקרסוליים במקום סביב הירכיים — מה שמאריך את המנוף ומקשה את התרגיל. לעמוד זקוף, להעביר משקל לרגל אחת ולשלוח את השנייה אחורה עם ברך ישרה. הגב נשאר ישר בלי להיקשת, והתנועה מגיעה מהירך בלבד.",
-    "prompt_version": "v1"
+    "instructions_he": "אותה תנועה כמו פשיטת ירך עם גומייה, אלא שהגומייה נמצאת סביב הקרסוליים במקום סביב הירכיים — מה שמאריך את המנוף ומקשה את התרגיל. לעמוד זקוף, להעביר משקל לרגל אחת ולשלוח את השנייה אחורה עם ברך ישרה. הגב נשאר ישר בלי להיקשת, והתנועה מגיעה מהירך בלבד."
   },
   {
     "id": "thoracic_lateral_plank",
@@ -285,8 +247,7 @@
     "image_file": "thoracic_lateral_plank.png",
     "default_sets": "3",
     "default_reps": "20 שניות לכל צד",
-    "instructions_he": "לשכב על הצד ולהישען על האמה, כשהמרפק ישירות מתחת לכתף. להרים את האגן מהרצפה עד לקו ישר מהראש עד כפות הרגליים. האגן לא צונח מטה והגוף לא מסתובב קדימה או אחורה. להחזיק את התנוחה ולנשום רגיל.",
-    "prompt_version": "v1"
+    "instructions_he": "לשכב על הצד ולהישען על האמה, כשהמרפק ישירות מתחת לכתף. להרים את האגן מהרצפה עד לקו ישר מהראש עד כפות הרגליים. האגן לא צונח מטה והגוף לא מסתובב קדימה או אחורה. להחזיק את התנוחה ולנשום רגיל."
   },
   {
     "id": "knee_lunge",
@@ -296,8 +257,7 @@
     "image_file": "knee_lunge.png",
     "default_sets": "3",
     "default_reps": "10 חזרות לכל רגל",
-    "instructions_he": "לעמוד זקוף ולקחת צעד גדול קדימה. לרדת מטה עד ששתי הברכיים כפופות בכ-90 מעלות — הברך הקדמית מעל כף הרגל, והברך האחורית מכוונת לכיוון הרצפה. הגוף נשאר זקוף לאורך כל התנועה. לדחוף דרך הרגל הקדמית ולחזור לעמידה.",
-    "prompt_version": "v1"
+    "instructions_he": "לעמוד זקוף ולקחת צעד גדול קדימה. לרדת מטה עד ששתי הברכיים כפופות בכ-90 מעלות — הברך הקדמית מעל כף הרגל, והברך האחורית מכוונת לכיוון הרצפה. הגוף נשאר זקוף לאורך כל התנועה. לדחוף דרך הרגל הקדמית ולחזור לעמידה."
   },
   {
     "id": "cervical_retraction",
@@ -307,8 +267,7 @@
     "image_file": "cervical_retraction.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "לשבת או לעמוד זקוף, המבט ישר קדימה. למשוך את הסנטר אחורה בקו ישר, כאילו יוצרים סנטר כפול — בלי להוריד את הראש למטה ובלי להרים אותו. להחזיק רגע בנקודה הסופית ולשחרר לאט.",
-    "prompt_version": "v1"
+    "instructions_he": "לשבת או לעמוד זקוף, המבט ישר קדימה. למשוך את הסנטר אחורה בקו ישר, כאילו יוצרים סנטר כפול — בלי להוריד את הראש למטה ובלי להרים אותו. להחזיק רגע בנקודה הסופית ולשחרר לאט."
   },
   {
     "id": "ankle_single_leg_stance",
@@ -318,8 +277,7 @@
     "image_file": "ankle_single_leg_stance.png",
     "default_sets": "3",
     "default_reps": "30 שניות לכל רגל",
-    "instructions_he": "לעמוד זקוף ולהרים רגל אחת מהרצפה, כשהברך כפופה מעט. לשמור על שיווי משקל בלי להישען, כשהאגן נשאר ישר ולא צונח לצד. אם צריך — לעמוד ליד קיר ולהיעזר בקצות האצבעות בלבד. להחליף רגל בין הסטים.",
-    "prompt_version": "v1"
+    "instructions_he": "לעמוד זקוף ולהרים רגל אחת מהרצפה, כשהברך כפופה מעט. לשמור על שיווי משקל בלי להישען, כשהאגן נשאר ישר ולא צונח לצד. אם צריך — לעמוד ליד קיר ולהיעזר בקצות האצבעות בלבד. להחליף רגל בין הסטים."
   },
   {
     "id": "thoracic_extension_sitting",
@@ -329,8 +287,7 @@
     "image_file": "thoracic_extension_sitting.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "לשבת על כיסא שמשענתו מגיעה לגובה הגב העליון. להישען אחורה מעל המשענת ולפתוח את בית החזה כלפי מעלה. התנועה מגיעה מהגב העליון בלבד — הגב התחתון נשאר יציב ולא נקשת. להחזיק רגע ולחזור לישיבה זקופה.",
-    "prompt_version": "v1"
+    "instructions_he": "לשבת על כיסא שמשענתו מגיעה לגובה הגב העליון. להישען אחורה מעל המשענת ולפתוח את בית החזה כלפי מעלה. התנועה מגיעה מהגב העליון בלבד — הגב התחתון נשאר יציב ולא נקשת. להחזיק רגע ולחזור לישיבה זקופה."
   },
   {
     "id": "hip_deadlift_band",
@@ -340,7 +297,6 @@
     "image_file": "hip_deadlift_band.png",
     "default_sets": "3",
     "default_reps": "12 חזרות",
-    "instructions_he": "לעמוד על הגומייה ולאחוז בשני קצותיה, הרגליים ברוחב האגן. להטות את פלג הגוף העליון קדימה תוך שליחת האגן אחורה, כשהגב נשאר ישר לחלוטין והברכיים כפופות קלות. לרדת עד להרגשת מתיחה באחורי הירך, ולחזור לעמידה זקופה על ידי דחיפת האגן קדימה.",
-    "prompt_version": "v1"
+    "instructions_he": "לעמוד על הגומייה ולאחוז בשני קצותיה, הרגליים ברוחב האגן. להטות את פלג הגוף העליון קדימה תוך שליחת האגן אחורה, כשהגב נשאר ישר לחלוטין והברכיים כפופות קלות. לרדת עד להרגשת מתיחה באחורי הירך, ולחזור לעמידה זקופה על ידי דחיפת האגן קדימה."
   }
 ]
