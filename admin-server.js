@@ -35,8 +35,13 @@ function readExercises() {
   return JSON.parse(raw);
 }
 
+// Atomic write: write to a temp file on the same volume, then rename over
+// the target. rename() is an atomic filesystem op — readers/crashes never
+// see a half-written exercises.json, only the old version or the new one.
 function writeExercises(list) {
-  fs.writeFileSync(JSON_PATH, JSON.stringify(list, null, 2) + '\n', 'utf8');
+  const tmp = JSON_PATH + '.tmp';
+  fs.writeFileSync(tmp, JSON.stringify(list, null, 2) + '\n', 'utf8');
+  fs.renameSync(tmp, JSON_PATH);
 }
 
 function validate(ex, existing, isNew) {
@@ -177,15 +182,33 @@ const server = http.createServer(async (req, res) => {
 
     // --- publish: commit + push so GitHub Pages rebuilds ---
     if (req.method === 'POST' && route === '/api/publish') {
+      // Track commit and push separately: if commit succeeds but push fails
+      // (no network, remote rejected, etc.), the change is saved locally but
+      // NOT live — that distinction must reach the UI, not get flattened
+      // into one generic "publish failed" message.
+      let committed = false;
       try {
         git(['add', 'exercises.json', 'images', 'index.html', 'admin.html', 'admin-server.js', 'add-exercise.bat']);
         const status = git(['status', '--porcelain']).trim();
         if (!status) return sendJSON(res, 200, { ok: true, message: 'אין שינויים חדשים לפרסום' });
+
         git(['commit', '-m', 'Update exercise library']);
+        committed = true;
+
         git(['push', 'origin', 'main']);
         return sendJSON(res, 200, { ok: true, message: 'פורסם. האתר יתעדכן תוך כדקה.' });
       } catch (e) {
         const detail = (e.stderr || e.stdout || e.message || '').toString().trim();
+        if (committed) {
+          return sendJSON(res, 500, {
+            ok: false,
+            errors: [
+              'השינוי נשמר במחשב הזה אבל לא עלה לאתר (הדחיפה ל-GitHub נכשלה).',
+              'האתר החי עדיין מציג את הגרסה הקודמת. נסה "פרסם" שוב כשהרשת תחזור.',
+              detail
+            ]
+          });
+        }
         return sendJSON(res, 500, { ok: false, errors: ['הפרסום נכשל:', detail] });
       }
     }
