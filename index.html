@@ -174,7 +174,7 @@
   #print-sheet{display:none;}
 
   @media print{
-    header.app-bar, .library, .builder{display:none !important;}
+    header.app-bar, .layout, .library, .builder{display:none !important;}
     #print-sheet{
       display:block;
       padding:0;
@@ -407,7 +407,7 @@ function renderSheet(){
         <div class="reps">
           <input type="text" class="sets-input" value="${s.sets}" placeholder="סטים"> ×
           <input type="text" class="reps-input" value="${s.reps}" placeholder="חזרות / זמן">
-          <input type="text" class="intensity-input" value="${s.intensity}" placeholder="עצימות (לא חובה)">
+          <input type="text" class="intensity-input" value="${s.intensity}" placeholder="מלל חופשי (לא חובה)">
         </div>
       </div>
       <div class="row-actions">
