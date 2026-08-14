@@ -280,16 +280,6 @@
     "instructions_he": "לעמוד זקוף ולהרים רגל אחת מהרצפה, כשהברך כפופה מעט, תוך שמירה על שיווי משקל. האגן נשאר ישר ולא צונח לצד, בלי להישען על משהו. אם צריך — לעמוד ליד קיר ולהיעזר בקצות האצבעות בלבד. להחליף רגל בין הסטים."
   },
   {
-    "id": "thoracic_extension_sitting",
-    "name_he": "הרחבה חזה בישיבה",
-    "region": "thoracic",
-    "equipment": "none",
-    "image_file": "thoracic_extension_sitting.png",
-    "default_sets": "3",
-    "default_reps": "10 חזרות",
-    "instructions_he": "לשבת על כיסא שמשענתו מגיעה לגובה הגב העליון. להישען אחורה מעל המשענת ולפתוח את בית החזה כלפי מעלה. התנועה מגיעה מהגב העליון בלבד — הגב התחתון נשאר יציב ולא נקשת. להחזיק רגע ולחזור לישיבה זקופה."
-  },
-  {
     "id": "hip_deadlift_band",
     "name_he": "deadlift עם גומייה",
     "region": "hip",
@@ -298,5 +288,15 @@
     "default_sets": "3",
     "default_reps": "12 חזרות",
     "instructions_he": "לעמוד על הגומייה ולאחוז בשני קצותיה, הרגליים ברוחב האגן. להטות את פלג הגוף העליון קדימה תוך שליחת האגן אחורה, כשהגב נשאר ישר לחלוטין והברכיים כפופות קלות. לרדת עד להרגשת מתיחה באחורי הירך, ולחזור לעמידה זקופה על ידי דחיפת האגן קדימה."
+  },
+  {
+    "id": "thoracic_extension_sitting",
+    "name_he": "פשיטת עמ\"ש חזי",
+    "region": "thoracic",
+    "equipment": "none",
+    "image_file": "thoracic_extension_sitting.png",
+    "default_sets": "3",
+    "default_reps": "10 חזרות",
+    "instructions_he": "TODO"
   }
 ]
