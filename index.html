@@ -14,6 +14,7 @@
     --ink-soft:#5B6C69;
     --teal:#2B4C4A;
     --teal-dim:#7FA39E;
+    --teal-dark:#1B302E;
     --line:#DAD9CE;
     --shoulder:#C9773F;
     --cervical:#7C8F6E;
@@ -23,7 +24,16 @@
     --knee:#C9A227;
     --ankle:#5B8266;
     --wrist:#9B6B4A;
-    --radius:10px;
+
+    --radius-sm:3px;
+    --radius-md:4px;
+
+    --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px;
+    --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px;
+
+    --text-2xs:10.5px; --text-xs:11.5px; --text-sm:13px;
+    --text-base:15px; --text-md:16px; --text-lg:17.5px;
+    --text-xl:21px; --text-2xl:27px; --text-3xl:32px;
   }
   *{box-sizing:border-box;}
   body{
@@ -31,182 +41,297 @@
     background:var(--paper);
     color:var(--ink);
     font-family:'Assistant',sans-serif;
-    font-size:16px;
-    line-height:1.5;
+    font-size:var(--text-base);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{font-family:'Frank Ruhl Libre',serif; margin:0;}
+  h1,h2,h3{font-family:'Frank Ruhl Libre',serif; margin:0; text-wrap:balance;}
   .mono{font-family:'Roboto Mono',monospace;}
+
+  :focus-visible{outline:2px solid var(--teal-dim); outline-offset:2px; border-radius:2px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important;}
+  }
 
   /* ---------- App chrome ---------- */
   header.app-bar{
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 28px;
+    padding:var(--sp-4) var(--sp-6);
     border-bottom:1px solid var(--line);
     background:var(--paper-raised);
   }
-  header.app-bar h1{font-size:22px; color:var(--teal); font-weight:700;}
+  .brand{display:flex; align-items:center; gap:var(--sp-3);}
+  .brand .mark{flex:none;}
+  header.app-bar h1{font-size:var(--text-2xl); color:var(--teal); font-weight:700;}
   header.app-bar .tag{
-    font-family:'Roboto Mono',monospace; font-size:11px; color:var(--ink-soft);
-    letter-spacing:.03em; border:1px solid var(--line); border-radius:20px;
-    padding:3px 10px;
+    font-family:'Roboto Mono',monospace; font-size:var(--text-2xs); color:var(--ink-soft);
+    letter-spacing:.03em; border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:4px 10px; font-variant-numeric:tabular-nums;
   }
 
   .layout{
     display:grid;
-    grid-template-columns:1fr 380px;
+    grid-template-columns:1fr 400px;
     gap:0;
-    min-height:calc(100vh - 64px);
+    min-height:calc(100vh - 66px);
   }
   @media (max-width: 900px){
     .layout{grid-template-columns:1fr;}
   }
 
   /* ---------- Library (left) ---------- */
-  .library{padding:24px 28px;}
+  .library{padding:var(--sp-5) var(--sp-6);}
   .filters{
-    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;
+    display:flex; gap:var(--sp-3); flex-wrap:wrap; margin-bottom:var(--sp-2);
+  }
+  .search-wrap{position:relative; flex:1; min-width:200px;}
+  .search-wrap .search-icon{
+    position:absolute; inset-inline-start:11px; top:50%; transform:translateY(-50%);
+    width:15px; height:15px; color:var(--ink-soft); pointer-events:none;
   }
   .filters input, .filters select{
-    font-family:'Assistant',sans-serif; font-size:14px;
-    padding:8px 12px; border:1px solid var(--line); border-radius:8px;
+    font-family:'Assistant',sans-serif; font-size:var(--text-sm);
+    padding:9px 12px; border:1px solid var(--line); border-radius:var(--radius-md);
     background:var(--paper-raised); color:var(--ink);
+    transition:border-color .15s ease;
   }
-  .filters input{flex:1; min-width:160px;}
+  .filters input{width:100%; padding-inline-start:34px;}
+  .filters input:hover, .filters select:hover{border-color:var(--teal-dim);}
+  .filters input:focus, .filters select:focus{border-color:var(--teal); outline:none;}
+
+  .result-count{
+    font-family:'Roboto Mono',monospace; font-size:var(--text-2xs); color:var(--ink-soft);
+    margin-bottom:var(--sp-3); font-variant-numeric:tabular-nums; min-height:1.2em;
+  }
 
   .grid{
     display:grid;
     grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
-    gap:14px;
+    gap:var(--sp-4);
+  }
+  .grid-empty{
+    grid-column:1/-1; text-align:center; color:var(--ink-soft); font-size:var(--text-sm);
+    border:1px dashed var(--line); border-radius:var(--radius-md);
+    padding:var(--sp-7) var(--sp-4);
   }
   .card{
     background:var(--paper-raised);
     border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:14px;
+    border-radius:var(--radius-md);
+    padding:var(--sp-4);
     position:relative;
-    border-inline-start:5px solid var(--region-color, var(--teal));
-    display:flex; flex-direction:column; gap:8px;
+    border-inline-start:4px solid var(--region-color, var(--teal));
+    display:flex; flex-direction:column; gap:var(--sp-2);
+    transition:box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .card:hover{
+    box-shadow:0 4px 16px rgba(30,43,41,.08);
+    transform:translateY(-1px);
   }
   .card .thumb{
     width:100%; aspect-ratio:1/1; background:#fff;
-    border:1px solid var(--line); border-radius:6px;
+    border:1px solid var(--line); border-radius:var(--radius-sm);
     display:flex; align-items:center; justify-content:center;
     overflow:hidden;
   }
   .card .thumb img{width:100%; height:100%; object-fit:contain;}
   .card .thumb svg{width:70%; height:70%;}
   .card .meta{display:flex; flex-direction:column; gap:2px;}
-  .card .name{font-weight:600; font-size:14.5px;}
+  .card .name{font-weight:600; font-size:var(--text-lg);}
   .card .region-label{
-    font-size:11px; color:var(--region-color, var(--ink-soft));
-    font-family:'Roboto Mono',monospace; text-transform:uppercase; letter-spacing:.04em;
+    font-size:var(--text-xs); color:var(--region-color, var(--ink-soft));
+    font-family:'Roboto Mono',monospace; text-transform:uppercase; letter-spacing:.05em;
   }
   .card button.add{
     margin-top:auto;
     background:var(--teal); color:#fff; border:none;
-    padding:7px 10px; border-radius:6px; font-size:13px; cursor:pointer;
+    padding:8px 10px; border-radius:var(--radius-sm); font-size:var(--text-sm); cursor:pointer;
     font-family:'Assistant',sans-serif; font-weight:600;
+    transition:background .15s ease, transform .1s ease;
   }
-  .card button.add:hover{background:#1f3937;}
-  .card button.add:disabled{background:var(--line); color:var(--ink-soft); cursor:default;}
+  .card button.add:hover{background:var(--teal-dark);}
+  .card button.add:active{transform:translateY(1px);}
+  .card button.add:disabled{background:var(--line); color:var(--ink-soft); cursor:default; transform:none;}
 
   /* ---------- Sheet builder (right) ---------- */
   .builder{
     background:var(--paper-raised);
     border-inline-start:1px solid var(--line);
-    padding:24px 24px 90px;
-    display:flex; flex-direction:column; gap:16px;
+    padding:var(--sp-5) var(--sp-5) var(--sp-7);
+    display:flex; flex-direction:column; gap:var(--sp-4);
   }
-  .builder h2{font-size:17px; color:var(--teal);}
+  .builder h2{font-size:var(--text-xl); color:var(--teal);}
   .builder .patient-field{
-    font-size:13px; color:var(--ink-soft);
+    font-size:var(--text-sm); color:var(--ink-soft);
   }
   .builder .patient-field input{
-    width:100%; margin-top:4px; padding:8px 10px; font-size:14px;
-    border:1px solid var(--line); border-radius:8px; font-family:'Assistant',sans-serif;
+    width:100%; margin-top:6px; padding:9px 11px; font-size:var(--text-base);
+    border:1px solid var(--line); border-radius:var(--radius-md); font-family:'Assistant',sans-serif;
+    color:var(--ink); transition:border-color .15s ease;
   }
-  .sheet-list{display:flex; flex-direction:column; gap:10px;}
+  .builder .patient-field input:focus{border-color:var(--teal); outline:none;}
+
+  .sheet-list{display:flex; flex-direction:column; gap:var(--sp-3);}
   .sheet-empty{
-    color:var(--ink-soft); font-size:13.5px; border:1px dashed var(--line);
-    border-radius:8px; padding:18px; text-align:center;
+    color:var(--ink-soft); font-size:var(--text-sm); border:1px dashed var(--line);
+    border-radius:var(--radius-md); padding:var(--sp-6) var(--sp-4); text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:var(--sp-3);
   }
+  .sheet-empty svg{width:30px; height:30px; color:var(--teal-dim);}
+
   .sheet-item{
-    border:1px solid var(--line); border-radius:8px; padding:10px 12px;
-    display:flex; align-items:center; gap:10px;
-    border-inline-start:4px solid var(--region-color, var(--teal));
+    border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--sp-3);
+    border-inline-start:3px solid var(--region-color, var(--teal));
+    display:flex; flex-direction:column; gap:var(--sp-3);
   }
+  .sheet-item-head{display:flex; align-items:center; gap:var(--sp-3);}
   .sheet-item .thumb-sm{
-    width:40px; height:40px; flex:none; background:#fff; border:1px solid var(--line);
-    border-radius:5px; display:flex; align-items:center; justify-content:center;
+    width:42px; height:42px; flex:none; background:#fff; border:1px solid var(--line);
+    border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center;
   }
   .sheet-item .thumb-sm svg{width:75%; height:75%;}
   .sheet-item .info{flex:1; min-width:0;}
-  .sheet-item .info .name{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .sheet-item .reps{display:flex; flex-wrap:wrap; gap:4px; align-items:center; font-size:12px; margin-top:3px;}
-  .sheet-item .reps input{
-    width:56px; text-align:center; border:1px solid var(--line); border-radius:4px;
-    padding:2px 4px; font-family:'Roboto Mono',monospace; font-size:12px;
+  .sheet-item .info .name{font-size:var(--text-base); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .sheet-item .info .region-label{
+    font-size:var(--text-2xs); color:var(--region-color, var(--ink-soft));
+    font-family:'Roboto Mono',monospace; text-transform:uppercase; letter-spacing:.05em;
   }
-  .sheet-item .reps input.reps-input{width:118px; text-align:start;}
-  .sheet-item .reps input.intensity-input{width:90px;}
-  .sheet-item .row-actions{display:flex; gap:4px; flex:none;}
-  .sheet-item .row-actions button{
-    border:none; background:none; cursor:pointer; color:var(--ink-soft);
-    font-size:15px; padding:2px 4px;
+  .sheet-item .row-actions{display:flex; gap:2px; flex:none; margin-inline-start:auto;}
+
+  .icon-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border:none; border-radius:var(--radius-sm);
+    background:none; color:var(--ink-soft); cursor:pointer; padding:0;
+    transition:background .15s ease, color .15s ease;
   }
-  .sheet-item .row-actions button:hover{color:var(--ink);}
+  .icon-btn svg{width:14px; height:14px;}
+  .icon-btn:hover{background:var(--paper); color:var(--ink);}
+  .icon-btn:disabled{opacity:.35; cursor:default;}
+  .icon-btn:disabled:hover{background:none;}
+  .icon-btn.danger:hover{background:#F7EBEC; color:var(--lumbar);}
+
+  .dosage{
+    display:grid; gap:var(--sp-2);
+    grid-template-columns:76px 1fr;
+    grid-template-areas:"sets reps" "intensity intensity";
+  }
+  .dosage .field{display:flex; flex-direction:column; gap:3px;}
+  .dosage .field.field-sets{grid-area:sets;}
+  .dosage .field.field-reps{grid-area:reps;}
+  .dosage .field.field-intensity{grid-area:intensity;}
+  .dosage .field label{
+    font-family:'Roboto Mono',monospace; font-size:var(--text-2xs); color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:.04em;
+  }
+  .dosage .field label .hint{text-transform:none; letter-spacing:0; font-family:'Assistant',sans-serif;}
+  .dosage .field input{
+    border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:6px 8px; font-family:'Roboto Mono',monospace; font-size:var(--text-sm);
+    color:var(--ink); width:100%; transition:border-color .15s ease;
+  }
+  .dosage .field.field-intensity input{font-family:'Assistant',sans-serif;}
+  .dosage .field input:focus{border-color:var(--teal); outline:none;}
+
+  .instr-edit{border-top:1px solid var(--line); padding-top:var(--sp-2);}
+  .instr-edit summary{
+    display:flex; align-items:center; gap:6px; cursor:pointer; list-style:none;
+    font-family:'Roboto Mono',monospace; font-size:var(--text-2xs); color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:.04em; transition:color .15s ease;
+  }
+  .instr-edit summary::-webkit-details-marker{display:none;}
+  .instr-edit summary:hover{color:var(--ink);}
+  .instr-edit summary .chevron{width:11px; height:11px; flex:none; transition:transform .15s ease;}
+  .instr-edit[open] summary .chevron{transform:rotate(90deg);}
+  .instr-edit summary .edited-dot{color:var(--teal-dim); font-size:8px; margin-inline-start:1px;}
+  .instr-edit textarea{
+    width:100%; margin-top:var(--sp-2); padding:8px 10px; font-family:'Assistant',sans-serif;
+    font-size:var(--text-sm); line-height:1.5; color:var(--ink);
+    border:1px solid var(--line); border-radius:var(--radius-sm); resize:vertical;
+  }
+  .instr-edit textarea:focus{border-color:var(--teal); outline:none;}
+  .instr-edit .reset-instructions{
+    display:block; margin-top:6px; background:none; border:none; padding:0; cursor:pointer;
+    font-family:'Assistant',sans-serif; font-size:var(--text-2xs); color:var(--teal-dim);
+    text-decoration:underline; text-underline-offset:2px; transition:color .15s ease;
+  }
+  .instr-edit .reset-instructions:hover{color:var(--teal);}
 
   .print-btn{
     position:sticky; bottom:0;
     background:var(--teal); color:#fff; border:none;
-    padding:13px; border-radius:8px; font-size:15px; font-weight:700;
+    padding:13px; border-radius:var(--radius-md); font-size:var(--text-base); font-weight:700;
     cursor:pointer; font-family:'Assistant',sans-serif;
+    display:flex; align-items:center; justify-content:center; gap:var(--sp-2);
+    transition:background .15s ease, transform .1s ease;
   }
   .print-btn:disabled{background:var(--line); color:var(--ink-soft); cursor:default;}
-  .print-btn:not(:disabled):hover{background:#1f3937;}
-
-  .note{
-    font-size:11.5px; color:var(--ink-soft); line-height:1.5;
-    border-top:1px solid var(--line); padding-top:10px;
-  }
+  .print-btn:not(:disabled):hover{background:var(--teal-dark);}
+  .print-btn:not(:disabled):active{transform:translateY(1px);}
 
   /* ---------- Print sheet (hidden on screen) ---------- */
   #print-sheet{display:none;}
 
   @media print{
     header.app-bar, .layout, .library, .builder{display:none !important;}
-    #print-sheet{
-      display:block;
-      padding:0;
-    }
-    body{background:#fff;}
+    #print-sheet{display:block; padding:0;}
+    body{background:#fff; font-size:13px;}
+
     .p-header{
-      display:flex; justify-content:space-between; align-items:baseline;
-      border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:18px;
+      display:flex; justify-content:space-between; align-items:flex-end;
+      border-bottom:2px solid var(--teal); padding-bottom:14px; margin-bottom:28px;
     }
-    .p-header h1{font-size:20px;}
-    .p-header .p-patient{font-family:'Roboto Mono',monospace; font-size:13px;}
+    .p-header h1{font-size:30px; color:var(--ink);}
+    .p-meta{text-align:end; display:flex; flex-direction:column; gap:3px;}
+    .p-patient{font-family:'Roboto Mono',monospace; font-size:13px; font-weight:500; color:var(--ink);}
+    .p-date{font-family:'Roboto Mono',monospace; font-size:11px; color:var(--ink-soft);}
+
     .p-exercise{
       break-inside:avoid;
-      display:grid; grid-template-columns:100px 1fr; gap:16px;
-      border-bottom:1px solid #ccc; padding:14px 0;
+      display:grid; grid-template-columns:32px 120px 1fr; gap:16px; align-items:start;
+      border-bottom:1px solid rgba(30,43,41,.14); padding:18px 0;
     }
-    .p-exercise .p-thumb{width:100px; height:100px; overflow:hidden;}
+    .p-exercise:first-of-type{padding-top:0;}
+    .p-num{
+      font-family:'Frank Ruhl Libre',serif; font-size:22px; color:var(--teal-dim);
+      font-variant-numeric:tabular-nums; line-height:1.1;
+    }
+    .p-exercise .p-thumb{
+      width:120px; height:120px; overflow:hidden; border:1px solid rgba(30,43,41,.12);
+      border-radius:3px;
+    }
     .p-exercise .p-thumb img, .p-exercise .p-thumb svg{width:100%; height:100%; object-fit:contain;}
-    .p-exercise h3{font-size:15px; margin-bottom:4px;}
-    .p-exercise .p-dose{
-      font-family:'Roboto Mono',monospace; font-size:12.5px; color:#333; margin-bottom:6px;
+    .p-exercise h3{font-size:16.5px; margin-bottom:3px;}
+    .p-exercise .p-region{
+      font-family:'Roboto Mono',monospace; font-size:10px; text-transform:uppercase;
+      letter-spacing:.05em; color:var(--region-color, var(--ink-soft)); margin-bottom:8px;
     }
-    .p-exercise .p-instructions{font-size:12.5px; color:#333;}
-    .p-footer{margin-top:20px; font-size:10.5px; color:#888;}
+    .p-exercise .p-dose{
+      font-family:'Roboto Mono',monospace; font-size:13px; font-weight:500; color:var(--teal);
+      font-variant-numeric:tabular-nums; margin-bottom:8px;
+    }
+    .p-exercise .p-instructions{font-size:12.5px; color:#333; line-height:1.6; max-width:62ch;}
+    .p-footer{
+      margin-top:28px; padding-top:12px; border-top:1px solid rgba(30,43,41,.14);
+      display:flex; justify-content:space-between;
+      font-family:'Roboto Mono',monospace; font-size:10px; color:var(--ink-soft);
+    }
   }
 </style>
 </head>
 <body>
 
 <header class="app-bar">
-  <h1>בונה דפי תרגילים</h1>
-  <span class="tag">גרסת בדיקה — נתוני דמה</span>
+  <div class="brand">
+    <svg class="mark" width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="var(--teal)" stroke-width="1.6" stroke-linecap="round">
+      <path d="M6 24 A14 14 0 0 1 26 24"/>
+      <line x1="16" y1="24" x2="16" y2="9"/>
+      <line x1="16" y1="24" x2="25.5" y2="15"/>
+      <circle cx="16" cy="24" r="1.7" fill="var(--teal)" stroke="none"/>
+    </svg>
+    <h1>בונה דפי תרגילים</h1>
+  </div>
+  <span class="tag" id="libCount"></span>
 </header>
 
 <div class="layout">
@@ -214,11 +339,18 @@
   <!-- LIBRARY -->
   <section class="library">
     <div class="filters">
-      <input id="search" type="text" placeholder="חיפוש תרגיל...">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="7" cy="7" r="4.5"/>
+          <line x1="10.5" y1="10.5" x2="14" y2="14"/>
+        </svg>
+        <input id="search" type="text" placeholder="חיפוש תרגיל...">
+      </div>
       <select id="regionFilter">
         <option value="">כל האזורים</option>
       </select>
     </div>
+    <div class="result-count" id="resultCount"></div>
     <div class="grid" id="grid"></div>
   </section>
 
@@ -230,13 +362,23 @@
       <input id="patientName" type="text" placeholder="לא חובה">
     </label>
     <div class="sheet-list" id="sheetList">
-      <div class="sheet-empty">עדיין לא נבחרו תרגילים</div>
+      <div class="sheet-empty">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="7" y="5" width="18" height="24" rx="1.5"/>
+          <rect x="12" y="3" width="8" height="4" rx="1"/>
+          <line x1="11" y1="13" x2="21" y2="13"/>
+          <line x1="11" y1="18" x2="21" y2="18"/>
+          <line x1="11" y1="23" x2="17" y2="23"/>
+        </svg>
+        <span>עדיין לא נבחרו תרגילים</span>
+      </div>
     </div>
-    <button class="print-btn" id="printBtn" disabled>הפק דף להדפסה</button>
-    <div class="note">
-      זו סביבת בדיקה: התמונות כאן הן שרטוטי-דמה זמניים, לא המאגר האמיתי.
-      המטרה כרגע היא לבדוק שהאתר נפתח ומתאפשר להדפיס ממנו בעמדת העבודה.
-    </div>
+    <button class="print-btn" id="printBtn" disabled>
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+        <path d="M5 8V3h10v5M5 8H3.5A1.5 1.5 0 0 0 2 9.5v4A1.5 1.5 0 0 0 3.5 15H5m10-7h1.5A1.5 1.5 0 0 1 18 9.5v4a1.5 1.5 0 0 1-1.5 1.5H15m-10 0v3h10v-3m-10 0h10"/>
+      </svg>
+      <span>הפק דף להדפסה</span>
+    </button>
   </aside>
 
 </div>
@@ -245,33 +387,30 @@
 <div id="print-sheet">
   <div class="p-header">
     <h1>תוכנית תרגילים</h1>
-    <div class="p-patient" id="pPatient"></div>
+    <div class="p-meta">
+      <div class="p-patient" id="pPatient"></div>
+      <div class="p-date" id="pDate"></div>
+    </div>
   </div>
   <div id="pExercises"></div>
-  <div class="p-footer">הופק באמצעות בונה דפי תרגילים — גרסת בדיקה</div>
+  <div class="p-footer">
+    <span id="pFooterCount"></span>
+    <span>בונה דפי תרגילים</span>
+  </div>
 </div>
 
 <script>
 /* ============================================================
-   DATA LAYER
-   ------------------------------------------------------------
-   This is placeholder sample data so the app is testable today.
-   In production, replace this block with:
+   DATA LAYER — loads ./exercises.json, images referenced as
+   ./images/${image_file}.
 
-     let EXERCISES = [];
-     fetch('./exercises.json')
-       .then(r => r.json())
-       .then(data => { EXERCISES = data; init(); });
-
-   and point each card's image at `./images/${ex.image_file}`
-   instead of the inline placeholder SVGs used below.
-
-   NOTE ON DOSAGE FIELDS: default_sets / default_reps / default_intensity_he
-   are free text on purpose (e.g. "6-10", "עד RIR 3-4") — not numbers.
-   When irritability-based dosage presets are added later, they'll live
-   in a new `dosage_by_irritability` object per exercise (see chat),
-   and a global irritability toggle will just swap which preset feeds
-   these same three fields. No schema change needed here for that.
+   NOTE ON DOSAGE FIELDS: default_sets / default_reps /
+   default_intensity_he are free text on purpose (e.g. "6-10",
+   "עד RIR 3-4") — not numbers. When irritability-based dosage
+   presets are added later, they'll live in a new
+   `dosage_by_irritability` object per exercise, and a global
+   irritability toggle will just swap which preset feeds these
+   same three fields. No schema change needed here for that.
    ============================================================ */
 
 const REGION_LABELS = {
@@ -279,8 +418,7 @@ const REGION_LABELS = {
   lumbar:"גב תחתון", hip:"ירך", knee:"ברך", ankle:"קרסול", wrist:"שורש כף יד"
 };
 
-// Simple placeholder line-figure icons per region, standing in for
-// the real minimalist illustrations that will come from the image pipeline.
+// Placeholder line-figure icons per region, shown when an exercise image fails to load.
 function placeholderSVG(region){
   const icons = {
     shoulder:`<circle cx="50" cy="20" r="8"/><line x1="50" y1="28" x2="50" y2="60"/><line x1="50" y1="35" x2="25" y2="20"/><line x1="50" y1="35" x2="75" y2="50"/><line x1="50" y1="60" x2="35" y2="90"/><line x1="50" y1="60" x2="65" y2="90"/>`,
@@ -301,13 +439,16 @@ function handleImgError(imgEl, region){
   imgEl.replaceWith(wrapper.firstElementChild);
 }
 
+// "TODO" is a content-authoring placeholder meaning "no instructions written yet" — never show it to the therapist.
+function resolveDefaultInstructions(ex){
+  return ex.instructions_he === 'TODO' ? '' : ex.instructions_he;
+}
+
 let EXERCISES = [];
 
-// Load exercises from external exercises.json
 fetch('./exercises.json')
   .then(r => r.json())
   .then(data => {
-    // Normalize data: convert sets/reps to strings, ensure intensity field exists
     EXERCISES = data.map(ex => ({
       ...ex,
       default_sets: String(ex.default_sets || ""),
@@ -325,13 +466,14 @@ fetch('./exercises.json')
       </div>
     `;
   });
-let sheet = []; // { ex, sets, reps }
+let sheet = []; // { ex, sets, reps, intensity, instructions }
 
 let initialized = false;
 
 function init(){
   populateRegionFilter();
   renderGrid();
+  document.getElementById('libCount').textContent = `${EXERCISES.length} תרגילים במאגר`;
   if (!initialized){
     document.getElementById('search').addEventListener('input', renderGrid);
     document.getElementById('regionFilter').addEventListener('change', renderGrid);
@@ -344,10 +486,17 @@ function renderGrid(){
   const q = document.getElementById('search').value.trim();
   const region = document.getElementById('regionFilter').value;
   const grid = document.getElementById('grid');
+  const list = EXERCISES.filter(ex => (!region || ex.region===region) && (!q || ex.name_he.includes(q)));
+
+  document.getElementById('resultCount').textContent = list.length ? `${list.length} תרגילים` : '';
+
   grid.innerHTML = '';
-  EXERCISES
-    .filter(ex => (!region || ex.region===region) && (!q || ex.name_he.includes(q)))
-    .forEach(ex=>{
+  if (list.length === 0){
+    grid.innerHTML = `<div class="grid-empty">לא נמצאו תרגילים התואמים לחיפוש</div>`;
+    return;
+  }
+
+  list.forEach(ex=>{
       const inSheet = sheet.some(s=>s.ex.id===ex.id);
       const card = document.createElement('div');
       card.className = 'card';
@@ -367,7 +516,11 @@ function renderGrid(){
 
 function addToSheet(ex){
   if (sheet.some(s=>s.ex.id===ex.id)) return;
-  sheet.push({ ex, sets: ex.default_sets, reps: ex.default_reps, intensity: ex.default_intensity_he || "" });
+  sheet.push({
+    ex, sets: ex.default_sets, reps: ex.default_reps,
+    intensity: ex.default_intensity_he || "",
+    instructions: resolveDefaultInstructions(ex)
+  });
   renderSheet();
   renderGrid();
 }
@@ -390,7 +543,17 @@ function renderSheet(){
   const list = document.getElementById('sheetList');
   const printBtn = document.getElementById('printBtn');
   if (sheet.length===0){
-    list.innerHTML = '<div class="sheet-empty">עדיין לא נבחרו תרגילים</div>';
+    list.innerHTML = `
+      <div class="sheet-empty">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="7" y="5" width="18" height="24" rx="1.5"/>
+          <rect x="12" y="3" width="8" height="4" rx="1"/>
+          <line x1="11" y1="13" x2="21" y2="13"/>
+          <line x1="11" y1="18" x2="21" y2="18"/>
+          <line x1="11" y1="23" x2="17" y2="23"/>
+        </svg>
+        <span>עדיין לא נבחרו תרגילים</span>
+      </div>`;
     printBtn.disabled = true;
     return;
   }
@@ -401,20 +564,47 @@ function renderSheet(){
     row.className = 'sheet-item';
     row.style.setProperty('--region-color', `var(--${s.ex.region})`);
     row.innerHTML = `
-      <div class="thumb-sm">${placeholderSVG(s.ex.region)}</div>
-      <div class="info">
-        <div class="name">${s.ex.name_he}</div>
-        <div class="reps">
-          <input type="text" class="sets-input" value="${s.sets}" placeholder="סטים"> ×
-          <input type="text" class="reps-input" value="${s.reps}" placeholder="חזרות / זמן">
-          <input type="text" class="intensity-input" value="${s.intensity}" placeholder="מלל חופשי (לא חובה)">
+      <div class="sheet-item-head">
+        <div class="thumb-sm">${placeholderSVG(s.ex.region)}</div>
+        <div class="info">
+          <div class="name">${s.ex.name_he}</div>
+          <div class="region-label">${REGION_LABELS[s.ex.region]}</div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn up" title="הזז למעלה" aria-label="הזז תרגיל למעלה" ${idx===0?'disabled':''}>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M4 10l4-4 4 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="icon-btn down" title="הזז למטה" aria-label="הזז תרגיל למטה" ${idx===sheet.length-1?'disabled':''}>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M4 6l4 4 4-4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="icon-btn danger del" title="הסר" aria-label="הסר תרגיל מהדף">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M4 4l8 8M12 4l-8 8" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
         </div>
       </div>
-      <div class="row-actions">
-        <button class="up" title="הזז למעלה" ${idx===0?'disabled':''}>↑</button>
-        <button class="down" title="הזז למטה" ${idx===sheet.length-1?'disabled':''}>↓</button>
-        <button class="del" title="הסר">✕</button>
+      <div class="dosage">
+        <div class="field field-sets">
+          <label>סטים</label>
+          <input type="text" class="sets-input" value="${s.sets}">
+        </div>
+        <div class="field field-reps">
+          <label>חזרות / זמן</label>
+          <input type="text" class="reps-input" value="${s.reps}">
+        </div>
+        <div class="field field-intensity">
+          <label>הערות מטפל <span class="hint">— לא חובה</span></label>
+          <input type="text" class="intensity-input" value="${s.intensity}">
+        </div>
       </div>
+      <details class="instr-edit">
+        <summary>
+          <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+          <span>עריכת הנחיית ביצוע</span>
+          <span class="edited-dot" title="ההנחיה נערכה" ${s.instructions===resolveDefaultInstructions(s.ex)?'style="display:none;"':''}>●</span>
+        </summary>
+        <textarea class="instructions-input" rows="4">${s.instructions}</textarea>
+        <button type="button" class="reset-instructions">אפס לברירת מחדל</button>
+      </details>
     `;
     row.querySelector('.sets-input').addEventListener('input', e=> s.sets = e.target.value);
     row.querySelector('.reps-input').addEventListener('input', e=> s.reps = e.target.value);
@@ -422,6 +612,17 @@ function renderSheet(){
     row.querySelector('.up').addEventListener('click', ()=> moveInSheet(s.ex.id, -1));
     row.querySelector('.down').addEventListener('click', ()=> moveInSheet(s.ex.id, 1));
     row.querySelector('.del').addEventListener('click', ()=> removeFromSheet(s.ex.id));
+    const instrTextarea = row.querySelector('.instructions-input');
+    const editedDot = row.querySelector('.edited-dot');
+    instrTextarea.addEventListener('input', e=>{
+      s.instructions = e.target.value;
+      editedDot.style.display = (s.instructions === resolveDefaultInstructions(s.ex)) ? 'none' : '';
+    });
+    row.querySelector('.reset-instructions').addEventListener('click', ()=>{
+      s.instructions = resolveDefaultInstructions(s.ex);
+      instrTextarea.value = s.instructions;
+      editedDot.style.display = 'none';
+    });
     list.appendChild(row);
   });
 }
@@ -439,17 +640,24 @@ function populateRegionFilter(){
 function buildPrintSheet(){
   const name = document.getElementById('patientName').value.trim();
   document.getElementById('pPatient').textContent = name ? `שם: ${name}` : '';
+  document.getElementById('pDate').textContent =
+    new Date().toLocaleDateString('he-IL', { year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('pFooterCount').textContent = `${sheet.length} תרגילים`;
+
   const container = document.getElementById('pExercises');
   container.innerHTML = '';
-  sheet.forEach(s=>{
+  sheet.forEach((s, idx)=>{
     const div = document.createElement('div');
     div.className = 'p-exercise';
+    div.style.setProperty('--region-color', `var(--${s.ex.region})`);
     div.innerHTML = `
+      <div class="p-num">${idx+1}</div>
       <div class="p-thumb"><img src="./images/${s.ex.image_file}" alt="${s.ex.name_he}"></div>
       <div>
         <h3>${s.ex.name_he}</h3>
+        <div class="p-region">${REGION_LABELS[s.ex.region]}</div>
         <div class="p-dose">${s.sets} סטים × ${s.reps}${s.intensity ? ' — ' + s.intensity : ''}</div>
-        <div class="p-instructions">${s.ex.instructions_he==='TODO' ? '' : s.ex.instructions_he}</div>
+        <div class="p-instructions">${s.instructions}</div>
       </div>
     `;
     container.appendChild(div);
