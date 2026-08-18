@@ -298,5 +298,15 @@
     "default_sets": "3",
     "default_reps": "10 חזרות",
     "instructions_he": "TODO"
+  },
+  {
+    "id": "ankle_heel_raises_band",
+    "name_he": "עליות תאומים רגל אחת עם גומיית התנגדות מושכת לפרונציה",
+    "region": "ankle",
+    "equipment": "resistance band",
+    "image_file": "ankle_heel_raises_band.png",
+    "default_sets": "3",
+    "default_reps": "30-60 שניות",
+    "instructions_he": "לעמוד על רגל אחת עם תמיכה קלה לשיווי משקל, כאשר גומיית התנגדות כרוכה סביב הקרסול ומושכת אותו פנימה. ללחוץ את כרית הבוהן הגדולה אל הרצפה ולעלות על קצות האצבעות תוך שמירה על מנח הקרסול כנגד הגומיה."
   }
 ]
