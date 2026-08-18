@@ -386,7 +386,7 @@
   <aside class="builder">
     <h2>הדף הנוכחי</h2>
     <label class="patient-field">
-      המטפל/ת המפיק/ה (יודפס על הדף)
+      המטפל/ת המפיק/ה (חובה להדפסה — יודפס על הדף)
       <input id="therapistName" name="therapist_name" type="text" placeholder="שם מלא" autocomplete="on">
     </label>
     <label class="patient-field">
@@ -519,9 +519,11 @@ function init(){
     document.getElementById('search').addEventListener('input', renderGrid);
     document.getElementById('regionFilter').addEventListener('change', renderGrid);
     document.getElementById('equipmentFilter').addEventListener('change', renderGrid);
+    document.getElementById('therapistName').addEventListener('input', updatePrintButtonState);
     document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
     initialized = true;
   }
+  updatePrintButtonState();
 }
 
 function matchesFilters(ex, q, region, equipment){
@@ -618,9 +620,18 @@ function moveInSheet(id, dir){
   renderSheet();
 }
 
+function updatePrintButtonState(){
+  const hasExercises = sheet.length > 0;
+  const hasTherapist = document.getElementById('therapistName').value.trim() !== '';
+  const btn = document.getElementById('printBtn');
+  btn.disabled = !(hasExercises && hasTherapist);
+  if (!hasExercises) btn.title = 'בחר לפחות תרגיל אחד';
+  else if (!hasTherapist) btn.title = 'הזן שם מטפל/ת לפני ההדפסה';
+  else btn.title = '';
+}
+
 function renderSheet(){
   const list = document.getElementById('sheetList');
-  const printBtn = document.getElementById('printBtn');
   if (sheet.length===0){
     list.innerHTML = `
       <div class="sheet-empty">
@@ -633,10 +644,10 @@ function renderSheet(){
         </svg>
         <span>עדיין לא נבחרו תרגילים</span>
       </div>`;
-    printBtn.disabled = true;
+    updatePrintButtonState();
     return;
   }
-  printBtn.disabled = false;
+  updatePrintButtonState();
   list.innerHTML = '';
   sheet.forEach((s, idx)=>{
     const row = document.createElement('div');
