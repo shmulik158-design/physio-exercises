@@ -69,6 +69,7 @@
 - Two-pane: ספריית תרגילים משמאל, builder מימין (RTL)
 - Responsive ב-900px
 - **חדש**: hover עדין על כרטיסים (`translateY(-1px)` + צל רך), `:focus-visible` גלובלי, `prefers-reduced-motion` guard
+- **חדש (2026-08-19) — קיבוץ לפי אזור גוף**: כש-`regionFilter` ריק ("כל האזורים"), הספרייה (וגם רשימת `admin.html`) מוצגת מקובצת לפי `region`, בסדר `REGION_LABELS` (סדר אנטומי קבוע), עם כותרת קבוצה + מונה. כשנבחר אזור ספציפי — רשימה שטוחה כרגיל, בלי כותרות. `#grid`/`#list` הם עכשיו wrapper גמיש; `.card-grid` היא ה-grid בפועל של הכרטיסים בכל קבוצה. **`equipmentFilter`/`listEquipmentFilter` חדש** — "כל הציוד" / "ללא ציוד" (`equipment==='none'`) / "עם ציוד" (כל ערך אחר), קיים בשני המשטחים.
 
 **Print Layout** (`#print-sheet`, ב-`@media print`)
 - מוסתר במסך (`display:none`)
