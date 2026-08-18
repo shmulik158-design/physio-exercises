@@ -645,7 +645,7 @@ function populateRegionFilter(){
 
 function buildPrintSheet(){
   const therapist = document.getElementById('therapistName').value.trim();
-  document.getElementById('pTherapist').textContent = therapist ? `מטפל/ת: ${therapist}` : '';
+  document.getElementById('pTherapist').textContent = therapist ? `דף זה הופק ע"י: ${therapist}` : '';
   const name = document.getElementById('patientName').value.trim();
   document.getElementById('pPatient').textContent = name ? `שם: ${name}` : '';
   document.getElementById('pDate').textContent =
