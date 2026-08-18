@@ -269,6 +269,13 @@
   .print-btn:not(:disabled):hover{background:var(--teal-dark);}
   .print-btn:not(:disabled):active{transform:translateY(1px);}
 
+  .note{
+    font-size:var(--text-2xs); color:var(--ink-soft); line-height:1.5;
+    border-top:1px solid var(--line); padding-top:var(--sp-3);
+  }
+  .note a{color:var(--teal-dim); transition:color .15s ease;}
+  .note a:hover{color:var(--teal);}
+
   /* ---------- Print sheet (hidden on screen) ---------- */
   #print-sheet{display:none;}
 
@@ -384,6 +391,9 @@
       </svg>
       <span>הפק דף להדפסה</span>
     </button>
+    <div class="note">
+      הערות, בקשות, או תרגיל שלא מתאים לך? <a href="mailto:shmulik158@gmail.com">shmulik158@gmail.com</a>
+    </div>
   </aside>
 
 </div>
