@@ -283,6 +283,7 @@
     }
     .p-header h1{font-size:30px; color:var(--ink);}
     .p-meta{text-align:end; display:flex; flex-direction:column; gap:3px;}
+    .p-therapist{font-family:'Roboto Mono',monospace; font-size:13.5px; font-weight:700; color:var(--teal);}
     .p-patient{font-family:'Roboto Mono',monospace; font-size:13px; font-weight:500; color:var(--ink);}
     .p-date{font-family:'Roboto Mono',monospace; font-size:11px; color:var(--ink-soft);}
 
@@ -358,6 +359,10 @@
   <aside class="builder">
     <h2>הדף הנוכחי</h2>
     <label class="patient-field">
+      המטפל/ת המפיק/ה (יודפס על הדף)
+      <input id="therapistName" name="therapist_name" type="text" placeholder="שם מלא" autocomplete="on">
+    </label>
+    <label class="patient-field">
       שם המטופל (לא נשמר, מוצג רק על הדף)
       <input id="patientName" type="text" placeholder="לא חובה">
     </label>
@@ -388,6 +393,7 @@
   <div class="p-header">
     <h1>תוכנית תרגילים</h1>
     <div class="p-meta">
+      <div class="p-therapist" id="pTherapist"></div>
       <div class="p-patient" id="pPatient"></div>
       <div class="p-date" id="pDate"></div>
     </div>
@@ -638,6 +644,8 @@ function populateRegionFilter(){
 }
 
 function buildPrintSheet(){
+  const therapist = document.getElementById('therapistName').value.trim();
+  document.getElementById('pTherapist').textContent = therapist ? `מטפל/ת: ${therapist}` : '';
   const name = document.getElementById('patientName').value.trim();
   document.getElementById('pPatient').textContent = name ? `שם: ${name}` : '';
   document.getElementById('pDate').textContent =
