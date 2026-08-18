@@ -70,6 +70,25 @@
                           border:1px solid var(--line); border-radius:var(--radius-md); color:var(--ink);
                           transition:border-color .15s ease;}
   .list-pane input.search:focus{border-color:var(--teal); outline:none;}
+  .list-filters{display:flex; gap:var(--sp-2);}
+  .list-filters select{
+    flex:1; min-width:0; padding:7px 8px; font-size:var(--text-2xs); font-family:inherit;
+    border:1px solid var(--line); border-radius:var(--radius-md); color:var(--ink); background:#fff;
+    transition:border-color .15s ease;
+  }
+  .list-filters select:focus{border-color:var(--teal); outline:none;}
+  #list{display:flex; flex-direction:column; gap:4px;}
+  .list-region-heading{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Roboto Mono',monospace; font-size:var(--text-2xs); font-weight:600;
+    color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em;
+    padding:4px 2px; margin-top:var(--sp-2);
+  }
+  .list-region-heading:first-child{margin-top:0;}
+  .list-region-heading::before{
+    content:''; width:7px; height:7px; border-radius:50%; flex:none;
+    background:var(--region-color, var(--teal));
+  }
   .ex-row{display:flex; align-items:center; gap:var(--sp-3); padding:8px 10px; border-radius:var(--radius-md);
           cursor:pointer; border:1px solid transparent; border-inline-start:4px solid var(--region-color,var(--teal));
           transition:background .15s ease;}
@@ -141,6 +160,14 @@
 
   <aside class="list-pane">
     <input class="search" id="search" type="text" placeholder="חיפוש במאגר...">
+    <div class="list-filters">
+      <select id="listRegionFilter"><option value="">כל האזורים</option></select>
+      <select id="listEquipmentFilter">
+        <option value="">כל הציוד</option>
+        <option value="none">ללא ציוד</option>
+        <option value="any">עם ציוד</option>
+      </select>
+    </div>
     <div id="list"></div>
   </aside>
 
@@ -231,6 +258,10 @@ fetch('/api/data').then(r=>r.json()).then(d=>{
     const o = document.createElement('option');
     o.value = r; o.textContent = REGION_LABELS[r] || r;
     $('f_region').appendChild(o);
+
+    const lo = document.createElement('option');
+    lo.value = r; lo.textContent = REGION_LABELS[r] || r;
+    $('listRegionFilter').appendChild(lo);
   });
   d.equipment.forEach(e=>{
     const o = document.createElement('option');
@@ -242,30 +273,59 @@ fetch('/api/data').then(r=>r.json()).then(d=>{
 }).catch(()=> setMsg('err', 'לא הצלחתי להתחבר לשרת המקומי. ודא שהחלון השחור עדיין פתוח.'));
 
 /* ---------- list ---------- */
+function buildExRow(ex){
+  const row = document.createElement('div');
+  row.className = 'ex-row' + (ex.id === editingId ? ' active' : '');
+  row.style.setProperty('--region-color', `var(--${ex.region})`);
+  row.innerHTML = `
+    <img src="/images/${ex.image_file}?t=${Date.now()}" alt="">
+    <div class="t">
+      <div class="n"></div>
+      <div class="i"></div>
+    </div>`;
+  row.querySelector('.n').textContent = ex.name_he;
+  row.querySelector('.i').textContent = ex.id;
+  row.addEventListener('click', ()=> loadForEdit(ex.id));
+  return row;
+}
+
 function renderList(){
   const q = $('search').value.trim();
+  const region = $('listRegionFilter').value;
+  const equipment = $('listEquipmentFilter').value;
   const list = $('list');
   list.innerHTML = '';
-  EXERCISES
-    .filter(ex => !q || ex.name_he.includes(q) || ex.id.includes(q))
-    .forEach(ex=>{
-      const row = document.createElement('div');
-      row.className = 'ex-row' + (ex.id === editingId ? ' active' : '');
-      row.style.setProperty('--region-color', `var(--${ex.region})`);
-      row.innerHTML = `
-        <img src="/images/${ex.image_file}?t=${Date.now()}" alt="">
-        <div class="t">
-          <div class="n"></div>
-          <div class="i"></div>
-        </div>`;
-      row.querySelector('.n').textContent = ex.name_he;
-      row.querySelector('.i').textContent = ex.id;
-      row.addEventListener('click', ()=> loadForEdit(ex.id));
-      list.appendChild(row);
+
+  const filtered = EXERCISES.filter(ex => {
+    if (region && ex.region !== region) return false;
+    if (equipment === 'none' && ex.equipment !== 'none') return false;
+    if (equipment === 'any' && ex.equipment === 'none') return false;
+    if (q && !ex.name_he.includes(q) && !ex.id.includes(q)) return false;
+    return true;
+  });
+
+  if (region){
+    // A single region is already selected — flat list, no headings needed.
+    filtered.forEach(ex => list.appendChild(buildExRow(ex)));
+  } else {
+    // Showing every region — group under a heading per region, in anatomical order.
+    Object.keys(REGION_LABELS).forEach(r=>{
+      const group = filtered.filter(ex => ex.region === r);
+      if (!group.length) return;
+      const heading = document.createElement('div');
+      heading.className = 'list-region-heading';
+      heading.style.setProperty('--region-color', `var(--${r})`);
+      heading.textContent = `${REGION_LABELS[r]} · ${group.length}`;
+      list.appendChild(heading);
+      group.forEach(ex => list.appendChild(buildExRow(ex)));
     });
+  }
+
   $('count').textContent = `${EXERCISES.length} תרגילים`;
 }
 $('search').addEventListener('input', renderList);
+$('listRegionFilter').addEventListener('change', renderList);
+$('listEquipmentFilter').addEventListener('change', renderList);
 
 /* ---------- form ---------- */
 function clearForm(){

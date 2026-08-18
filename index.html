@@ -105,13 +105,24 @@
     margin-bottom:var(--sp-3); font-variant-numeric:tabular-nums; min-height:1.2em;
   }
 
-  .grid{
+  #grid{display:flex; flex-direction:column; gap:var(--sp-6);}
+  .card-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
     gap:var(--sp-4);
   }
+  .region-group-heading{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Roboto Mono',monospace; font-size:var(--text-xs); font-weight:600;
+    color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em;
+    border-bottom:1px solid var(--line); padding-bottom:var(--sp-2); margin-bottom:var(--sp-3);
+  }
+  .region-group-heading::before{
+    content:''; width:9px; height:9px; border-radius:50%; flex:none;
+    background:var(--region-color, var(--teal));
+  }
   .grid-empty{
-    grid-column:1/-1; text-align:center; color:var(--ink-soft); font-size:var(--text-sm);
+    text-align:center; color:var(--ink-soft); font-size:var(--text-sm);
     border:1px dashed var(--line); border-radius:var(--radius-md);
     padding:var(--sp-7) var(--sp-4);
   }
@@ -361,6 +372,11 @@
       <select id="regionFilter">
         <option value="">כל האזורים</option>
       </select>
+      <select id="equipmentFilter">
+        <option value="">כל הציוד</option>
+        <option value="none">ללא ציוד</option>
+        <option value="any">עם ציוד</option>
+      </select>
     </div>
     <div class="result-count" id="resultCount"></div>
     <div class="grid" id="grid"></div>
@@ -485,7 +501,7 @@ fetch('./exercises.json')
   .catch(err => {
     console.error("Failed to load exercises.json:", err);
     document.getElementById('grid').innerHTML = `
-      <div style="grid-column: 1/-1; padding: 20px; color: #c33; font-size: 14px;">
+      <div style="padding: 20px; color: #c33; font-size: 14px;">
         <strong>שגיאה:</strong> לא הצליח לטעון את exercises.json.<br>
         ודא שהקובץ נמצא באותה תיקייה כמו index.html
       </div>
@@ -502,16 +518,44 @@ function init(){
   if (!initialized){
     document.getElementById('search').addEventListener('input', renderGrid);
     document.getElementById('regionFilter').addEventListener('change', renderGrid);
+    document.getElementById('equipmentFilter').addEventListener('change', renderGrid);
     document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
     initialized = true;
   }
 }
 
+function matchesFilters(ex, q, region, equipment){
+  if (region && ex.region !== region) return false;
+  if (q && !ex.name_he.includes(q)) return false;
+  if (equipment === 'none' && ex.equipment !== 'none') return false;
+  if (equipment === 'any' && ex.equipment === 'none') return false;
+  return true;
+}
+
+function buildCard(ex){
+  const inSheet = sheet.some(s=>s.ex.id===ex.id);
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.setProperty('--region-color', `var(--${ex.region})`);
+  card.innerHTML = `
+    <div class="thumb"><img src="./images/${ex.image_file}" loading="lazy" decoding="async" onerror="handleImgError(this, '${ex.region}')" alt="${ex.name_he}"></div>
+    <div class="meta">
+      <div class="name">${ex.name_he}</div>
+      <div class="region-label">${REGION_LABELS[ex.region]}</div>
+      ${ex.updated_at ? `<div class="updated-label">עודכן ${formatShortDate(ex.updated_at)}</div>` : ''}
+    </div>
+    <button class="add" ${inSheet?'disabled':''}>${inSheet?'נוסף ✓':'הוסף לדף'}</button>
+  `;
+  card.querySelector('button.add').addEventListener('click', ()=> addToSheet(ex));
+  return card;
+}
+
 function renderGrid(){
   const q = document.getElementById('search').value.trim();
   const region = document.getElementById('regionFilter').value;
+  const equipment = document.getElementById('equipmentFilter').value;
   const grid = document.getElementById('grid');
-  const list = EXERCISES.filter(ex => (!region || ex.region===region) && (!q || ex.name_he.includes(q)));
+  const list = EXERCISES.filter(ex => matchesFilters(ex, q, region, equipment));
 
   document.getElementById('resultCount').textContent = list.length ? `${list.length} תרגילים` : '';
 
@@ -521,23 +565,32 @@ function renderGrid(){
     return;
   }
 
-  list.forEach(ex=>{
-      const inSheet = sheet.some(s=>s.ex.id===ex.id);
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.style.setProperty('--region-color', `var(--${ex.region})`);
-      card.innerHTML = `
-        <div class="thumb"><img src="./images/${ex.image_file}" loading="lazy" decoding="async" onerror="handleImgError(this, '${ex.region}')" alt="${ex.name_he}"></div>
-        <div class="meta">
-          <div class="name">${ex.name_he}</div>
-          <div class="region-label">${REGION_LABELS[ex.region]}</div>
-          ${ex.updated_at ? `<div class="updated-label">עודכן ${formatShortDate(ex.updated_at)}</div>` : ''}
-        </div>
-        <button class="add" ${inSheet?'disabled':''}>${inSheet?'נוסף ✓':'הוסף לדף'}</button>
-      `;
-      card.querySelector('button.add').addEventListener('click', ()=> addToSheet(ex));
-      grid.appendChild(card);
-    });
+  if (region){
+    // A single region is already selected — one flat grid, no grouping needed.
+    const cardGrid = document.createElement('div');
+    cardGrid.className = 'card-grid';
+    list.forEach(ex => cardGrid.appendChild(buildCard(ex)));
+    grid.appendChild(cardGrid);
+    return;
+  }
+
+  // Showing every region — group under a heading per region, in anatomical order.
+  Object.keys(REGION_LABELS).forEach(r=>{
+    const group = list.filter(ex => ex.region === r);
+    if (!group.length) return;
+    const section = document.createElement('div');
+    section.className = 'region-group';
+    const heading = document.createElement('h3');
+    heading.className = 'region-group-heading';
+    heading.style.setProperty('--region-color', `var(--${r})`);
+    heading.textContent = `${REGION_LABELS[r]} · ${group.length}`;
+    const cardGrid = document.createElement('div');
+    cardGrid.className = 'card-grid';
+    group.forEach(ex => cardGrid.appendChild(buildCard(ex)));
+    section.appendChild(heading);
+    section.appendChild(cardGrid);
+    grid.appendChild(section);
+  });
 }
 
 function addToSheet(ex){
