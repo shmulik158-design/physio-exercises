@@ -139,7 +139,8 @@ const server = http.createServer(async (req, res) => {
         image_file: str(body.id) + '.png',
         default_sets: str(body.default_sets),
         default_reps: str(body.default_reps),
-        instructions_he: str(body.instructions_he) || 'TODO'
+        instructions_he: str(body.instructions_he) || 'TODO',
+        updated_at: new Date().toISOString().slice(0, 10)
       };
 
       const errors = validate(ex, list, isNew || body.id !== body.original_id);

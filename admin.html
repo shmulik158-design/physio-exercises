@@ -147,6 +147,7 @@
   <main class="form-pane">
     <h2 id="formTitle">תרגיל חדש</h2>
     <div class="hint" id="formHint">מלא את השדות וצרף תמונה. השינוי נשמר מקומית, ועולה לאתר בלחיצה על "פרסם לאתר".</div>
+    <div class="hint" id="lastEdited" style="display:none;"></div>
 
     <div class="field">
       <label for="f_name">שם התרגיל (עברית)</label>
@@ -276,6 +277,7 @@ function clearForm(){
   $('f_instructions').value = '';
   $('dropInner').textContent = 'גרור לכאן תמונה, או לחץ לבחירה';
   $('deleteBtn').style.display = 'none';
+  $('lastEdited').style.display = 'none';
   setMsg('', '');
   renderList();
 }
@@ -294,6 +296,12 @@ function loadForEdit(id){
   $('f_instructions').value = ex.instructions_he === 'TODO' ? '' : ex.instructions_he;
   $('dropInner').innerHTML = `<img src="/images/${ex.image_file}?t=${Date.now()}" alt=""><div>התמונה הנוכחית — גרור חדשה כדי להחליף</div>`;
   $('deleteBtn').style.display = '';
+  if (ex.updated_at){
+    $('lastEdited').textContent = `נערך לאחרונה: ${ex.updated_at}`;
+    $('lastEdited').style.display = '';
+  } else {
+    $('lastEdited').style.display = 'none';
+  }
   setMsg('', '');
   renderList();
   window.scrollTo({top:0, behavior:'smooth'});
