@@ -328,5 +328,170 @@
     "default_sets": "3",
     "default_reps": "40-60 שניות",
     "instructions_he": "להישען עם זרוע אחת על גבי משטח מוגבה. פלג הגוף העליון מוטה לכיוון הרצפה. את הזרוע השניה יש להרפות. ליצור תנועה פסיבית בכתף על ידי הנעת הגוף קדימה, אחורה ולצדדים"
+  },
+  {
+    "id": "shoulder_ywt",
+    "name_he": "YWT",
+    "region": "shoulder",
+    "equipment": "none",
+    "image_file": "shoulder_ywt.png",
+    "default_sets": "",
+    "default_reps": "",
+    "instructions_he": "לשכב על הבטן. לבצע הרמה של הזרועות במנחים השונים כפי שמופיע בתמונה. להרים לאט ולהחזיק שניה בקצה הטווח לפני ההורדה.",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "ankle_inversion_band",
+    "name_he": "אינוורשן קרסול כנגד גומייה",
+    "region": "ankle",
+    "equipment": "resistance band",
+    "image_file": "ankle_inversion_band.png",
+    "default_sets": "3",
+    "default_reps": "8-12",
+    "instructions_he": "לעגן את הגומיה על אוביקט חיצוני ועל כף הרגל. לבצע תנועה בכף הרגל כך שתפנה לכיוון הרגל השניה. הירך והברך נשארות ללא תנועה",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "ankle_eversion_band",
+    "name_he": "איוורשן קרסול כנגד גומייה",
+    "region": "ankle",
+    "equipment": "resistance band",
+    "image_file": "ankle_eversion_band.png",
+    "default_sets": "3",
+    "default_reps": "8-12",
+    "instructions_he": "לעגן את הגומיה על אוביקט חיצוני ועל כף הרגל. לבצע תנועה בכף הרגל כך שתפנה הרחק מהרגל השניה. הירך והברך נשארות ללא תנועה",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "knee_quad_sets",
+    "name_he": "קוואד סטס",
+    "region": "knee",
+    "equipment": "none",
+    "image_file": "knee_quad_sets.png",
+    "default_sets": "3",
+    "default_reps": "10-15 חזרות",
+    "instructions_he": "לשכב על הגב. להניח מתחת לברך מגבת מגולגלת. לכווץ את שריר הירך כך שהמגבת נלחצת תחת הברך. להחזיק את הכיווץ 3-5 שניות ולהרפות",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "cervical_flexion",
+    "name_he": "כפיפת צוואר",
+    "region": "cervical",
+    "equipment": "none",
+    "image_file": "cervical_flexion.png",
+    "default_sets": "3-6",
+    "default_reps": "20-40 שניות",
+    "instructions_he": "לבצע כיפוף קדימה של הצוואר כך הסנטר מתקרב אל החזה. לבצע עד תחושת מתיחה קלה. להחזיק במנח לפי יכולת",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "cervical_extension",
+    "name_he": "פשיטה צווארית",
+    "region": "cervical",
+    "equipment": "none",
+    "image_file": "cervical_extension.png",
+    "default_sets": "3-6",
+    "default_reps": "20-40 שניות",
+    "instructions_he": "לבצע פשיטת צוואר כך שהסנטר מתרחק מהחזה והמבט מופנה מעלה עד תחושת מתיחה קלה. לשהות במנח לפי יכולת",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "cervical_lateral_flexion",
+    "name_he": "כפיפת צוואר צדית",
+    "region": "cervical",
+    "equipment": "none",
+    "image_file": "cervical_lateral_flexion.png",
+    "default_sets": "3-6",
+    "default_reps": "20-40 שניות",
+    "instructions_he": "לבצע כפיפה צדית של הצוואר כך שהאוזן מתקרבת אל הכתף תחתיה. לבצע עד תחושת מתיחה. לשהות במנח לפי יכולת",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "cervical_rotation",
+    "name_he": "רוטציה צווארית",
+    "region": "cervical",
+    "equipment": "none",
+    "image_file": "cervical_rotation.png",
+    "default_sets": "3-6",
+    "default_reps": "20-40",
+    "instructions_he": "לבצע תנועת סיבוב צווארי כך שהמבט מופנה אל מעבר לכתף. לבצע עד תחושת מתיחה. לשהות במנח לפי יכולת",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "cervical_lateral_flexion_overpressure",
+    "name_he": "כפיפת צוואר עם אובר פרשר",
+    "region": "cervical",
+    "equipment": "none",
+    "image_file": "cervical_lateral_flexion_overpressure.png",
+    "default_sets": "3-6",
+    "default_reps": "20-40 שניות",
+    "instructions_he": "לבצע הטייה צדית של הצוואר כך שהאוזן מתקרבת לכתף מתחתיה. להוסיף לחץ עדין ע\"י הנחת כף היד באותו צד על הראש. לשהות במנח לפי יכולת",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "knee_extension_okc",
+    "name_he": "פשיטת ברך בשרשרת קינמטית פתוחה",
+    "region": "knee",
+    "equipment": "chair",
+    "image_file": "knee_extension_okc.png",
+    "default_sets": "3",
+    "default_reps": "10-15",
+    "instructions_he": "לשבת זקוף על כיסא, הרגליים מונחות על הקרקע. ליישר רגל אחת, להחזיק 2-3 שניות בקצה הטווח ולהוריד לאט.",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "knee_deep_squat",
+    "name_he": "Deep Squat",
+    "region": "knee",
+    "equipment": "none",
+    "image_file": "knee_deep_squat.png",
+    "default_sets": "3",
+    "default_reps": "8-12",
+    "instructions_he": "לעמוד בפישוק ברוחב כתפיים. לבצע כיפוף בברכיים עמוק ככל הניתן, תוך שמירה על גו זקוף, ולהזדקף בחזרה.",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "knee_flexion_band",
+    "name_he": "כפיפת ברך כנגד גומייה",
+    "region": "knee",
+    "equipment": "resistance band",
+    "image_file": "knee_flexion_band.png",
+    "default_sets": "3",
+    "default_reps": "8-12",
+    "instructions_he": "לשכב על הבטן. לעגן את הגומיה בין שתי הרגליים. רגל אחת נשארת על המשטח בעוד השניה מתכופפת כך שהעקב מתקרב אל עבר הישבן.",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "sh_flexion_dumbbell",
+    "name_he": "כפיפת כתף כנגד משקולת",
+    "region": "shoulder",
+    "equipment": "dumbbell",
+    "image_file": "sh_flexion_dumbbell.png",
+    "default_sets": "3",
+    "default_reps": "8-12",
+    "instructions_he": "להחזיק משקולת ביד אחת. להרים את הזרוע ישרה קדימה ולמעלה לפי יכולת.",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "sh_extension_dumbbell",
+    "name_he": "פשיטת כתף כנגד משקולת",
+    "region": "shoulder",
+    "equipment": "dumbbell",
+    "image_file": "sh_extension_dumbbell.png",
+    "default_sets": "3",
+    "default_reps": "8-12",
+    "instructions_he": "להחזיק משקולת ביד אחת. להרים את הזרוע ישרה הצידה ולמעלה לפי יכולת.",
+    "updated_at": "2026-08-27"
+  },
+  {
+    "id": "hip_deadlift_dumbbell",
+    "name_he": "דדליפט כנגד משקולת",
+    "region": "hip",
+    "equipment": "dumbbell",
+    "image_file": "hip_deadlift_dumbbell.png",
+    "default_sets": "3",
+    "default_reps": "8-12",
+    "instructions_he": "לאחוז משקולת בשתי ידיים בעמידה זקופה, עם כיפוף קל בברכיים. לרכון לפנים תוך שמירה על גו זקוף. על התנועה לבוא מתנועת האגן לאחור בהתכופפות ולפנים בהזדקפות.",
+    "updated_at": "2026-08-27"
   }
 ]

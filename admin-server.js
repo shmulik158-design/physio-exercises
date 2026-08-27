@@ -21,7 +21,7 @@ const PORT = 8765;
 
 // Closed vocabularies — the whole point is that these can't drift.
 const REGIONS = ['shoulder', 'cervical', 'thoracic', 'lumbar', 'hip', 'knee', 'ankle', 'wrist'];
-const EQUIPMENT = ['none', 'resistance band', 'chair', 'wall', 'small ball'];
+const EQUIPMENT = ['none', 'resistance band', 'chair', 'wall', 'small ball', 'dumbbell'];
 
 /* ---------- data helpers ---------- */
 
