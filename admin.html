@@ -118,6 +118,22 @@
   .field .sub{font-size:var(--text-xs); color:var(--ink-soft); margin-top:3px;}
   .row2{display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4);}
 
+  .ru-translation{
+    border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--sp-3) var(--sp-4);
+    margin-bottom:var(--sp-4); background:var(--paper);
+  }
+  .ru-translation summary{
+    display:flex; align-items:center; gap:6px; cursor:pointer; list-style:none;
+    font-size:var(--text-sm); color:var(--ink-soft); font-weight:600;
+  }
+  .ru-translation summary::-webkit-details-marker{display:none;}
+  .ru-translation summary:hover{color:var(--ink);}
+  .ru-translation summary .chevron{width:12px; height:12px; flex:none; transition:transform .15s ease;}
+  .ru-translation[open] summary .chevron{transform:rotate(90deg);}
+  .ru-translation[open] summary{margin-bottom:var(--sp-3);}
+  .ru-translation .field:last-child{margin-bottom:0;}
+  .ru-translation input, .ru-translation textarea{direction:ltr; text-align:right;}
+
   .drop{
     border:2px dashed var(--line); border-radius:var(--radius-md); padding:var(--sp-4); text-align:center;
     color:var(--ink-soft); font-size:var(--text-sm); cursor:pointer; background:#fff;
@@ -214,6 +230,25 @@
       <label for="f_instructions">הוראות למטופל</label>
       <textarea id="f_instructions" placeholder="ההוראות שיודפסו על הדף. אפשר להשאיר ריק ולמלא בהמשך."></textarea>
     </div>
+
+    <details class="ru-translation">
+      <summary>
+        <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        <span>תרגום לרוסית — אופציונלי, להדפסה בלבד</span>
+      </summary>
+      <div class="field">
+        <label for="f_name_ru">שם התרגיל (רוסית)</label>
+        <input id="f_name_ru" type="text" placeholder="ריק = יוצג בעברית בדף המודפס">
+      </div>
+      <div class="field">
+        <label for="f_reps_ru">חזרות או זמן (רוסית)</label>
+        <input id="f_reps_ru" type="text" placeholder="לדוגמה: 10 повторений">
+      </div>
+      <div class="field">
+        <label for="f_instructions_ru">הוראות למטופל (רוסית)</label>
+        <textarea id="f_instructions_ru" placeholder="ריק = יוצג הערה שהתרגום עדיין לא מוכן"></textarea>
+      </div>
+    </details>
 
     <div class="field">
       <label>תמונה</label>
@@ -336,6 +371,7 @@ function clearForm(){
   $('f_region').selectedIndex = 0; $('f_equipment').selectedIndex = 0;
   $('f_sets').value = '3'; $('f_reps').value = '10 חזרות';
   $('f_instructions').value = '';
+  $('f_name_ru').value = ''; $('f_reps_ru').value = ''; $('f_instructions_ru').value = '';
   $('dropInner').textContent = 'גרור לכאן תמונה, או לחץ לבחירה';
   $('deleteBtn').style.display = 'none';
   $('lastEdited').style.display = 'none';
@@ -355,6 +391,9 @@ function loadForEdit(id){
   $('f_sets').value = ex.default_sets;
   $('f_reps').value = ex.default_reps;
   $('f_instructions').value = ex.instructions_he === 'TODO' ? '' : ex.instructions_he;
+  $('f_name_ru').value = ex.name_ru || '';
+  $('f_reps_ru').value = ex.default_reps_ru || '';
+  $('f_instructions_ru').value = ex.instructions_ru || '';
   $('dropInner').innerHTML = `<img src="/images/${ex.image_file}?t=${Date.now()}" alt=""><div>התמונה הנוכחית — גרור חדשה כדי להחליף</div>`;
   $('deleteBtn').style.display = '';
   if (ex.updated_at){
@@ -431,6 +470,9 @@ $('saveBtn').addEventListener('click', async ()=>{
     default_sets: $('f_sets').value.trim(),
     default_reps: $('f_reps').value.trim(),
     instructions_he: $('f_instructions').value,
+    name_ru: $('f_name_ru').value.trim(),
+    default_reps_ru: $('f_reps_ru').value.trim(),
+    instructions_ru: $('f_instructions_ru').value,
     image_data: pendingImage
   };
   setMsg('busy','שומר...');

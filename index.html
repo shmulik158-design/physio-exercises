@@ -180,12 +180,12 @@
   .builder .patient-field{
     font-size:var(--text-sm); color:var(--ink-soft);
   }
-  .builder .patient-field input{
+  .builder .patient-field input, .builder .patient-field select{
     width:100%; margin-top:6px; padding:9px 11px; font-size:var(--text-base);
     border:1px solid var(--line); border-radius:var(--radius-md); font-family:'Assistant',sans-serif;
-    color:var(--ink); transition:border-color .15s ease;
+    color:var(--ink); background:var(--paper-raised); transition:border-color .15s ease;
   }
-  .builder .patient-field input:focus{border-color:var(--teal); outline:none;}
+  .builder .patient-field input:focus, .builder .patient-field select:focus{border-color:var(--teal); outline:none;}
 
   .sheet-list{display:flex; flex-direction:column; gap:var(--sp-3);}
   .sheet-empty{
@@ -386,6 +386,13 @@
   <aside class="builder">
     <h2>הדף הנוכחי</h2>
     <label class="patient-field">
+      שפת ההדפסה
+      <select id="printLanguage">
+        <option value="he">עברית</option>
+        <option value="ru">רוסית — Русский</option>
+      </select>
+    </label>
+    <label class="patient-field">
       המטפל/ת המפיק/ה (חובה להדפסה — יודפס על הדף)
       <input id="therapistName" name="therapist_name" type="text" placeholder="שם מלא" autocomplete="on">
     </label>
@@ -421,7 +428,7 @@
 <!-- PRINT-ONLY SHEET -->
 <div id="print-sheet">
   <div class="p-header">
-    <h1>תוכנית תרגילים</h1>
+    <h1 id="pHeading">תוכנית תרגילים</h1>
     <div class="p-meta">
       <div class="p-therapist" id="pTherapist"></div>
       <div class="p-patient" id="pPatient"></div>
@@ -431,7 +438,7 @@
   <div id="pExercises"></div>
   <div class="p-footer">
     <span id="pFooterCount"></span>
-    <span>בונה דפי תרגילים</span>
+    <span id="pFooterBrand">בונה דפי תרגילים</span>
   </div>
 </div>
 
@@ -452,6 +459,32 @@
 const REGION_LABELS = {
   shoulder:"כתף", cervical:"צוואר", thoracic:"גב עליון",
   lumbar:"גב תחתון", hip:"ירך", knee:"ברך", ankle:"קרסול", wrist:"שורש כף יד"
+};
+
+// Print-only Russian layer. Screen UI stays Hebrew — this exists purely for buildPrintSheet().
+const REGION_LABELS_RU = {
+  shoulder:"Плечо", cervical:"Шея", thoracic:"Верхняя часть спины",
+  lumbar:"Поясница", hip:"Бедро", knee:"Колено", ankle:"Голеностоп", wrist:"Запястье"
+};
+const PRINT_STRINGS = {
+  he: {
+    title: "תוכנית תרגילים",
+    patient: name => `שם: ${name}`,
+    therapist: name => `דף זה הופק ע"י: ${name}`,
+    dose: (sets, reps) => `${sets} סטים × ${reps}`,
+    footerCount: n => `${n} תרגילים`,
+    footerBrand: "בונה דפי תרגילים",
+    instructionsPending: null // n/a — Hebrew is the source language, never "pending"
+  },
+  ru: {
+    title: "План упражнений",
+    patient: name => `Пациент: ${name}`,
+    therapist: name => `Составил(а): ${name}`,
+    dose: (sets, reps) => `${sets} подх. × ${reps}`,
+    footerCount: n => `Упражнений: ${n}`,
+    footerBrand: "Конструктор упражнений",
+    instructionsPending: "(перевод инструкции ещё не готов)"
+  }
 };
 
 // Placeholder line-figure icons per region, shown when an exercise image fails to load.
@@ -728,28 +761,44 @@ function populateRegionFilter(){
 }
 
 function buildPrintSheet(){
+  const lang = document.getElementById('printLanguage').value; // 'he' | 'ru'
+  const strings = PRINT_STRINGS[lang];
+  const regionLabels = lang === 'ru' ? REGION_LABELS_RU : REGION_LABELS;
+
+  document.getElementById('print-sheet').setAttribute('dir', lang === 'ru' ? 'ltr' : 'rtl');
+
   const therapist = document.getElementById('therapistName').value.trim();
-  document.getElementById('pTherapist').textContent = therapist ? `דף זה הופק ע"י: ${therapist}` : '';
+  document.getElementById('pTherapist').textContent = therapist ? strings.therapist(therapist) : '';
   const name = document.getElementById('patientName').value.trim();
-  document.getElementById('pPatient').textContent = name ? `שם: ${name}` : '';
-  document.getElementById('pDate').textContent =
-    new Date().toLocaleDateString('he-IL', { year:'numeric', month:'long', day:'numeric' });
-  document.getElementById('pFooterCount').textContent = `${sheet.length} תרגילים`;
+  document.getElementById('pPatient').textContent = name ? strings.patient(name) : '';
+  document.getElementById('pHeading').textContent = strings.title;
+  document.getElementById('pDate').textContent = new Date().toLocaleDateString(
+    lang === 'ru' ? 'ru-RU' : 'he-IL', { year:'numeric', month:'long', day:'numeric' }
+  );
+  document.getElementById('pFooterCount').textContent = strings.footerCount(sheet.length);
+  document.getElementById('pFooterBrand').textContent = strings.footerBrand;
 
   const container = document.getElementById('pExercises');
   container.innerHTML = '';
   sheet.forEach((s, idx)=>{
+    const ex = s.ex;
+    const exName = lang === 'ru' ? (ex.name_ru || ex.name_he) : ex.name_he;
+    const reps = lang === 'ru' ? (ex.default_reps_ru || s.reps) : s.reps;
+    const instructions = lang === 'ru'
+      ? (ex.instructions_ru || strings.instructionsPending)
+      : s.instructions;
+
     const div = document.createElement('div');
     div.className = 'p-exercise';
-    div.style.setProperty('--region-color', `var(--${s.ex.region})`);
+    div.style.setProperty('--region-color', `var(--${ex.region})`);
     div.innerHTML = `
       <div class="p-num">${idx+1}</div>
-      <div class="p-thumb"><img src="./images/${s.ex.image_file}" alt="${s.ex.name_he}"></div>
+      <div class="p-thumb"><img src="./images/${ex.image_file}" alt="${exName}"></div>
       <div>
-        <h3>${s.ex.name_he}</h3>
-        <div class="p-region">${REGION_LABELS[s.ex.region]}</div>
-        <div class="p-dose">${s.sets} סטים × ${s.reps}${s.intensity ? ' — ' + s.intensity : ''}</div>
-        <div class="p-instructions">${s.instructions}</div>
+        <h3>${exName}</h3>
+        <div class="p-region">${regionLabels[ex.region]}</div>
+        <div class="p-dose">${strings.dose(s.sets, reps)}${s.intensity ? ' — ' + s.intensity : ''}</div>
+        <div class="p-instructions">${instructions}</div>
       </div>
     `;
     container.appendChild(div);
