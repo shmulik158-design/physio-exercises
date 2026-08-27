@@ -297,7 +297,8 @@
     "image_file": "thoracic_extension_sitting.png",
     "default_sets": "3",
     "default_reps": "10 חזרות",
-    "instructions_he": "TODO"
+    "instructions_he": "לשכב על כיסא עם משענת. להניח את הידיים שלובות על העורף. לבצע יישור של הגו כך שהמרפקים יפנו מעלה לכיוון התקרה",
+    "updated_at": "2026-08-27"
   },
   {
     "id": "ankle_heel_raises_band",
@@ -335,8 +336,8 @@
     "region": "shoulder",
     "equipment": "none",
     "image_file": "shoulder_ywt.png",
-    "default_sets": "",
-    "default_reps": "",
+    "default_sets": "3",
+    "default_reps": "10 חזרות לכל מנח",
     "instructions_he": "לשכב על הבטן. לבצע הרמה של הזרועות במנחים השונים כפי שמופיע בתמונה. להרים לאט ולהחזיק שניה בקצה הטווח לפני ההורדה.",
     "updated_at": "2026-08-27"
   },
