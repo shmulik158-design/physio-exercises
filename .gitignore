@@ -6,3 +6,6 @@
 
 # Superseded duplicate of index.html
 exercise-sheet-app.html
+
+# Admin tool password (salted hash only, but still never belongs in git).
+admin-auth.json
