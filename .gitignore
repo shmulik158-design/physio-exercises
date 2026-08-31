@@ -9,3 +9,6 @@ exercise-sheet-app.html
 
 # Admin tool password (salted hash only, but still never belongs in git).
 admin-auth.json
+
+# Stdout redirect from manually-started admin-server.js runs.
+admin-server-runtime.log
