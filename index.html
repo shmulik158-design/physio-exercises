@@ -247,6 +247,12 @@
   }
   .dosage .field.field-intensity input{font-family:'Assistant',sans-serif;}
   .dosage .field input:focus{border-color:var(--teal); outline:none;}
+  .quick-note-picker{
+    margin-top:4px; width:100%; border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:5px 7px; font-family:'Assistant',sans-serif; font-size:var(--text-2xs); color:var(--ink-soft);
+    background:var(--paper-raised); transition:border-color .15s ease;
+  }
+  .quick-note-picker:focus{border-color:var(--teal); outline:none; color:var(--ink);}
 
   .instr-edit{border-top:1px solid var(--line); padding-top:var(--sp-2);}
   .instr-edit summary{
@@ -531,6 +537,12 @@ function formatShortDate(iso){
 }
 
 let EXERCISES = [];
+let QUICK_NOTES = [];
+
+fetch('./quick-notes.json')
+  .then(r => r.ok ? r.json() : [])
+  .then(notes => { QUICK_NOTES = Array.isArray(notes) ? notes : []; })
+  .catch(() => { QUICK_NOTES = []; }); // missing file = no bank yet, not an error the therapist needs to see
 
 fetch('./exercises.json')
   .then(r => r.json())
@@ -729,6 +741,11 @@ function renderSheet(){
         <div class="field field-intensity">
           <label>הערות מטפל <span class="hint">— לא חובה</span></label>
           <input type="text" class="intensity-input" value="${s.intensity}">
+          ${QUICK_NOTES.length ? `
+          <select class="quick-note-picker" aria-label="הוסף הערה שמורה">
+            <option value="">+ הוסף הערה שמורה…</option>
+            ${QUICK_NOTES.map(n => `<option value="${n}">${n}</option>`).join('')}
+          </select>` : ''}
         </div>
       </div>
       <details class="instr-edit">
@@ -744,6 +761,15 @@ function renderSheet(){
     row.querySelector('.sets-input').addEventListener('input', e=> s.sets = e.target.value);
     row.querySelector('.reps-input').addEventListener('input', e=> s.reps = e.target.value);
     row.querySelector('.intensity-input').addEventListener('input', e=> s.intensity = e.target.value);
+    const notePicker = row.querySelector('.quick-note-picker');
+    if (notePicker) notePicker.addEventListener('change', e=>{
+      const note = e.target.value;
+      if (!note) return;
+      const field = row.querySelector('.intensity-input');
+      field.value = field.value.trim() ? `${field.value.trim()}; ${note}` : note;
+      s.intensity = field.value;
+      e.target.value = '';
+    });
     row.querySelector('.up').addEventListener('click', ()=> moveInSheet(s.ex.id, -1));
     row.querySelector('.down').addEventListener('click', ()=> moveInSheet(s.ex.id, 1));
     row.querySelector('.del').addEventListener('click', ()=> removeFromSheet(s.ex.id));

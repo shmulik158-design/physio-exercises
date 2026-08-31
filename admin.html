@@ -77,6 +77,24 @@
     transition:border-color .15s ease;
   }
   .list-filters select:focus{border-color:var(--teal); outline:none;}
+
+  .quick-notes-bank{border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--sp-3);}
+  .quick-notes-bank summary{
+    display:flex; align-items:center; gap:6px; cursor:pointer; list-style:none;
+    font-size:var(--text-sm); color:var(--ink-soft); font-weight:600;
+  }
+  .quick-notes-bank summary::-webkit-details-marker{display:none;}
+  .quick-notes-bank summary:hover{color:var(--ink);}
+  .quick-notes-bank summary .chevron{width:12px; height:12px; flex:none; transition:transform .15s ease;}
+  .quick-notes-bank[open] summary .chevron{transform:rotate(90deg);}
+  .quick-notes-bank[open] summary{margin-bottom:var(--sp-2);}
+  .quick-notes-bank .sub{font-size:var(--text-xs); color:var(--ink-soft); margin-bottom:var(--sp-2);}
+  .quick-notes-bank textarea{
+    width:100%; padding:8px 10px; font-size:var(--text-sm); font-family:inherit; color:var(--ink);
+    border:1px solid var(--line); border-radius:var(--radius-sm); resize:vertical; margin-bottom:var(--sp-2);
+  }
+  .quick-notes-bank textarea:focus{border-color:var(--teal); outline:none;}
+  .quick-notes-bank .msg{margin-top:var(--sp-2);}
   #list{display:flex; flex-direction:column; gap:4px;}
   .list-region-heading{
     display:flex; align-items:center; gap:6px;
@@ -175,6 +193,16 @@
 <div class="layout">
 
   <aside class="list-pane">
+    <details class="quick-notes-bank">
+      <summary>
+        <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        <span>בנק הערות מהירות</span>
+      </summary>
+      <div class="sub">שורה אחת = הערה אחת. אלה יופיעו כבחירה מהירה בשדה "הערות מטפל" בעמוד ההדפסה.</div>
+      <textarea id="quickNotesText" rows="6" placeholder="רגל חזקה קדמית&#10;לעבוד עם משקל קל"></textarea>
+      <button class="btn-ghost" id="saveQuickNotesBtn" type="button">שמור בנק הערות</button>
+      <div class="msg" id="quickNotesMsg"></div>
+    </details>
     <input class="search" id="search" type="text" placeholder="חיפוש במאגר...">
     <div class="list-filters">
       <select id="listRegionFilter"><option value="">כל האזורים</option></select>
@@ -305,8 +333,26 @@ fetch('/api/data').then(r=>r.json()).then(d=>{
     $('f_equipment').appendChild(o);
   });
   EXERCISES = d.exercises;
+  $('quickNotesText').value = (d.quickNotes || []).join('\n');
   renderList();
 }).catch(()=> setMsg('err', 'לא הצלחתי להתחבר לשרת המקומי. ודא שהחלון השחור עדיין פתוח.'));
+
+$('saveQuickNotesBtn').addEventListener('click', async ()=>{
+  const notes = $('quickNotesText').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const msg = $('quickNotesMsg');
+  msg.className = 'msg busy'; msg.textContent = 'שומר...';
+  try {
+    const r = await fetch('/api/quick-notes', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ notes })
+    });
+    const d = await r.json();
+    if (!d.ok) { msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה'; return; }
+    $('quickNotesText').value = d.quickNotes.join('\n');
+    msg.className = 'msg ok'; msg.textContent = `נשמר — ${d.quickNotes.length} הערות. לחץ "פרסם לאתר" כדי שיופיעו גם באתר הציבורי.`;
+  } catch (e) {
+    msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה: ' + e.message;
+  }
+});
 
 /* ---------- list ---------- */
 function buildExRow(ex){

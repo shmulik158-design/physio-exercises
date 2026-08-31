@@ -19,6 +19,7 @@ const ROOT = __dirname;
 const JSON_PATH = path.join(ROOT, 'exercises.json');
 const IMAGES_DIR = path.join(ROOT, 'images');
 const AUTH_PATH = path.join(ROOT, 'admin-auth.json'); // gitignored — holds only a salted hash, never the password itself
+const QUICK_NOTES_PATH = path.join(ROOT, 'quick-notes.json');
 const PORT = 8765;
 
 // Closed vocabularies — the whole point is that these can't drift.
@@ -44,6 +45,19 @@ function writeExercises(list) {
   const tmp = JSON_PATH + '.tmp';
   fs.writeFileSync(tmp, JSON.stringify(list, null, 2) + '\n', 'utf8');
   fs.renameSync(tmp, JSON_PATH);
+}
+
+function readQuickNotes() {
+  if (!fs.existsSync(QUICK_NOTES_PATH)) return [];
+  let raw = fs.readFileSync(QUICK_NOTES_PATH, 'utf8');
+  if (raw.charCodeAt(0) === 0xFEFF) raw = raw.slice(1);
+  return JSON.parse(raw);
+}
+
+function writeQuickNotes(list) {
+  const tmp = QUICK_NOTES_PATH + '.tmp';
+  fs.writeFileSync(tmp, JSON.stringify(list, null, 2) + '\n', 'utf8');
+  fs.renameSync(tmp, QUICK_NOTES_PATH);
 }
 
 function validate(ex, existing, isNew) {
@@ -235,8 +249,17 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, {
         regions: REGIONS,
         equipment: EQUIPMENT,
-        exercises: readExercises()
+        exercises: readExercises(),
+        quickNotes: readQuickNotes()
       });
+    }
+
+    // --- replace the whole quick-notes bank (a short reusable-phrase list, not per-exercise) ---
+    if (req.method === 'POST' && route === '/api/quick-notes') {
+      const body = await readBody(req);
+      const list = Array.isArray(body.notes) ? body.notes.map(str).filter(Boolean) : [];
+      writeQuickNotes(list);
+      return sendJSON(res, 200, { ok: true, quickNotes: list });
     }
 
     // --- create / update one exercise ---
@@ -309,7 +332,7 @@ const server = http.createServer(async (req, res) => {
       // into one generic "publish failed" message.
       let committed = false;
       try {
-        git(['add', 'exercises.json', 'images', 'index.html', 'admin.html', 'admin-server.js', 'add-exercise.bat']);
+        git(['add', 'exercises.json', 'quick-notes.json', 'images', 'index.html', 'admin.html', 'admin-server.js', 'add-exercise.bat']);
         const status = git(['status', '--porcelain']).trim();
         if (!status) return sendJSON(res, 200, { ok: true, message: 'אין שינויים חדשים לפרסום' });
 
