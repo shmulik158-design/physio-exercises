@@ -428,9 +428,6 @@
       <span>הפק דף להדפסה</span>
     </button>
     <div class="note">
-      כל הפקת דף שומרת גם עותק קטן בתיקיית ההורדות (בלי שם מטופל) — תיעוד של מה שהודפס בפועל, למקרה שההנחיה תשתנה בעתיד.
-    </div>
-    <div class="note">
       הערות, בקשות, או תרגיל שלא מתאים לך? <a href="mailto:shmulik158@gmail.com">shmulik158@gmail.com</a>
     </div>
     <div class="note">
@@ -577,7 +574,7 @@ function init(){
     document.getElementById('regionFilter').addEventListener('change', renderGrid);
     document.getElementById('equipmentFilter').addEventListener('change', renderGrid);
     document.getElementById('therapistName').addEventListener('input', updatePrintButtonState);
-    document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); savePrintSnapshot(); window.print(); });
+    document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
     initialized = true;
   }
   updatePrintButtonState();
@@ -796,46 +793,6 @@ function populateRegionFilter(){
     opt.value = r; opt.textContent = REGION_LABELS[r];
     regionSelect.appendChild(opt);
   });
-}
-
-// Append-only audit trail for content drift: what did the printed sheet actually say,
-// and when. Deliberately excludes the patient's name — that identity lives on the paper
-// itself (or the clinic's own patient file), never in a log that can't be corrected or
-// erased on request. One JSON file per print, named by timestamp; nothing is ever
-// overwritten, so there's nothing here to edit after the fact.
-function savePrintSnapshot(){
-  const lang = document.getElementById('printLanguage').value;
-  const now = new Date();
-  const snapshot = {
-    logged_at: now.toISOString(),
-    therapist: document.getElementById('therapistName').value.trim(),
-    language: lang,
-    exercises: sheet.map(s => {
-      const ex = s.ex;
-      return {
-        id: ex.id,
-        name: lang === 'ru' ? (ex.name_ru || ex.name_he) : ex.name_he,
-        region: ex.region,
-        sets: s.sets,
-        reps: lang === 'ru' ? (ex.default_reps_ru || s.reps) : s.reps,
-        therapist_note: s.intensity || '',
-        instructions: lang === 'ru' ? (ex.instructions_ru || '') : s.instructions
-      };
-    })
-  };
-  const stamp = now.toISOString().replace(/[:.]/g, '-');
-  // Therapist name in the filename too — helps when files from more than one
-  // computer end up sorted together later (see HANDOFF.md).
-  const safeName = snapshot.therapist.replace(/[\\/:*?"<>|]/g, '').trim().replace(/\s+/g, '-');
-  const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `print-log_${stamp}${safeName ? '_' + safeName : ''}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 }
 
 function buildPrintSheet(){
