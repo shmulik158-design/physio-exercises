@@ -1,14 +1,15 @@
 # מאגר תרגילי פיזיותרפיה — Handoff Document
 
 ## סטטוס — Production Ready
-- ✅ אתר ציבורי (30 תרגילים, עברית, הדפסה) — https://shmulik158-design.github.io/physio-exercises/
+- ✅ אתר ציבורי (**51 תרגילים** — עדכון אחרון: 2026-08-31, ראו "Files in Repo" — עברית + רוסית להדפסה) — https://shmulik158-design.github.io/physio-exercises/
 - ✅ **עיצוב מלא בוצע על `index.html`** (2026-08-14) — type scale, spacing scale, הדפסה מורחבת, עריכת הוראות פר-הדפסה. פורסם ואומת חי.
 - ✅ **`admin.html` עודכן לאותם טוקנים** (2026-08-14) — אותו type scale, spacing scale, רדיוס, ואייקון מותג בכותרת. נבדק מול השרת האמיתי (read-only).
 - ✅ כלי ניהול מקומי (הוספה/עריכה/מחיקה/publish) — Node.js, Windows `.bat` launcher.
 - ✅ **סיסמה על כלי הניהול** (2026-08-30) — ראו "אבטחה" למטה. ⚠️ **דורש הפעלה מחדש של `add-exercise.bat` — בפעם הראשונה אחרי ההפעלה מחדש תופיע מסך "הגדרת סיסמה" במקום הכלי הרגיל, זה צפוי ולא תקלה.** (לוג הדפסה append-only נבנה גם הוא ב-2026-08-30, אך **הוסר** ב-2026-08-31 — ראו "Print log — נבנה ואז הוסר" למטה.)
-- ✅ תמונות (512×512px, lazy-loaded)
-- ✅ 30 הוראות עברית מלאות
+- ✅ תמונות (512×512px, lazy-loaded, 51 קבצים)
+- ✅ הוראות עברית מלאות + שכבת תרגום רוסית (ראו "שכבת הדפסה ברוסית")
 - ✅ תיקונים: atomic writes, commit/push distinction, OneDrive backup, print layout fix
+- ✅ **מספרים בדוק הזה מתעדכנים לאט יותר מהקוד בפועל.** אם ספירה חשובה לך — `python -c "import json; print(len(json.load(open('exercises.json',encoding='utf-8'))))"` נותן את המספר האמיתי תוך שנייה, במקום לסמוך על מה שכתוב כאן.
 
 ---
 
@@ -157,17 +158,19 @@
 
 ## חלק 2️⃣ — BACKEND DEVELOPER
 
-**ללא שינוי מהסבב הזה** — כל העיצוב מחדש היה client-side בלבד (`index.html`), ה-API והשרת לא נגעו בהם.
+**מעודכן ל-2026-08-31.** העיצוב היה client-side בלבד, אבל ה-API עצמו **כן** השתנה מאז שהקטע הזה נכתב לראשונה — סיסמה, `core`, `dumbbell`, שכבת רוסית, ו-quick-notes כולם נוספו אחרי. ראו גם "אבטחה" ו-"בנק הערות מהירות" למטה לפרטים המלאים; כאן רק הסכימה המעודכנת.
 
-### API Specification
+### ⚠️ כל route דורש Basic Auth (מ-2026-08-30)
+
+**כולל `GET /api/data`, `/images/*`, ואפילו `admin.html` עצמו.** בלי `Authorization: Basic ...` תקין — `401`. אין לזה קשר לדוגמאות למטה (הן משמיטות את זה לשם קיצור), אבל זו לא בדיחה: כל קריאה, כולל GET, נדחית בלי הסיסמה. Claude לא מחזיק את הסיסמה ולא אמור לנסות — ראו "השפעה על workflow של Claude" תחת "אבטחה" למטה.
 
 #### GET `/api/data`
 
 **Response:**
 ```json
 {
-  "regions": ["shoulder", "cervical", "thoracic", "lumbar", "hip", "knee", "ankle", "wrist"],
-  "equipment": ["none", "resistance band", "chair", "wall", "small ball"],
+  "regions": ["shoulder", "cervical", "thoracic", "lumbar", "hip", "knee", "ankle", "wrist", "core"],
+  "equipment": ["none", "resistance band", "chair", "wall", "small ball", "dumbbell"],
   "exercises": [
     {
       "id": "hip_bridge",
@@ -178,10 +181,14 @@
       "default_sets": "3",
       "default_reps": "12 חזרות",
       "instructions_he": "...",
-      "updated_at": "2026-08-19"    // אופציונלי — ראו "Version Tracking" למטה
+      "name_ru": "...",              // אופציונלי, ריק = טרם תורגם — ראו "שכבת הדפסה ברוסית"
+      "instructions_ru": "...",      // אופציונלי
+      "default_reps_ru": "...",      // אופציונלי
+      "updated_at": "2026-08-19"     // אופציונלי — ראו "Version Tracking" למטה
     }
-    // ... 30 כולל
-  ]
+    // ... 51 כולל, ראו הערת הספירה למעלה
+  ],
+  "quickNotes": ["רגל חזקה קדמית", "..."]   // חדש 2026-08-31 — ראו "בנק הערות מהירות"
 }
 ```
 
@@ -193,13 +200,29 @@
   "original_id": "hip_bridge",     // שדה זה מטפל בשינויי id
   "id": "hip_bridge",              // snake_case בלבד: ^[a-z0-9_]+$
   "name_he": "הרמות אגן",
-  "region": "hip",                 // חייב במילון
-  "equipment": "none",             // חייב במילון
+  "region": "hip",                 // חייב במילון (9 ערכים, כולל core)
+  "equipment": "none",             // חייב במילון (6 ערכים, כולל dumbbell)
   "default_sets": "3",
   "default_reps": "12 חזרות",      // free text כולל יחידה
   "instructions_he": "...",
+  "name_ru": "",                   // אופציונלי, לא ולידציה — ראו שכבת רוסית
+  "instructions_ru": "",
+  "default_reps_ru": "",
   "image_data": "data:image/png;base64,..."  // optional
 }
+```
+
+#### POST `/api/quick-notes` — חדש (2026-08-31)
+
+**Request:**
+```json
+{ "notes": ["רגל חזקה קדמית", "לעבוד עם משקל קל"] }
+```
+מחליף את **כל** הרשימה (לא append) — שרתי מסנן שורות ריקות (`str().filter(Boolean)`). אין ולידציה נוספת מעבר לזה.
+
+**Response:**
+```json
+{ "ok": true, "quickNotes": ["רגל חזקה קדמית", "לעבוד עם משקל קל"] }
 ```
 
 **Response (200 OK):**
@@ -312,7 +335,7 @@ fs.writeFileSync(path.join(IMAGES_DIR, ex.image_file), Buffer.from(b64, 'base64'
 - `admin.html` — "נערך לאחרונה: {תאריך}" בטופס העריכה, מוסתר כשאין ערך (`updated_at` undefined ברשומות ישנות).
 - `index.html` (הספרייה הציבורית) — "עודכן DD.MM.YY" כתווית קטנה על הכרטיס, רק כשקיים.
 
-**החלטת מיגרציה מכוונת**: 30 הרשומות הקיימות **לא קיבלו backfill** לתאריך מזויף — זה היה יוצר רושם שווא שכולן נערכו היום. הן ישארו בלי `updated_at` עד שיישמרו מחדש דרך `admin.html` בפעם הבאה שמישהו עורך אותן.
+**החלטת מיגרציה מכוונת**: 30 הרשומות שהיו קיימות **אז** (2026-08-19, לפני שהמאגר גדל ל-51) **לא קיבלו backfill** לתאריך מזויף — זה היה יוצר רושם שווא שכולן נערכו היום. הן ישארו בלי `updated_at` עד שיישמרו מחדש דרך `admin.html` בפעם הבאה שמישהו עורך אותן.
 
 **מקור**: זיהוי מ-council session (3 מתוך 5 יועצי LLM, ללא תיאום, הצביעו על "content drift בלי גרסתיות" כסיכון) — ראו "החלטות שהתקבלו" למעלה. פותר רק את החלק הזול/מיידי (תג "עודכן"); לא פותר snapshotting מלא של מה בדיוק הודפס למטופל ספציפי — זה עדיין לא בנוי.
 
@@ -450,19 +473,24 @@ const str = v => (v === null || v === undefined ? '' : String(v)).trim();
 
 ## Files in Repo
 
+**רשימה זו נבדקה מול `ls` בפועל ב-2026-08-31** — לא שוחזרה מזיכרון. אם היא מרגישה לא מעודכנת בפעם הבאה, תריצו `ls` שוב במקום לתקן ידנית לפי ניחוש.
+
 **Public:**
-- `index.html` (two-pane + print sheet — **עבר עיצוב מחדש מלא, 2026-08-14**)
-- `exercises.json` (30 rows)
-- `images/` (30 PNG files, 512×512)
+- `index.html` (two-pane + print sheet, שכבת הדפסה עברית/רוסית)
+- `exercises.json` (51 records)
+- `quick-notes.json` (רשימת "בנק הערות מהירות" — חדש 2026-08-31)
+- `images/` (51 PNG files, 512×512)
+- `LICENSE` (MIT לקוד בלבד, ראו "Future Paths" #9)
 
 **Admin:**
-- `admin.html` (form UI, עברית — **עודכן לאותם טוקנים עיצוביים, 2026-08-14**)
-- `admin-server.js` (Node.js HTTP server, no deps)
+- `admin.html` (form UI, עברית)
+- `admin-server.js` (Node.js HTTP server, no deps, **מוגן בסיסמה מ-2026-08-30**)
 - `add-exercise.bat` (launcher, Windows)
+- `admin-auth.json` — **gitignored**, נוצר אוטומטית בהפעלה ראשונה אחרי הגדרת סיסמה. לא קיים בריפו, קיים רק על המחשב שהרץ את השרת.
 
 **Documentation:**
 - `HANDOFF.md` (הקובץ הזה)
-- `.gitignore` (תמונות מקור excluded)
+- `.gitignore` — מחריג: תמונות מקור בגודל מלא, `admin-auth.json`, `admin-server-runtime.log`, קובץ כפול ישן (`exercise-sheet-app.html`)
 - GitHub Pages deployment (automatic on push, ~40s build)
 
 ---
