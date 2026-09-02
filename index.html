@@ -291,6 +291,34 @@
   .print-btn:not(:disabled):hover{background:var(--teal-dark);}
   .print-btn:not(:disabled):active{transform:translateY(1px);}
 
+  .doc-copy{
+    border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--sp-3);
+  }
+  .doc-copy summary{
+    display:flex; align-items:center; gap:6px; cursor:pointer; list-style:none;
+    font-family:'Roboto Mono',monospace; font-size:var(--text-2xs); color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:.04em; transition:color .15s ease;
+  }
+  .doc-copy summary::-webkit-details-marker{display:none;}
+  .doc-copy summary:hover{color:var(--ink);}
+  .doc-copy summary .chevron{width:11px; height:11px; flex:none; transition:transform .15s ease;}
+  .doc-copy[open] summary .chevron{transform:rotate(90deg);}
+  .doc-copy textarea{
+    width:100%; margin-top:var(--sp-2); padding:8px 10px; font-family:'Roboto Mono',monospace;
+    font-size:var(--text-xs); line-height:1.6; color:var(--ink); background:var(--paper-raised);
+    border:1px solid var(--line); border-radius:var(--radius-sm); resize:vertical;
+  }
+  .doc-copy textarea:focus{border-color:var(--teal); outline:none;}
+  .doc-copy .copy-row{display:flex; align-items:center; gap:var(--sp-3); margin-top:var(--sp-2);}
+  .doc-copy .copy-btn{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:6px 12px; font-family:'Assistant',sans-serif; font-size:var(--text-xs); font-weight:600;
+    color:var(--teal); cursor:pointer; transition:background .15s ease, border-color .15s ease;
+  }
+  .doc-copy .copy-btn:hover{background:var(--paper-raised); border-color:var(--teal-dim);}
+  .doc-copy .copy-confirm{font-size:var(--text-2xs); color:var(--teal-dim); opacity:0; transition:opacity .15s ease;}
+  .doc-copy .copy-confirm.show{opacity:1;}
+
   .note{
     font-size:var(--text-2xs); color:var(--ink-soft); line-height:1.5;
     border-top:1px solid var(--line); padding-top:var(--sp-3);
@@ -422,6 +450,17 @@
         <span>עדיין לא נבחרו תרגילים</span>
       </div>
     </div>
+    <details class="doc-copy" id="docCopy" hidden>
+      <summary>
+        <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        <span>רשימה להעתקה לתיעוד</span>
+      </summary>
+      <textarea id="docSummary" rows="4" readonly aria-label="רשימת תרגילים ומינון להעתקה"></textarea>
+      <div class="copy-row">
+        <button type="button" class="copy-btn" id="copyDocBtn">העתק</button>
+        <span class="copy-confirm" id="copyConfirm">הועתק ✓</span>
+      </div>
+    </details>
     <button class="print-btn" id="printBtn" disabled>
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
         <path d="M5 8V3h10v5M5 8H3.5A1.5 1.5 0 0 0 2 9.5v4A1.5 1.5 0 0 0 3.5 15H5m10-7h1.5A1.5 1.5 0 0 1 18 9.5v4a1.5 1.5 0 0 1-1.5 1.5H15m-10 0v3h10v-3m-10 0h10"/>
@@ -576,6 +615,21 @@ function init(){
     document.getElementById('equipmentFilter').addEventListener('change', renderGrid);
     document.getElementById('therapistName').addEventListener('input', updatePrintButtonState);
     document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
+    document.getElementById('copyDocBtn').addEventListener('click', async ()=>{
+      const text = document.getElementById('docSummary').value;
+      const confirm = document.getElementById('copyConfirm');
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (err) {
+        // Clipboard API unavailable (e.g. non-HTTPS context) — fall back to select + manual copy.
+        const ta = document.getElementById('docSummary');
+        ta.focus();
+        ta.select();
+      }
+      confirm.classList.add('show');
+      clearTimeout(confirm._hideTimer);
+      confirm._hideTimer = setTimeout(()=> confirm.classList.remove('show'), 1800);
+    });
     initialized = true;
   }
   updatePrintButtonState();
@@ -685,8 +739,20 @@ function updatePrintButtonState(){
   else btn.title = '';
 }
 
+function buildDocSummary(){
+  return sheet.map(s => `${s.ex.name_he} – ${s.sets} × ${s.reps}`).join('\n');
+}
+
+function updateDocSummary(){
+  const panel = document.getElementById('docCopy');
+  panel.hidden = sheet.length === 0;
+  if (sheet.length === 0) return;
+  document.getElementById('docSummary').value = buildDocSummary();
+}
+
 function renderSheet(){
   const list = document.getElementById('sheetList');
+  updateDocSummary();
   if (sheet.length===0){
     list.innerHTML = `
       <div class="sheet-empty">
@@ -756,8 +822,8 @@ function renderSheet(){
         <button type="button" class="reset-instructions">אפס לברירת מחדל</button>
       </details>
     `;
-    row.querySelector('.sets-input').addEventListener('input', e=> s.sets = e.target.value);
-    row.querySelector('.reps-input').addEventListener('input', e=> s.reps = e.target.value);
+    row.querySelector('.sets-input').addEventListener('input', e=>{ s.sets = e.target.value; updateDocSummary(); });
+    row.querySelector('.reps-input').addEventListener('input', e=>{ s.reps = e.target.value; updateDocSummary(); });
     row.querySelector('.intensity-input').addEventListener('input', e=> s.intensity = e.target.value);
     const notePicker = row.querySelector('.quick-note-picker');
     if (notePicker) notePicker.addEventListener('change', e=>{
