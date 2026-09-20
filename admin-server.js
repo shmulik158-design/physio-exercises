@@ -110,6 +110,21 @@ function isAuthorized(req) {
   return checkPassword(password);
 }
 
+// CSRF guard for state-changing requests. Basic-Auth credentials are cached
+// by the browser per-origin and attached automatically to any request to
+// that origin, including a hidden cross-site <form> POST from an unrelated
+// tab — the password gate alone doesn't stop that. `admin.html` only ever
+// calls these routes same-origin, so rejecting anything else costs nothing
+// legitimate. Sec-Fetch-Site (sent by all modern browsers) is the strong
+// signal; Origin is the fallback for anything that doesn't send it.
+function isSameOriginRequest(req) {
+  const site = req.headers['sec-fetch-site'];
+  if (site && site !== 'same-origin' && site !== 'none') return false;
+  const origin = req.headers['origin'];
+  if (origin && origin !== `http://localhost:${PORT}` && origin !== `http://127.0.0.1:${PORT}`) return false;
+  return true;
+}
+
 function sendAuthRequired(res) {
   // Header VALUES must be Latin1 — Node throws on non-ASCII here, so the realm
   // stays in English even though everything the user actually reads is Hebrew.
@@ -210,6 +225,7 @@ const server = http.createServer(async (req, res) => {
         return res.end(SETUP_PAGE);
       }
       if (req.method === 'POST' && route === '/api/setup-password') {
+        if (!isSameOriginRequest(req)) { res.writeHead(403); return res.end(); }
         const raw = await readRawBody(req);
         const params = new URLSearchParams(raw);
         const password = params.get('password') || '';
@@ -227,6 +243,11 @@ const server = http.createServer(async (req, res) => {
 
     // --- password is set — everything below requires it ---
     if (!isAuthorized(req)) return sendAuthRequired(res);
+
+    // --- state-changing requests must be same-origin (see isSameOriginRequest) ---
+    if (req.method === 'POST' && !isSameOriginRequest(req)) {
+      return sendJSON(res, 403, { ok: false, errors: ['הבקשה נדחתה מטעמי אבטחה (מקור לא תואם).'] });
+    }
 
     // --- static: the admin page itself ---
     if (req.method === 'GET' && (route === '/' || route === '/admin.html')) {
@@ -296,8 +317,15 @@ const server = http.createServer(async (req, res) => {
       } else if (isNew) {
         return sendJSON(res, 400, { ok: false, errors: ['חובה לצרף תמונה לתרגיל חדש'] });
       } else if (body.id !== body.original_id) {
-        // Renamed id with no new image — carry the old file over.
-        const oldFile = path.join(IMAGES_DIR, body.original_id + '.png');
+        // Renamed id with no new image — carry the old file over. original_id
+        // reaches the filesystem below, so it must pass the same closed
+        // character set as any other id — otherwise a crafted value like
+        // "../../../whatever" could move an arbitrary file into images/.
+        const originalId = str(body.original_id);
+        if (!/^[a-z0-9_]+$/.test(originalId)) {
+          return sendJSON(res, 400, { ok: false, errors: ['מזהה קודם לא תקין'] });
+        }
+        const oldFile = path.join(IMAGES_DIR, originalId + '.png');
         if (fs.existsSync(oldFile)) fs.renameSync(oldFile, path.join(IMAGES_DIR, ex.image_file));
       }
 
