@@ -198,8 +198,8 @@
         <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
         <span>בנק הערות מהירות</span>
       </summary>
-      <div class="sub">שורה אחת = הערה אחת. אלה יופיעו כבחירה מהירה בשדה "הערות מטפל" בעמוד ההדפסה.</div>
-      <textarea id="quickNotesText" rows="6" placeholder="רגל חזקה קדמית&#10;לעבוד עם משקל קל"></textarea>
+      <div class="sub">שורה אחת = הערה אחת, בפורמט: עברית | Русский. התרגום לרוסית אופציונלי — הוא יודפס בדף הרוסי במקום העברית.</div>
+      <textarea id="quickNotesText" rows="6" dir="auto" placeholder="רגל חזקה קדמית | Сильная нога впереди&#10;לעבוד עם משקל קל | Работайте с лёгким весом"></textarea>
       <button class="btn-ghost" id="saveQuickNotesBtn" type="button">שמור בנק הערות</button>
       <div class="msg" id="quickNotesMsg"></div>
     </details>
@@ -333,12 +333,23 @@ fetch('/api/data').then(r=>r.json()).then(d=>{
     $('f_equipment').appendChild(o);
   });
   EXERCISES = d.exercises;
-  $('quickNotesText').value = (d.quickNotes || []).join('\n');
+  $('quickNotesText').value = notesToLines(d.quickNotes || []);
   renderList();
 }).catch(()=> setMsg('err', 'לא הצלחתי להתחבר לשרת המקומי. ודא שהחלון השחור עדיין פתוח.'));
 
+// textarea line <-> { he, ru }:  "עברית | Русский"  (the Russian half is optional)
+function notesToLines(notes){
+  return notes.map(n => n.ru ? `${n.he} | ${n.ru}` : n.he).join('\n');
+}
+function linesToNotes(text){
+  return text.split('\n').map(line => {
+    const [he, ...rest] = line.split('|');
+    return { he: he.trim(), ru: rest.join('|').trim() };
+  }).filter(n => n.he);
+}
+
 $('saveQuickNotesBtn').addEventListener('click', async ()=>{
-  const notes = $('quickNotesText').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const notes = linesToNotes($('quickNotesText').value);
   const msg = $('quickNotesMsg');
   msg.className = 'msg busy'; msg.textContent = 'שומר...';
   try {
@@ -347,7 +358,7 @@ $('saveQuickNotesBtn').addEventListener('click', async ()=>{
     });
     const d = await r.json();
     if (!d.ok) { msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה'; return; }
-    $('quickNotesText').value = d.quickNotes.join('\n');
+    $('quickNotesText').value = notesToLines(d.quickNotes);
     msg.className = 'msg ok'; msg.textContent = `נשמר — ${d.quickNotes.length} הערות. לחץ "פרסם לאתר" כדי שיופיעו גם באתר הציבורי.`;
   } catch (e) {
     msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה: ' + e.message;

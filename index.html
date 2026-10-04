@@ -573,13 +573,43 @@ function formatShortDate(iso){
   return `${d}.${m}.${y.slice(2)}`;
 }
 
+// Hebrew dosage vocabulary -> Russian, applied only when the therapist has EDITED the dosage
+// (an untouched dosage uses the curated default_reps_ru). Longest phrases first.
+const DOSE_TERMS_RU = [
+  [/ביצוע בוקר וערב/g, 'Выполнять утром и вечером'],
+  [/לכל רגל/g, 'на каждую ногу'],
+  [/לכל צד/g, 'на каждую сторону'],
+  [/לכל מנח/g, 'в каждом положении'],
+  [/החזקות/g, 'удержаний'],
+  [/חזרות/g, 'повторений'],
+  [/שניות/g, 'секунд'],
+  [/דקות/g, 'минут'],
+  [/(^|\s)של(\s|$)/g, '$1по$2']
+];
+function translateDoseRu(text){
+  return DOSE_TERMS_RU.reduce((t, [re, ru]) => t.replace(re, ru), text);
+}
+
 let EXERCISES = [];
-let QUICK_NOTES = [];
+let QUICK_NOTES = []; // [{ he, ru }] — legacy plain strings are accepted and treated as Hebrew-only
 
 fetch('./quick-notes.json')
   .then(r => r.ok ? r.json() : [])
-  .then(notes => { QUICK_NOTES = Array.isArray(notes) ? notes : []; })
+  .then(notes => {
+    QUICK_NOTES = (Array.isArray(notes) ? notes : [])
+      .map(n => typeof n === 'string' ? { he: n, ru: '' } : { he: n.he || '', ru: n.ru || '' })
+      .filter(n => n.he);
+  })
   .catch(() => { QUICK_NOTES = []; }); // missing file = no bank yet, not an error the therapist needs to see
+
+// The therapist-notes field is free text that may mix bank notes and typed text. For the Russian
+// sheet, swap every bank phrase for its Russian version; anything typed by hand passes through as-is.
+function translateNotesRu(text){
+  return [...QUICK_NOTES]
+    .filter(n => n.ru)
+    .sort((a, b) => b.he.length - a.he.length)
+    .reduce((t, n) => t.split(n.he).join(n.ru), text);
+}
 
 fetch('./exercises.json')
   .then(r => r.json())
@@ -808,7 +838,7 @@ function renderSheet(){
           ${QUICK_NOTES.length ? `
           <select class="quick-note-picker" aria-label="הוסף הערה שמורה">
             <option value="">+ הוסף הערה שמורה…</option>
-            ${QUICK_NOTES.map(n => `<option value="${n}">${n}</option>`).join('')}
+            ${QUICK_NOTES.map((n, i) => `<option value="${i}">${n.he}</option>`).join('')}
           </select>` : ''}
         </div>
       </div>
@@ -827,8 +857,8 @@ function renderSheet(){
     row.querySelector('.intensity-input').addEventListener('input', e=> s.intensity = e.target.value);
     const notePicker = row.querySelector('.quick-note-picker');
     if (notePicker) notePicker.addEventListener('change', e=>{
-      const note = e.target.value;
-      if (!note) return;
+      if (e.target.value === '') return;
+      const note = QUICK_NOTES[Number(e.target.value)].he;
       const field = row.querySelector('.intensity-input');
       field.value = field.value.trim() ? `${field.value.trim()}; ${note}` : note;
       s.intensity = field.value;
@@ -886,10 +916,17 @@ function buildPrintSheet(){
   sheet.forEach((s, idx)=>{
     const ex = s.ex;
     const exName = lang === 'ru' ? (ex.name_ru || ex.name_he) : ex.name_he;
-    const reps = lang === 'ru' ? (ex.default_reps_ru || s.reps) : s.reps;
-    const instructions = lang === 'ru'
-      ? (ex.instructions_ru || strings.instructionsPending)
-      : s.instructions;
+    // Russian: untouched fields use the curated Russian default; fields the therapist edited
+    // are honoured (dosage + bank notes are translated, hand-typed instructions print as typed).
+    const repsEdited = s.reps !== ex.default_reps;
+    const reps = lang !== 'ru' ? s.reps
+      : (!repsEdited && ex.default_reps_ru) ? ex.default_reps_ru
+      : translateDoseRu(s.reps);
+    const instructionsEdited = s.instructions !== resolveDefaultInstructions(ex);
+    const instructions = lang !== 'ru' ? s.instructions
+      : instructionsEdited ? s.instructions
+      : (ex.instructions_ru || strings.instructionsPending);
+    const notes = lang === 'ru' ? translateNotesRu(s.intensity) : s.intensity;
 
     const div = document.createElement('div');
     div.className = 'p-exercise';
@@ -900,7 +937,7 @@ function buildPrintSheet(){
       <div>
         <h3>${exName}</h3>
         <div class="p-region">${regionLabels[ex.region]}</div>
-        <div class="p-dose">${strings.dose(s.sets, reps)}${s.intensity ? ' — ' + s.intensity : ''}</div>
+        <div class="p-dose">${strings.dose(s.sets, reps)}${notes ? ' — ' + notes : ''}</div>
         <div class="p-instructions">${instructions}</div>
       </div>
     `;

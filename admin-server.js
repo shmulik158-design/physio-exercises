@@ -47,11 +47,17 @@ function writeExercises(list) {
   fs.renameSync(tmp, JSON_PATH);
 }
 
+// A quick note is { he, ru }. Legacy files held plain Hebrew strings — upgrade them on read.
+function normalizeNote(n) {
+  if (typeof n === 'string') return { he: str(n), ru: '' };
+  return { he: str(n && n.he), ru: str(n && n.ru) };
+}
+
 function readQuickNotes() {
   if (!fs.existsSync(QUICK_NOTES_PATH)) return [];
   let raw = fs.readFileSync(QUICK_NOTES_PATH, 'utf8');
   if (raw.charCodeAt(0) === 0xFEFF) raw = raw.slice(1);
-  return JSON.parse(raw);
+  return JSON.parse(raw).map(normalizeNote).filter(n => n.he);
 }
 
 function writeQuickNotes(list) {
@@ -278,7 +284,7 @@ const server = http.createServer(async (req, res) => {
     // --- replace the whole quick-notes bank (a short reusable-phrase list, not per-exercise) ---
     if (req.method === 'POST' && route === '/api/quick-notes') {
       const body = await readBody(req);
-      const list = Array.isArray(body.notes) ? body.notes.map(str).filter(Boolean) : [];
+      const list = Array.isArray(body.notes) ? body.notes.map(normalizeNote).filter(n => n.he) : [];
       writeQuickNotes(list);
       return sendJSON(res, 200, { ok: true, quickNotes: list });
     }
