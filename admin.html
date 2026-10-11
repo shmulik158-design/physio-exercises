@@ -95,6 +95,13 @@
   }
   .quick-notes-bank textarea:focus{border-color:var(--teal); outline:none;}
   .quick-notes-bank .msg{margin-top:var(--sp-2);}
+  .para-card{
+    border:1px solid var(--line); border-radius:var(--radius-sm); padding:var(--sp-2);
+    margin-bottom:var(--sp-2); display:flex; flex-direction:column; gap:var(--sp-1);
+  }
+  .para-card textarea{margin-bottom:0;}
+  .para-card textarea.ru{direction:ltr; text-align:left;}
+  .para-card .para-del{align-self:flex-end;}
   #list{display:flex; flex-direction:column; gap:4px;}
   .list-region-heading{
     display:flex; align-items:center; gap:6px;
@@ -202,6 +209,17 @@
       <textarea id="quickNotesText" rows="6" dir="auto" placeholder="רגל חזקה קדמית | Сильная нога впереди&#10;לעבוד עם משקל קל | Работайте с лёгким весом"></textarea>
       <button class="btn-ghost" id="saveQuickNotesBtn" type="button">שמור בנק הערות</button>
       <div class="msg" id="quickNotesMsg"></div>
+    </details>
+    <details class="quick-notes-bank">
+      <summary>
+        <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        <span>בנק פסקאות לתחתית הדף</span>
+      </summary>
+      <div class="sub">פסקאות מוכנות שאפשר להוסיף בלחיצה לתיבת "הערות כלליות" בתחתית הדף המודפס. התרגום לרוסית אופציונלי — בדף הרוסי הוא יודפס במקום העברית.</div>
+      <div id="paragraphsList"></div>
+      <button class="btn-ghost" id="addParagraphBtn" type="button">+ פסקה חדשה</button>
+      <button class="btn-ghost" id="saveParagraphsBtn" type="button">שמור בנק פסקאות</button>
+      <div class="msg" id="paragraphsMsg"></div>
     </details>
     <input class="search" id="search" type="text" placeholder="חיפוש במאגר...">
     <div class="list-filters">
@@ -334,6 +352,7 @@ fetch('/api/data').then(r=>r.json()).then(d=>{
   });
   EXERCISES = d.exercises;
   $('quickNotesText').value = notesToLines(d.quickNotes || []);
+  renderParagraphs(d.paragraphs || []);
   renderList();
 }).catch(()=> setMsg('err', 'לא הצלחתי להתחבר לשרת המקומי. ודא שהחלון השחור עדיין פתוח.'));
 
@@ -360,6 +379,50 @@ $('saveQuickNotesBtn').addEventListener('click', async ()=>{
     if (!d.ok) { msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה'; return; }
     $('quickNotesText').value = notesToLines(d.quickNotes);
     msg.className = 'msg ok'; msg.textContent = `נשמר — ${d.quickNotes.length} הערות. לחץ "פרסם לאתר" כדי שיופיעו גם באתר הציבורי.`;
+  } catch (e) {
+    msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה: ' + e.message;
+  }
+});
+
+/* ---------- saved paragraphs bank ---------- */
+function addParagraphCard(p){
+  const card = document.createElement('div');
+  card.className = 'para-card';
+  const he = document.createElement('textarea');
+  he.className = 'he'; he.rows = 3; he.placeholder = 'הפסקה בעברית';
+  he.value = (p && p.he) || '';
+  const ru = document.createElement('textarea');
+  ru.className = 'ru'; ru.rows = 3; ru.placeholder = 'Перевод на русский (необязательно)';
+  ru.value = (p && p.ru) || '';
+  const del = document.createElement('button');
+  del.type = 'button'; del.className = 'btn-ghost para-del'; del.textContent = 'מחק פסקה';
+  del.addEventListener('click', ()=> card.remove());
+  card.append(he, ru, del);
+  $('paragraphsList').appendChild(card);
+  return card;
+}
+
+function renderParagraphs(list){
+  $('paragraphsList').replaceChildren();
+  list.forEach(addParagraphCard);
+}
+
+$('addParagraphBtn').addEventListener('click', ()=> addParagraphCard().querySelector('.he').focus());
+
+$('saveParagraphsBtn').addEventListener('click', async ()=>{
+  const paragraphs = [...document.querySelectorAll('.para-card')]
+    .map(c => ({ he: c.querySelector('.he').value.trim(), ru: c.querySelector('.ru').value.trim() }))
+    .filter(p => p.he);
+  const msg = $('paragraphsMsg');
+  msg.className = 'msg busy'; msg.textContent = 'שומר...';
+  try {
+    const r = await fetch('/api/paragraphs', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ paragraphs })
+    });
+    const d = await r.json();
+    if (!d.ok) { msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה'; return; }
+    renderParagraphs(d.paragraphs);
+    msg.className = 'msg ok'; msg.textContent = `נשמר — ${d.paragraphs.length} פסקאות. לחץ "פרסם לאתר" כדי שיופיעו גם באתר הציבורי.`;
   } catch (e) {
     msg.className = 'msg err'; msg.textContent = 'שמירה נכשלה: ' + e.message;
   }

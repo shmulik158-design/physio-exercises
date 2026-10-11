@@ -20,6 +20,7 @@ const JSON_PATH = path.join(ROOT, 'exercises.json');
 const IMAGES_DIR = path.join(ROOT, 'images');
 const AUTH_PATH = path.join(ROOT, 'admin-auth.json'); // gitignored — holds only a salted hash, never the password itself
 const QUICK_NOTES_PATH = path.join(ROOT, 'quick-notes.json');
+const PARAGRAPHS_PATH = path.join(ROOT, 'paragraphs.json');
 const PORT = 8765;
 
 // Closed vocabularies — the whole point is that these can't drift.
@@ -53,18 +54,24 @@ function normalizeNote(n) {
   return { he: str(n && n.he), ru: str(n && n.ru) };
 }
 
-function readQuickNotes() {
-  if (!fs.existsSync(QUICK_NOTES_PATH)) return [];
-  let raw = fs.readFileSync(QUICK_NOTES_PATH, 'utf8');
+// Both text banks (quick notes, saved paragraphs) are flat { he, ru } lists in their own JSON file.
+function readBank(file) {
+  if (!fs.existsSync(file)) return [];
+  let raw = fs.readFileSync(file, 'utf8');
   if (raw.charCodeAt(0) === 0xFEFF) raw = raw.slice(1);
   return JSON.parse(raw).map(normalizeNote).filter(n => n.he);
 }
 
-function writeQuickNotes(list) {
-  const tmp = QUICK_NOTES_PATH + '.tmp';
+function writeBank(file, list) {
+  const tmp = file + '.tmp';
   fs.writeFileSync(tmp, JSON.stringify(list, null, 2) + '\n', 'utf8');
-  fs.renameSync(tmp, QUICK_NOTES_PATH);
+  fs.renameSync(tmp, file);
 }
+
+const readQuickNotes = () => readBank(QUICK_NOTES_PATH);
+const writeQuickNotes = list => writeBank(QUICK_NOTES_PATH, list);
+const readParagraphs = () => readBank(PARAGRAPHS_PATH);
+const writeParagraphs = list => writeBank(PARAGRAPHS_PATH, list);
 
 function validate(ex, existing, isNew) {
   const errors = [];
@@ -277,8 +284,17 @@ const server = http.createServer(async (req, res) => {
         regions: REGIONS,
         equipment: EQUIPMENT,
         exercises: readExercises(),
-        quickNotes: readQuickNotes()
+        quickNotes: readQuickNotes(),
+        paragraphs: readParagraphs()
       });
+    }
+
+    // --- replace the whole saved-paragraphs bank (longer reusable text blocks for the sheet's closing note) ---
+    if (req.method === 'POST' && route === '/api/paragraphs') {
+      const body = await readBody(req);
+      const list = Array.isArray(body.paragraphs) ? body.paragraphs.map(normalizeNote).filter(n => n.he) : [];
+      writeParagraphs(list);
+      return sendJSON(res, 200, { ok: true, paragraphs: list });
     }
 
     // --- replace the whole quick-notes bank (a short reusable-phrase list, not per-exercise) ---
@@ -366,7 +382,7 @@ const server = http.createServer(async (req, res) => {
       // into one generic "publish failed" message.
       let committed = false;
       try {
-        git(['add', 'exercises.json', 'quick-notes.json', 'images', 'index.html', 'admin.html', 'admin-server.js', 'add-exercise.bat']);
+        git(['add', 'exercises.json', 'quick-notes.json', 'paragraphs.json', 'images', 'index.html', 'admin.html', 'admin-server.js', 'add-exercise.bat']);
         const status = git(['status', '--porcelain']).trim();
         if (!status) return sendJSON(res, 200, { ok: true, message: 'אין שינויים חדשים לפרסום' });
 

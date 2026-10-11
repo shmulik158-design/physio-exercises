@@ -541,3 +541,12 @@ const str = v => (v === null || v === undefined ? '' : String(v)).trim();
 3. **Both**: Reference part 3️⃣ when collaborating on image sizing, print, errors, or future decisions.
 
 **No confusion. Clear boundaries. Done.**
+
+---
+
+## הערה כללית בתחתית הדף + בנק פסקאות — חדש (2026-10-11)
+
+- **`index.html`**: תיבת טקסט חופשי ("הערות כלליות בתחתית הדף") בפאנל הבונה, עם `<select>` של פסקאות שמורות (מופיע רק אם `paragraphs.json` לא ריק). בחירה **מוסיפה** את הפסקה לטקסט הקיים, מופרדת בשורה ריקה. מודפס בבלוק `#pFreeText` אחרי התרגילים ולפני ההצהרה; מוסתר כשהתיבה ריקה. הטקסט נכנס דרך `textContent` (לא `innerHTML`), ושבירות שורה נשמרות ב-`white-space:pre-wrap`.
+- **רוסית**: כמו בנק ההערות המהירות — פסקה שנבחרה מהבנק ויש לה `ru` מוחלפת בגרסה הרוסית בהדפסה; טקסט שהוקלד ידנית, או פסקה שנערכה אחרי ההוספה, מודפסים כמו שהם. `translateWithBank()` משותפת לשני הבנקים.
+- **`paragraphs.json`**: `[{ "he", "ru" }]`, אותה סכמה כמו `quick-notes.json` (`ru` אופציונלי). נערך רק דרך `admin.html` ("בנק פסקאות לתחתית הדף" — כרטיס לכל פסקה, עברית + רוסית). `POST /api/paragraphs` מחליף את כל הרשימה; `GET /api/data` מחזיר `paragraphs`. נוסף ל-`git add` בפרסום — **הקובץ חייב להתקיים** (גם אם `[]`), אחרת `git add` נכשל.
+- **ריפקטור**: `readBank/writeBank` בשרת משותפות לשני הבנקים (כתיבה אטומית כמו קודם).

@@ -188,6 +188,16 @@
   }
   .builder .patient-field input:focus, .builder .patient-field select:focus{border-color:var(--teal); outline:none;}
 
+  .free-text{display:flex; flex-direction:column; gap:var(--sp-2);}
+  .free-text label{font-size:var(--text-sm); color:var(--ink-soft);}
+  .free-text textarea{
+    width:100%; padding:9px 11px; font-family:'Assistant',sans-serif; font-size:var(--text-sm);
+    line-height:1.5; color:var(--ink); background:var(--paper-raised); resize:vertical;
+    border:1px solid var(--line); border-radius:var(--radius-md); transition:border-color .15s ease;
+  }
+  .free-text textarea:focus{border-color:var(--teal); outline:none;}
+  .free-text .quick-note-picker{margin-top:0;}
+
   .sheet-list{display:flex; flex-direction:column; gap:var(--sp-3);}
   .sheet-empty{
     color:var(--ink-soft); font-size:var(--text-sm); border:1px dashed var(--line);
@@ -369,6 +379,13 @@
       font-variant-numeric:tabular-nums; margin-bottom:8px;
     }
     .p-exercise .p-instructions{font-size:12.5px; color:#333; line-height:1.6; max-width:62ch;}
+    .p-freetext{margin-top:24px; padding-top:14px; border-top:1px solid rgba(30,43,41,.14);}
+    .p-freetext[hidden]{display:none;}
+    .p-freetext-heading{
+      font-family:'Roboto Mono',monospace; font-size:10px; text-transform:uppercase;
+      letter-spacing:.05em; color:var(--teal-dim); margin-bottom:6px; break-after:avoid;
+    }
+    .p-freetext-body{font-size:12.5px; color:#333; line-height:1.6; white-space:pre-wrap;}
     .p-disclaimer{
       margin-top:24px; font-size:10.5px; color:var(--ink-soft); line-height:1.5; font-style:italic;
     }
@@ -450,6 +467,11 @@
         <span>עדיין לא נבחרו תרגילים</span>
       </div>
     </div>
+    <div class="free-text">
+      <label for="freeText">הערות כלליות בתחתית הדף <span class="hint">— לא חובה</span></label>
+      <textarea id="freeText" rows="3" placeholder="טקסט חופשי שיודפס בסוף הדף"></textarea>
+      <select class="quick-note-picker" id="paragraphPicker" aria-label="הוסף פסקה שמורה" hidden></select>
+    </div>
     <details class="doc-copy" id="docCopy" hidden>
       <summary>
         <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
@@ -488,6 +510,10 @@
     </div>
   </div>
   <div id="pExercises"></div>
+  <div class="p-freetext" id="pFreeText" hidden>
+    <div class="p-freetext-heading" id="pFreeTextHeading"></div>
+    <div class="p-freetext-body" id="pFreeTextBody"></div>
+  </div>
   <div class="p-disclaimer" id="pDisclaimer"></div>
   <div class="p-footer">
     <span id="pFooterCount"></span>
@@ -522,6 +548,7 @@ const REGION_LABELS_RU = {
 const PRINT_STRINGS = {
   he: {
     title: "תוכנית תרגילים",
+    freeTextHeading: "הערות",
     patient: name => `שם: ${name}`,
     therapist: name => `דף זה הופק ע"י: ${name}`,
     dose: (sets, reps) => `${sets} סטים × ${reps}`,
@@ -532,6 +559,7 @@ const PRINT_STRINGS = {
   },
   ru: {
     title: "План упражнений",
+    freeTextHeading: "Примечания",
     patient: name => `Пациент: ${name}`,
     therapist: name => `Составил(а): ${name}`,
     dose: (sets, reps) => `${sets} подх. × ${reps}`,
@@ -592,23 +620,39 @@ function translateDoseRu(text){
 
 let EXERCISES = [];
 let QUICK_NOTES = []; // [{ he, ru }] — legacy plain strings are accepted and treated as Hebrew-only
+let PARAGRAPHS = [];  // same shape — longer blocks for the closing note at the bottom of the sheet
 
-fetch('./quick-notes.json')
-  .then(r => r.ok ? r.json() : [])
-  .then(notes => {
-    QUICK_NOTES = (Array.isArray(notes) ? notes : [])
+// Loads a { he, ru } bank file. A missing file just means "no bank yet" — not an error the therapist needs to see.
+function loadBank(file){
+  return fetch(file)
+    .then(r => r.ok ? r.json() : [])
+    .then(items => (Array.isArray(items) ? items : [])
       .map(n => typeof n === 'string' ? { he: n, ru: '' } : { he: n.he || '', ru: n.ru || '' })
-      .filter(n => n.he);
-  })
-  .catch(() => { QUICK_NOTES = []; }); // missing file = no bank yet, not an error the therapist needs to see
+      .filter(n => n.he))
+    .catch(() => []);
+}
 
-// The therapist-notes field is free text that may mix bank notes and typed text. For the Russian
-// sheet, swap every bank phrase for its Russian version; anything typed by hand passes through as-is.
-function translateNotesRu(text){
-  return [...QUICK_NOTES]
+loadBank('./quick-notes.json').then(items => { QUICK_NOTES = items; });
+loadBank('./paragraphs.json').then(items => { PARAGRAPHS = items; populateParagraphPicker(); });
+
+// Free-text fields may mix bank entries and hand-typed text. For the Russian sheet, swap every
+// bank entry for its Russian version; anything typed by hand passes through as-is.
+function translateWithBank(text, bank){
+  return [...bank]
     .filter(n => n.ru)
     .sort((a, b) => b.he.length - a.he.length)
     .reduce((t, n) => t.split(n.he).join(n.ru), text);
+}
+const translateNotesRu = text => translateWithBank(text, QUICK_NOTES);
+
+function populateParagraphPicker(){
+  const picker = document.getElementById('paragraphPicker');
+  picker.hidden = PARAGRAPHS.length === 0;
+  picker.replaceChildren(new Option('+ הוסף פסקה שמורה…', ''));
+  PARAGRAPHS.forEach((p, i) => {
+    const oneLine = p.he.replace(/\s+/g, ' ');
+    picker.add(new Option(oneLine.length > 70 ? oneLine.slice(0, 70) + '…' : oneLine, String(i)));
+  });
 }
 
 fetch('./exercises.json')
@@ -644,6 +688,13 @@ function init(){
     document.getElementById('regionFilter').addEventListener('change', renderGrid);
     document.getElementById('equipmentFilter').addEventListener('change', renderGrid);
     document.getElementById('therapistName').addEventListener('input', updatePrintButtonState);
+    document.getElementById('paragraphPicker').addEventListener('change', e=>{
+      if (e.target.value === '') return;
+      const field = document.getElementById('freeText');
+      const paragraph = PARAGRAPHS[Number(e.target.value)].he;
+      field.value = field.value.trim() ? `${field.value.trim()}\n\n${paragraph}` : paragraph;
+      e.target.value = '';
+    });
     document.getElementById('printBtn').addEventListener('click', ()=>{ buildPrintSheet(); window.print(); });
     document.getElementById('copyDocBtn').addEventListener('click', async ()=>{
       const text = document.getElementById('docSummary').value;
@@ -910,6 +961,13 @@ function buildPrintSheet(){
   document.getElementById('pFooterCount').textContent = strings.footerCount(sheet.length);
   document.getElementById('pFooterBrand').textContent = strings.footerBrand;
   document.getElementById('pDisclaimer').textContent = strings.disclaimer;
+
+  // textContent (not innerHTML) — this is raw typed text, and its line breaks are kept by CSS pre-wrap.
+  const freeRaw = document.getElementById('freeText').value.trim();
+  const freeText = lang === 'ru' ? translateWithBank(freeRaw, PARAGRAPHS) : freeRaw;
+  document.getElementById('pFreeText').hidden = !freeText;
+  document.getElementById('pFreeTextHeading').textContent = strings.freeTextHeading;
+  document.getElementById('pFreeTextBody').textContent = freeText;
 
   const container = document.getElementById('pExercises');
   container.innerHTML = '';
