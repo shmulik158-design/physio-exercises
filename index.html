@@ -226,6 +226,14 @@
     border-inline-start:1px solid var(--line);
     padding:var(--sp-5) var(--sp-5) var(--sp-7);
     display:flex; flex-direction:column; gap:var(--sp-4);
+    /* Stays in view while the library scrolls; scrolls internally if the sheet outgrows the screen
+       (the print button then sticks to the panel's bottom edge). */
+    position:sticky; top:0; align-self:start; max-height:100vh; overflow-y:auto;
+  }
+  .builder > *{flex-shrink:0;}
+  /* Single-column layout: the panel sits below the library, so it must scroll with the page. */
+  @media (max-width: 900px){
+    .builder{position:static; max-height:none; overflow:visible;}
   }
   .builder h2{font-size:var(--text-xl); color:var(--teal);}
   .builder .patient-field{
