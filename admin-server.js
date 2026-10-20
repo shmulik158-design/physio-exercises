@@ -330,6 +330,19 @@ const server = http.createServer(async (req, res) => {
       };
 
       const errors = validate(ex, list, isNew || body.id !== body.original_id);
+
+      // Variant grouping: `variant_of` names the lead exercise of a bundle ("" = standalone).
+      // One level only — a variant can't have variants, and a lead can't later become a variant.
+      const variantOf = str(body.variant_of);
+      if (variantOf) {
+        const lead = list.find(e => e.id === variantOf);
+        if (!lead) errors.push('התרגיל הראשי של הוריאציה לא נמצא במאגר');
+        else if (variantOf === ex.id || variantOf === body.original_id) errors.push('תרגיל לא יכול להיות וריאציה של עצמו');
+        else if (lead.variant_of) errors.push('התרגיל הראשי שנבחר הוא בעצמו וריאציה — בחר את הראשון באגד');
+        else if (!isNew && list.some(e => e.variant_of === body.original_id)) {
+          errors.push('לתרגיל הזה יש וריאציות משלו, ולכן הוא לא יכול להיות וריאציה של תרגיל אחר');
+        }
+      }
       if (errors.length) return sendJSON(res, 400, { ok: false, errors });
 
       // Image: optional on edit, required on create.
@@ -351,11 +364,20 @@ const server = http.createServer(async (req, res) => {
         if (fs.existsSync(oldFile)) fs.renameSync(oldFile, path.join(IMAGES_DIR, ex.image_file));
       }
 
+      if (variantOf) ex.variant_of = variantOf;
+
       if (isNew) {
         list.push(ex);
       } else {
-        // Preserve fields the form doesn't manage (e.g. image_prompt).
-        list[idx] = { ...list[idx], ...ex };
+        // Preserve fields the form doesn't manage (e.g. image_prompt) — but variant_of IS managed
+        // by the form, so an empty value must clear it rather than keep the old one.
+        const merged = { ...list[idx], ...ex };
+        if (!variantOf) delete merged.variant_of;
+        list[idx] = merged;
+        // Renamed id: variants of this exercise must follow the new id.
+        if (ex.id !== body.original_id) {
+          list.forEach(e => { if (e.variant_of === body.original_id) e.variant_of = ex.id; });
+        }
       }
       writeExercises(list);
       return sendJSON(res, 200, { ok: true, exercises: list });
@@ -368,6 +390,8 @@ const server = http.createServer(async (req, res) => {
       const target = list.find(e => e.id === body.id);
       if (!target) return sendJSON(res, 404, { ok: false, errors: ['התרגיל לא נמצא'] });
       list = list.filter(e => e.id !== body.id);
+      // Variants of a deleted lead become standalone exercises instead of dangling references.
+      list.forEach(e => { if (e.variant_of === body.id) delete e.variant_of; });
       writeExercises(list);
       const img = path.join(IMAGES_DIR, target.image_file);
       if (fs.existsSync(img)) fs.unlinkSync(img);

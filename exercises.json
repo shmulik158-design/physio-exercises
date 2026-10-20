@@ -1,7 +1,7 @@
 [
   {
     "id": "knee_squat_bw",
-    "name_he": "סקוואט רגיל",
+    "name_he": "סקוואט",
     "region": "knee",
     "equipment": "none",
     "image_file": "knee_squat_bw.png",
@@ -15,8 +15,8 @@
   },
   {
     "id": "hip_sit_to_stand",
-    "name_he": "קימה והתיישבות מכיסא",
-    "region": "hip",
+    "name_he": "קימה מישיבה על כיסא",
+    "region": "knee",
     "equipment": "chair",
     "image_file": "hip_sit_to_stand.png",
     "default_sets": "3",
@@ -29,8 +29,8 @@
   },
   {
     "id": "hip_sit_to_stand_single_leg",
-    "name_he": "קימה והתיישבות מכיסא, רגל אחת",
-    "region": "hip",
+    "name_he": "קימה מישיבה על כיסא - ברגל אחת",
+    "region": "knee",
     "equipment": "chair",
     "image_file": "hip_sit_to_stand_single_leg.png",
     "default_sets": "3",
@@ -39,7 +39,8 @@
     "name_ru": "Вставание со стула на одной ноге",
     "instructions_ru": "Сядьте на край стула, одна стопа плотно стоит на полу под коленом. Вытяните вторую ногу вперёд в воздух, слегка согнув колено. Встаньте, опираясь только на опорную ногу, и медленно сядьте обратно. Таз остаётся ровным на протяжении всего движения, не заваливаясь в сторону.",
     "default_reps_ru": "8 повторений на каждую ногу",
-    "updated_at": "2026-08-27"
+    "updated_at": "2026-08-27",
+    "variant_of": "hip_sit_to_stand"
   },
   {
     "id": "hip_bridge",
@@ -57,7 +58,7 @@
   },
   {
     "id": "hip_bridge_heels_elevated",
-    "name_he": "הרמות אגן על העקבים על משטח מוגבה",
+    "name_he": "הרמות אגן - עקבים על משטח מוגבה",
     "region": "hip",
     "equipment": "chair",
     "image_file": "hip_bridge_heels_elevated.png",
@@ -67,11 +68,12 @@
     "name_ru": "Ягодичный мостик с пятками на возвышении",
     "instructions_ru": "Лягте на спину и поставьте пятки на возвышенную поверхность, колени согнуты примерно на 135 градусов. Надавите через пятки и поднимите таз до прямой линии от плеч до колен. Угол в колене остаётся неизменным на протяжении движения, таз не заваливается в сторону. Опускайтесь медленно.",
     "default_reps_ru": "12 повторений",
-    "updated_at": "2026-08-27"
+    "updated_at": "2026-08-27",
+    "variant_of": "hip_bridge"
   },
   {
     "id": "sh_wall_slide_flexion",
-    "name_he": "מתיחה לכיפוף כתף - החלקת היד על גבי הקיר",
+    "name_he": "כפיפת כתף - החלקת היד על הקיר",
     "region": "shoulder",
     "equipment": "wall",
     "image_file": "sh_wall_slide_flexion.png",
@@ -85,7 +87,7 @@
   },
   {
     "id": "lumbar_side_glide",
-    "name_he": "side glide מותני",
+    "name_he": "סייד גלייד מותני",
     "region": "lumbar",
     "equipment": "wall",
     "image_file": "lumbar_side_glide.png",
@@ -113,7 +115,7 @@
   },
   {
     "id": "ankle_short_foot",
-    "name_he": "short foot exercise",
+    "name_he": "קיצור קשת כף הרגל",
     "region": "ankle",
     "equipment": "none",
     "image_file": "ankle_short_foot.png",
@@ -127,7 +129,7 @@
   },
   {
     "id": "sh_lower_trap_band",
-    "name_he": "lower trap exercises with resistance bands",
+    "name_he": "חיזוק טרפז תחתון עם גומייה",
     "region": "shoulder",
     "equipment": "resistance band",
     "image_file": "sh_lower_trap_band.png",
@@ -141,7 +143,7 @@
   },
   {
     "id": "sh_middle_trap_band",
-    "name_he": "middle trap exercises with resistance bands",
+    "name_he": "חיזוק טרפז אמצעי עם גומייה",
     "region": "shoulder",
     "equipment": "resistance band",
     "image_file": "sh_middle_trap_band.png",
@@ -155,7 +157,7 @@
   },
   {
     "id": "knee_step_up",
-    "name_he": "step up",
+    "name_he": "עלייה על מדרגה",
     "region": "knee",
     "equipment": "chair",
     "image_file": "knee_step_up.png",
@@ -169,7 +171,7 @@
   },
   {
     "id": "knee_step_down",
-    "name_he": "step down",
+    "name_he": "ירידה ממדרגה",
     "region": "knee",
     "equipment": "chair",
     "image_file": "knee_step_down.png",
@@ -183,7 +185,7 @@
   },
   {
     "id": "hip_active_slr",
-    "name_he": "active slr",
+    "name_he": "הרמת רגל ישרה בשכיבה",
     "region": "hip",
     "equipment": "none",
     "image_file": "hip_active_slr.png",
@@ -197,7 +199,7 @@
   },
   {
     "id": "sh_assisted_flexion_band",
-    "name_he": "assisted active shoulder flexion with theraband",
+    "name_he": "כפיפת כתף פעילה-מסייעת - עם גומייה",
     "region": "shoulder",
     "equipment": "resistance band",
     "image_file": "sh_assisted_flexion_band.png",
@@ -207,11 +209,12 @@
     "name_ru": "Ассистированное сгибание плеча с резинкой",
     "instructions_ru": "Закрепите резинку в высокой точке и возьмитесь за её конец рукой, которой выполняете упражнение. Позвольте резинке постепенно и под контролем тянуть руку вверх, до максимальной высоты без боли. Корпус остаётся прямым, поясница не прогибается, плечо не поднимается к уху. Медленно опустите руку обратно.",
     "default_reps_ru": "10 повторений",
-    "updated_at": "2026-10-13"
+    "updated_at": "2026-10-13",
+    "variant_of": "shoulder_assisted_flexion"
   },
   {
     "id": "knee_squat_bw_v2",
-    "name_he": "סקוואט בקיר",
+    "name_he": "סקוואט - בקיר",
     "region": "knee",
     "equipment": "wall",
     "image_file": "knee_squat_bw_v2.png",
@@ -221,11 +224,12 @@
     "name_ru": "Приседания у стены",
     "instructions_ru": "Прислонитесь спиной к стене и выдвиньте стопы вперёд на ширину плеч. Скользите вниз вдоль стены, пока колени не согнутся примерно на 90 градусов. Спина остаётся прижатой к стене на протяжении всего упражнения, колени над стопами. Удерживайте положение и дышите ровно.",
     "default_reps_ru": "30 секунд",
-    "updated_at": "2026-08-27"
+    "updated_at": "2026-08-27",
+    "variant_of": "knee_squat_bw"
   },
   {
     "id": "hip_bridge_v2",
-    "name_he": "הרמות אגן - רגל אחת",
+    "name_he": "הרמות אגן - ברגל אחת",
     "region": "hip",
     "equipment": "none",
     "image_file": "hip_bridge_v2.png",
@@ -235,11 +239,12 @@
     "name_ru": "Ягодичный мостик на одной ноге",
     "instructions_ru": "Лягте на спину, одно колено согнуто, стопа на полу. Выпрямите вторую ногу и приподнимите её от пола. Поднимите таз до прямой линии от плеч до опорного колена, поднятая нога остаётся прямой. Таз остаётся полностью ровным, не заваливаясь в сторону поднятой ноги. Опускайтесь медленно.",
     "default_reps_ru": "10 повторений на каждую ногу",
-    "updated_at": "2026-08-27"
+    "updated_at": "2026-08-27",
+    "variant_of": "hip_bridge"
   },
   {
     "id": "hip_glutmax_stretch",
-    "name_he": "מתיחה לשריר העכוז הגדול",
+    "name_he": "מתיחת שריר העכוז הגדול",
     "region": "hip",
     "equipment": "none",
     "image_file": "hip_glutmax_stretch.png",
@@ -253,7 +258,7 @@
   },
   {
     "id": "hip_piriformis_stretch",
-    "name_he": "מתיחה לשריר הפיריפורמיס",
+    "name_he": "מתיחת שריר הפיריפורמיס",
     "region": "hip",
     "equipment": "none",
     "image_file": "hip_piriformis_stretch.png",
@@ -267,7 +272,7 @@
   },
   {
     "id": "hip_bird_dog",
-    "name_he": "bird dog",
+    "name_he": "בירד דוג",
     "region": "core",
     "equipment": "none",
     "image_file": "hip_bird_dog.png",
@@ -323,7 +328,7 @@
   },
   {
     "id": "hip_extension_band_v2",
-    "name_he": "פשיטת ירך עם גומייה - וריאציה",
+    "name_he": "פשיטת ירך עם גומייה - על הקרסוליים",
     "region": "hip",
     "equipment": "resistance band",
     "image_file": "hip_extension_band_v2.png",
@@ -333,11 +338,12 @@
     "name_ru": "Разгибание бедра с резинкой — вариация",
     "instructions_ru": "То же движение, что и разгибание бедра с резинкой, но резинка находится вокруг лодыжек вместо бёдер — это удлиняет рычаг и усложняет упражнение. Встаньте прямо, перенесите вес на одну ногу и отведите вторую назад с прямым коленом. Спина остаётся прямой, без прогиба, движение происходит только в тазобедренном суставе.",
     "default_reps_ru": "12 повторений",
-    "updated_at": "2026-10-13"
+    "updated_at": "2026-10-13",
+    "variant_of": "hip_extension_band"
   },
   {
     "id": "thoracic_lateral_plank",
-    "name_he": "plank לטרלי",
+    "name_he": "פלאנק צידי",
     "region": "core",
     "equipment": "none",
     "image_file": "thoracic_lateral_plank.png",
@@ -351,7 +357,7 @@
   },
   {
     "id": "knee_lunge",
-    "name_he": "lunge",
+    "name_he": "לאנג'",
     "region": "knee",
     "equipment": "none",
     "image_file": "knee_lunge.png",
@@ -365,7 +371,7 @@
   },
   {
     "id": "cervical_retraction",
-    "name_he": "retraction צווארי (McKenzie)",
+    "name_he": "רטרקציית צוואר",
     "region": "cervical",
     "equipment": "none",
     "image_file": "cervical_retraction.png",
@@ -393,7 +399,7 @@
   },
   {
     "id": "hip_deadlift_band",
-    "name_he": "deadlift עם גומייה",
+    "name_he": "דדליפט עם גומייה",
     "region": "hip",
     "equipment": "resistance band",
     "image_file": "hip_deadlift_band.png",
@@ -407,7 +413,7 @@
   },
   {
     "id": "thoracic_extension_sitting",
-    "name_he": "פשיטת עמ\"ש חזי",
+    "name_he": "פשיטת גב עליון בישיבה",
     "region": "thoracic",
     "equipment": "none",
     "image_file": "thoracic_extension_sitting.png",
@@ -421,7 +427,7 @@
   },
   {
     "id": "ankle_heel_raises_band",
-    "name_he": "עליות תאומים רגל אחת עם גומיית התנגדות מושכת לפרונציה",
+    "name_he": "הרמות עקבים - ברגל אחת עם גומייה",
     "region": "ankle",
     "equipment": "resistance band",
     "image_file": "ankle_heel_raises_band.png",
@@ -431,7 +437,8 @@
     "name_ru": "Подъём на носок одной ногой с резинкой (пронационная тяга)",
     "instructions_ru": "Встаньте на одной ноге с лёгкой опорой для равновесия, резинка обёрнута вокруг лодыжки и тянет её внутрь. Прижмите подушечку большого пальца к полу и поднимитесь на носок, сохраняя положение лодыжки против тяги резинки.",
     "default_reps_ru": "30-60 секунд",
-    "updated_at": "2026-08-27"
+    "updated_at": "2026-08-27",
+    "variant_of": "ankle_heels_raises"
   },
   {
     "id": "shoulder_stretch_passive",
@@ -477,7 +484,7 @@
   },
   {
     "id": "ankle_inversion_band",
-    "name_he": "אינוורשן קרסול כנגד גומייה",
+    "name_he": "אינוורשן קרסול עם גומייה",
     "region": "ankle",
     "equipment": "resistance band",
     "image_file": "ankle_inversion_band.png",
@@ -491,7 +498,7 @@
   },
   {
     "id": "ankle_eversion_band",
-    "name_he": "איוורשן קרסול כנגד גומייה",
+    "name_he": "איוורשן קרסול עם גומייה",
     "region": "ankle",
     "equipment": "resistance band",
     "image_file": "ankle_eversion_band.png",
@@ -533,7 +540,7 @@
   },
   {
     "id": "cervical_extension",
-    "name_he": "פשיטה צווארית",
+    "name_he": "פשיטת צוואר",
     "region": "cervical",
     "equipment": "none",
     "image_file": "cervical_extension.png",
@@ -561,7 +568,7 @@
   },
   {
     "id": "cervical_rotation",
-    "name_he": "רוטציה צווארית",
+    "name_he": "רוטציית צוואר",
     "region": "cervical",
     "equipment": "none",
     "image_file": "cervical_rotation.png",
@@ -575,7 +582,7 @@
   },
   {
     "id": "cervical_lateral_flexion_overpressure",
-    "name_he": "כפיפת צוואר עם אובר פרשר",
+    "name_he": "כפיפת צוואר צדית - עם אובר פרשר",
     "region": "cervical",
     "equipment": "none",
     "image_file": "cervical_lateral_flexion_overpressure.png",
@@ -585,7 +592,8 @@
     "updated_at": "2026-08-27",
     "name_ru": "Боковой наклон шеи с дополнительным давлением",
     "instructions_ru": "Наклоните шею вбок так, чтобы ухо приближалось к плечу с той же стороны. Добавьте лёгкое давление, положив ладонь этой же стороны на голову. Удерживайте положение по возможности.",
-    "default_reps_ru": "20-40 секунд"
+    "default_reps_ru": "20-40 секунд",
+    "variant_of": "cervical_lateral_flexion"
   },
   {
     "id": "knee_extension_okc",
@@ -603,7 +611,7 @@
   },
   {
     "id": "knee_deep_squat",
-    "name_he": "Deep Squat",
+    "name_he": "סקוואט - עמוק",
     "region": "knee",
     "equipment": "none",
     "image_file": "knee_deep_squat.png",
@@ -613,11 +621,12 @@
     "updated_at": "2026-08-27",
     "name_ru": "Глубокие приседания",
     "instructions_ru": "Встаньте, ноги на ширине плеч. Согните колени как можно глубже, сохраняя прямую спину, и вернитесь в исходное положение.",
-    "default_reps_ru": ""
+    "default_reps_ru": "",
+    "variant_of": "knee_squat_bw"
   },
   {
     "id": "knee_flexion_band",
-    "name_he": "כפיפת ברך כנגד גומייה",
+    "name_he": "כפיפת ברך עם גומייה",
     "region": "knee",
     "equipment": "resistance band",
     "image_file": "knee_flexion_band.png",
@@ -631,7 +640,7 @@
   },
   {
     "id": "sh_flexion_dumbbell",
-    "name_he": "כפיפת כתף כנגד משקולת",
+    "name_he": "כפיפת כתף עם משקולת",
     "region": "shoulder",
     "equipment": "dumbbell",
     "image_file": "sh_flexion_dumbbell.png",
@@ -645,7 +654,7 @@
   },
   {
     "id": "sh_extension_dumbbell",
-    "name_he": "פשיטת כתף כנגד משקולת",
+    "name_he": "פשיטת כתף עם משקולת",
     "region": "shoulder",
     "equipment": "dumbbell",
     "image_file": "sh_extension_dumbbell.png",
@@ -659,7 +668,7 @@
   },
   {
     "id": "hip_deadlift_dumbbell",
-    "name_he": "דדליפט כנגד משקולת",
+    "name_he": "דדליפט עם משקולת",
     "region": "hip",
     "equipment": "dumbbell",
     "image_file": "hip_deadlift_dumbbell.png",
@@ -669,11 +678,12 @@
     "updated_at": "2026-10-13",
     "name_ru": "Становая тяга с гантелями",
     "instructions_ru": "Держите гантель обеими руками, стоя прямо, с лёгким сгибанием в коленях. Наклонитесь вперёд, сохраняя прямую спину. Движение должно исходить из таза — назад при наклоне и вперёд при выпрямлении.",
-    "default_reps_ru": ""
+    "default_reps_ru": "",
+    "variant_of": "hip_deadlift_band"
   },
   {
     "id": "ankle_step_heel_raises",
-    "name_he": "הרמות עקבים על מדרגה",
+    "name_he": "הרמות עקבים - על מדרגה",
     "region": "ankle",
     "equipment": "chair",
     "image_file": "ankle_step_heel_raises.png",
@@ -683,11 +693,12 @@
     "updated_at": "2026-08-27",
     "name_ru": "Подъёмы на носки на ступени",
     "instructions_ru": "Встаньте на край ступеньки так, чтобы передняя часть стоп была на ступеньке, а пятки в воздухе. Опустите пятки вниз до ощущения растяжения в голенях. Поднимитесь как можно выше, сохраняя прямую осанку. Можно опираться на стул или стену во время выполнения.",
-    "default_reps_ru": "10 повторений"
+    "default_reps_ru": "10 повторений",
+    "variant_of": "ankle_heels_raises"
   },
   {
     "id": "ankle_plantar_fascia_stretch",
-    "name_he": "מתיחה לפאשיה כפית",
+    "name_he": "מתיחת פאשיה כפית",
     "region": "ankle",
     "equipment": "chair",
     "image_file": "ankle_plantar_fascia_stretch.png",
@@ -715,7 +726,7 @@
   },
   {
     "id": "ankle_dorsiflexion_wall",
-    "name_he": "מתיחת קרסול לכיפוף גבי מול קיר (Knee to Wall)",
+    "name_he": "מתיחת קרסול לכפיפה גבית - מול קיר",
     "region": "ankle",
     "equipment": "wall",
     "image_file": "ankle_dorsiflexion_wall.png",
@@ -729,7 +740,7 @@
   },
   {
     "id": "ankle_gc_stretch",
-    "name_he": "מתיחת שריר תאומים בעמידה מול קיר",
+    "name_he": "מתיחת שריר התאומים - בעמידה מול קיר",
     "region": "ankle",
     "equipment": "wall",
     "image_file": "ankle_gc_stretch.png",
@@ -743,7 +754,7 @@
   },
   {
     "id": "hip_hamstring_stretch",
-    "name_he": "מתיחת שריר הירך האחורי (Hamstring) בעמידה",
+    "name_he": "מתיחת שריר הירך האחורי - בעמידה",
     "region": "hip",
     "equipment": "none",
     "image_file": "hip_hamstring_stretch.png",
@@ -757,7 +768,7 @@
   },
   {
     "id": "hip_hamstring_stretch_v2",
-    "name_he": "מתיחה פעילה לשריר הירך האחורי בשכיבה על הגב",
+    "name_he": "מתיחת שריר הירך האחורי - פעילה בשכיבה",
     "region": "hip",
     "equipment": "none",
     "image_file": "hip_hamstring_stretch_v2.png",
@@ -767,11 +778,12 @@
     "name_ru": "Активная растяжка задней поверхности бедра лёжа на спине",
     "instructions_ru": "Лягте на спину. Поднимите одну прямую ногу вверх и обхватите её обеими руками под коленом. Осторожно подтяните её к голове до ощущения растяжения сзади бедра, колено остаётся максимально прямым. Вторая нога остаётся прямой и расслабленной на полу.",
     "default_reps_ru": "30 секунд на каждую ногу",
-    "updated_at": "2026-09-20"
+    "updated_at": "2026-09-20",
+    "variant_of": "hip_hamstring_stretch"
   },
   {
     "id": "knee_flex_asisted_mov",
-    "name_he": "כיפוף ברך בעזרת רצועה (Heel Slide) בשכיבה על הגב",
+    "name_he": "כפיפת ברך מסייעת עם רצועה - בשכיבה",
     "region": "knee",
     "equipment": "resistance band",
     "image_file": "knee_flex_asisted_mov.png",
@@ -785,7 +797,7 @@
   },
   {
     "id": "knee_quad_stretch",
-    "name_he": "מתיחת שריר הארבע-ראשי (Quadriceps) בעמידה מול קיר",
+    "name_he": "מתיחת שריר הארבע-ראשי - בעמידה מול קיר",
     "region": "knee",
     "equipment": "wall",
     "image_file": "knee_quad_stretch.png",
@@ -799,7 +811,7 @@
   },
   {
     "id": "shoulder_assisted_flexion",
-    "name_he": "כיפוף כתף פעיל-מסייע בעזרת היד הבריאה",
+    "name_he": "כפיפת כתף פעילה-מסייעת - עם היד הבריאה",
     "region": "shoulder",
     "equipment": "none",
     "image_file": "shoulder_assisted_flexion.png",
@@ -813,7 +825,7 @@
   },
   {
     "id": "wrist_dorsiflexion_band",
-    "name_he": "כיפוף גבי (יישור) של שורש כף היד כנגד גומייה",
+    "name_he": "כפיפה גבית של שורש כף היד - עם גומייה",
     "region": "wrist",
     "equipment": "resistance band",
     "image_file": "wrist_dorsiflexion_band.png",
@@ -827,7 +839,7 @@
   },
   {
     "id": "wrist_dorsiflexion_dumbbell",
-    "name_he": "חיזוק שרירים מיישרי שורש כף היד עם משקולת",
+    "name_he": "כפיפה גבית של שורש כף היד - עם משקולת",
     "region": "wrist",
     "equipment": "dumbbell",
     "image_file": "wrist_dorsiflexion_dumbbell.png",
@@ -837,11 +849,12 @@
     "name_ru": "Укрепление разгибателей запястья с гантелью",
     "instructions_ru": "Сядьте у стола или скамьи, предплечье лежит на нём, кисть свисает за край ладонью вниз, держа лёгкую гантель. Поднимите кисть вверх, разгибая запястье, затем медленно и контролируемо опустите в нижнюю точку движения.",
     "default_reps_ru": "12–15 повторений",
-    "updated_at": "2026-09-20"
+    "updated_at": "2026-09-20",
+    "variant_of": "wrist_dorsiflexion_band"
   },
   {
     "id": "wrist_palmarflexion_band",
-    "name_he": "כיפוף כפי (Palmar Flexion) של שורש כף היד כנגד גומייה",
+    "name_he": "כפיפה כפית של שורש כף היד - עם גומייה",
     "region": "wrist",
     "equipment": "resistance band",
     "image_file": "wrist_palmarflexion_band.png",
@@ -855,7 +868,7 @@
   },
   {
     "id": "wrist_palmarflexion_dumbbell",
-    "name_he": "חיזוק שרירים כופפי שורש כף היד עם משקולת",
+    "name_he": "כפיפה כפית של שורש כף היד - עם משקולת",
     "region": "wrist",
     "equipment": "dumbbell",
     "image_file": "wrist_palmarflexion_dumbbell.png",
@@ -865,11 +878,12 @@
     "name_ru": "Укрепление сгибателей запястья с гантелью",
     "instructions_ru": "Сядьте у стола или скамьи, предплечье лежит на нём, кисть свисает за край ладонью вверх, держа лёгкую гантель. Согните запястье вверх, затем медленно и контролируемо опустите в нижнюю точку движения.",
     "default_reps_ru": "12–15 повторений",
-    "updated_at": "2026-09-20"
+    "updated_at": "2026-09-20",
+    "variant_of": "wrist_palmarflexion_band"
   },
   {
     "id": "core_plank_knees",
-    "name_he": "פלאנק על אמות בתמיכת ברכיים",
+    "name_he": "פלאנק על אמות - בתמיכת ברכיים",
     "region": "core",
     "equipment": "none",
     "image_file": "core_plank_knees.png",
@@ -883,7 +897,7 @@
   },
   {
     "id": "hip_hamstring_stretch_seated",
-    "name_he": "מתיחת שריר הירך האחורי בישיבה על כיסא",
+    "name_he": "מתיחת שריר הירך האחורי - בישיבה על כיסא",
     "region": "hip",
     "equipment": "chair",
     "image_file": "hip_hamstring_stretch_seated.png",
@@ -893,11 +907,12 @@
     "name_ru": "Растяжка задней поверхности бедра сидя на стуле",
     "instructions_ru": "Сядьте на край стула. Одна нога прямая вперёд, пятка на полу, колено почти выпрямлено, вторая согнута и стоит на полу сбоку. Наклоните корпус вперёд от бёдер, спина прямая, положите руки на сиденье стула для опоры, до ощущения растяжения сзади бедра прямой ноги. Удерживайте, дыша спокойно.",
     "default_reps_ru": "30 секунд на каждую ногу",
-    "updated_at": "2026-09-20"
+    "updated_at": "2026-09-20",
+    "variant_of": "hip_hamstring_stretch"
   },
   {
     "id": "sh_hbb_stretch",
-    "name_he": "מתיחת כתף HBB",
+    "name_he": "מתיחת כתף - יד מאחורי הגב",
     "region": "shoulder",
     "equipment": "none",
     "image_file": "sh_hbb_stretch.png",
@@ -925,7 +940,7 @@
   },
   {
     "id": "core_copenhagen_plank_v2",
-    "name_he": "קופנהגן פלאנק - מנוף קצר (גרסה קלה)",
+    "name_he": "קופנהגן פלאנק - מנוף קצר",
     "region": "core",
     "equipment": "chair",
     "image_file": "core_copenhagen_plank_v2.png",
@@ -935,11 +950,12 @@
     "name_ru": "Планка Копенгаген — облегчённый вариант (короткий рычаг)",
     "instructions_ru": "Лягте на бок и обопритесь на нижнее предплечье, локоть строго под плечом. Положите колено и голень верхней ноги на устойчивую скамью; нижняя нога прямая и висит в воздухе под скамьёй. Поднимите таз так, чтобы тело было прямым от головы до верхнего колена. Таз не провисает, тело не поворачивается вперёд или назад. Удерживайте положение, дыша спокойно, и опуститесь под контролем.",
     "default_reps_ru": "20-30 секунд на каждую сторону",
-    "updated_at": "2026-10-20"
+    "updated_at": "2026-10-20",
+    "variant_of": "core_copenhagen_plank"
   },
   {
     "id": "hip_adductors_stretch",
-    "name_he": "מתיחת שרירי הירך הפנימיים (Adductors) בפסיעה צידית",
+    "name_he": "מתיחת שרירי הירך הפנימיים - פסיעה צידית",
     "region": "hip",
     "equipment": "none",
     "image_file": "hip_adductors_stretch.png",
@@ -953,7 +969,7 @@
   },
   {
     "id": "shoulder_aa_stick_flexion",
-    "name_he": "כיפוף כתף פעיל-מסייע בעזרת מקל",
+    "name_he": "כפיפת כתף פעילה-מסייעת - עם מקל",
     "region": "shoulder",
     "equipment": "stick",
     "image_file": "shoulder_aa_stick_flexion.png",
@@ -963,11 +979,12 @@
     "name_ru": "Ассистированное сгибание плеча с палкой",
     "instructions_ru": "Встаньте прямо и возьмитесь за палку обеими руками примерно на ширине плеч. Поднимите палку вперёд и вверх над головой; здоровая рука ведёт и помогает ограниченной, до максимально комфортной высоты без боли. Поясница не прогибается, плечи не поднимаются к ушам. Задержитесь на мгновение и медленно опустите палку под контролем.",
     "default_reps_ru": "10 повторений",
-    "updated_at": "2026-10-20"
+    "updated_at": "2026-10-20",
+    "variant_of": "shoulder_assisted_flexion"
   },
   {
     "id": "spine_prone_extension",
-    "name_he": "פשיטה מותנית בשכיבה על הבטן (Press-up)",
+    "name_he": "פשיטה מותנית - בשכיבה על הבטן",
     "region": "lumbar",
     "equipment": "none",
     "image_file": "spine_prone_extension.png",
@@ -981,7 +998,7 @@
   },
   {
     "id": "spine_supine_rotation",
-    "name_he": "סיבוב מותני בשכיבה על הגב",
+    "name_he": "סיבוב מותני - בשכיבה על הגב",
     "region": "lumbar",
     "equipment": "none",
     "image_file": "spine_supine_rotation.png",
@@ -995,7 +1012,7 @@
   },
   {
     "id": "standing_spine_ext",
-    "name_he": "פשיטה מותנית בעמידה",
+    "name_he": "פשיטה מותנית - בעמידה",
     "region": "lumbar",
     "equipment": "none",
     "image_file": "standing_spine_ext.png",
@@ -1005,11 +1022,12 @@
     "name_ru": "Разгибание поясницы стоя",
     "instructions_ru": "Встаньте прямо, ноги на ширине таза, ладони на пояснице или на тазу. Наклонитесь назад до комфортного предела, колени прямые, таз слегка выдвинут вперёд. Задержитесь на мгновение и вернитесь в прямое положение.",
     "default_reps_ru": "10 повторений",
-    "updated_at": "2026-10-20"
+    "updated_at": "2026-10-20",
+    "variant_of": "spine_prone_extension"
   },
   {
     "id": "standing_spine_flx",
-    "name_he": "כפיפה מותנית בעמידה",
+    "name_he": "כפיפה מותנית - בעמידה",
     "region": "lumbar",
     "equipment": "none",
     "image_file": "standing_spine_flx.png",
@@ -1023,7 +1041,7 @@
   },
   {
     "id": "standing_spine_rot",
-    "name_he": "סיבוב מותני בעמידה",
+    "name_he": "סיבוב מותני - בעמידה",
     "region": "lumbar",
     "equipment": "none",
     "image_file": "standing_spine_rot.png",
@@ -1033,11 +1051,12 @@
     "name_ru": "Ротация поясницы стоя",
     "instructions_ru": "Встаньте прямо и устойчиво, ноги на ширине таза. Одна рука перед грудью, другая за спиной. Поверните верхнюю часть тела в одну сторону, таз и ноги остаются обращёнными вперёд, и задержитесь на мгновение в крайней точке. Вернитесь в центр и поверните в другую сторону.",
     "default_reps_ru": "10 повторений на каждую сторону",
-    "updated_at": "2026-10-20"
+    "updated_at": "2026-10-20",
+    "variant_of": "spine_supine_rotation"
   },
   {
     "id": "standing_spine_sf",
-    "name_he": "כפיפה צידית מותנית בעמידה",
+    "name_he": "כפיפה צידית מותנית - בעמידה",
     "region": "lumbar",
     "equipment": "none",
     "image_file": "standing_spine_sf.png",

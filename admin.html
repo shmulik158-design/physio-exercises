@@ -255,9 +255,15 @@
     </div>
 
     <div class="field">
+      <label for="f_variant_of">וריאציה של</label>
+      <select id="f_variant_of"></select>
+      <div class="sub" id="variantHint">בספרייה באתר, וריאציות מקובצות מתחת לתרגיל הראשי ונחשפות כשמצביעים עליו. השאר ריק לתרגיל עצמאי.</div>
+    </div>
+
+    <div class="field">
       <label for="f_id">מזהה טכני (שם קובץ התמונה)</label>
       <input id="f_id" class="mono" type="text" placeholder="hip_bridge_ball">
-      <div class="sub">אנגלית קטנה, קו תחתון במקום רווח. לוריאציה של תרגיל קיים: הוסף בסוף <span style="font-family:'Roboto Mono',monospace">_v2</span></div>
+      <div class="sub">אנגלית קטנה, קו תחתון במקום רווח.</div>
     </div>
 
     <div class="row2">
@@ -353,6 +359,7 @@ fetch('/api/data').then(r=>r.json()).then(d=>{
   EXERCISES = d.exercises;
   $('quickNotesText').value = notesToLines(d.quickNotes || []);
   renderParagraphs(d.paragraphs || []);
+  refreshVariantOptions(null, '');
   renderList();
 }).catch(()=> setMsg('err', 'לא הצלחתי להתחבר לשרת המקומי. ודא שהחלון השחור עדיין פתוח.'));
 
@@ -440,7 +447,8 @@ function buildExRow(ex){
       <div class="i"></div>
     </div>`;
   row.querySelector('.n').textContent = ex.name_he;
-  row.querySelector('.i').textContent = ex.id;
+  const lead = ex.variant_of && EXERCISES.find(e => e.id === ex.variant_of);
+  row.querySelector('.i').textContent = lead ? `${ex.id} · וריאציה של ${lead.name_he}` : ex.id;
   row.addEventListener('click', ()=> loadForEdit(ex.id));
   return row;
 }
@@ -484,11 +492,27 @@ $('listRegionFilter').addEventListener('change', renderList);
 $('listEquipmentFilter').addEventListener('change', renderList);
 
 /* ---------- form ---------- */
+// Only a lead (an exercise that is not itself a variant) can be chosen, and never the exercise being edited.
+// An exercise that already has variants of its own is locked to "standalone" — bundles are one level deep.
+function refreshVariantOptions(editing, selected){
+  const sel = $('f_variant_of');
+  sel.replaceChildren(new Option('— תרגיל עצמאי —', ''));
+  EXERCISES.filter(e => !e.variant_of && e.id !== editing)
+    .forEach(e => sel.add(new Option(e.name_he, e.id)));
+  sel.value = selected || '';
+  const hasChildren = !!editing && EXERCISES.some(e => e.variant_of === editing);
+  sel.disabled = hasChildren;
+  $('variantHint').textContent = hasChildren
+    ? 'לתרגיל הזה יש וריאציות משלו, ולכן הוא הראשון באגד ולא יכול להיות וריאציה של תרגיל אחר.'
+    : 'בספרייה באתר, וריאציות מקובצות מתחת לתרגיל הראשי ונחשפות כשמצביעים עליו. השאר ריק לתרגיל עצמאי.';
+}
+
 function clearForm(){
   editingId = null; pendingImage = null;
   $('formTitle').textContent = 'תרגיל חדש';
   $('f_name').value = ''; $('f_id').value = '';
   $('f_region').selectedIndex = 0; $('f_equipment').selectedIndex = 0;
+  refreshVariantOptions(null, '');
   $('f_sets').value = '3'; $('f_reps').value = '10 חזרות';
   $('f_instructions').value = '';
   $('f_name_ru').value = ''; $('f_reps_ru').value = ''; $('f_instructions_ru').value = '';
@@ -508,6 +532,7 @@ function loadForEdit(id){
   $('f_id').value = ex.id;
   $('f_region').value = ex.region;
   $('f_equipment').value = ex.equipment;
+  refreshVariantOptions(ex.id, ex.variant_of);
   $('f_sets').value = ex.default_sets;
   $('f_reps').value = ex.default_reps;
   $('f_instructions').value = ex.instructions_he === 'TODO' ? '' : ex.instructions_he;
@@ -587,6 +612,7 @@ $('saveBtn').addEventListener('click', async ()=>{
     name_he: $('f_name').value,
     region: $('f_region').value,
     equipment: $('f_equipment').value,
+    variant_of: $('f_variant_of').value,
     default_sets: $('f_sets').value.trim(),
     default_reps: $('f_reps').value.trim(),
     instructions_he: $('f_instructions').value,
