@@ -199,7 +199,7 @@
   },
   {
     "id": "sh_assisted_flexion_band",
-    "name_he": "כפיפת כתף פעילה-מסייעת - עם גומייה",
+    "name_he": "כפיפת כתף אקטיבי-נעזר - עם גומייה",
     "region": "shoulder",
     "equipment": "resistance band",
     "image_file": "sh_assisted_flexion_band.png",
@@ -811,7 +811,7 @@
   },
   {
     "id": "shoulder_assisted_flexion",
-    "name_he": "כפיפת כתף פעילה-מסייעת - עם היד הבריאה",
+    "name_he": "כפיפת כתף אקטיבי-נעזר - עם היד הבריאה",
     "region": "shoulder",
     "equipment": "none",
     "image_file": "shoulder_assisted_flexion.png",
@@ -970,7 +970,7 @@
   },
   {
     "id": "shoulder_aa_stick_flexion",
-    "name_he": "כפיפת כתף פעילה-מסייעת - עם מקל",
+    "name_he": "כפיפת כתף אקטיבי-נעזר - עם מקל",
     "region": "shoulder",
     "equipment": "stick",
     "image_file": "shoulder_aa_stick_flexion.png",
