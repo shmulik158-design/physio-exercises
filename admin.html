@@ -228,6 +228,7 @@
         <option value="">כל הציוד</option>
         <option value="none">ללא ציוד</option>
         <option value="any">עם ציוד</option>
+        <option value="gym">חדר כושר</option>
       </select>
     </div>
     <div id="list"></div>
@@ -331,7 +332,7 @@ const REGION_LABELS = {
 const EQUIPMENT_LABELS = {
   "none":"ללא ציוד", "resistance band":"גומיית התנגדות",
   "chair":"כיסא / משטח מוגבה", "wall":"קיר", "small ball":"כדור קטן",
-  "dumbbell":"משקולת יד", "stick":"מקל"
+  "dumbbell":"משקולת יד", "stick":"מקל", "gym":"חדר כושר"
 };
 
 let EXERCISES = [];
@@ -464,6 +465,7 @@ function renderList(){
     if (region && ex.region !== region) return false;
     if (equipment === 'none' && ex.equipment !== 'none') return false;
     if (equipment === 'any' && ex.equipment === 'none') return false;
+    if (equipment === 'gym' && ex.equipment !== 'gym') return false;
     if (q && !ex.name_he.includes(q) && !ex.id.includes(q)) return false;
     return true;
   });

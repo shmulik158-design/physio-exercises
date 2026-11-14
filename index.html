@@ -488,6 +488,7 @@
         <option value="">כל הציוד</option>
         <option value="none">ללא ציוד</option>
         <option value="any">עם ציוד</option>
+        <option value="gym">חדר כושר</option>
       </select>
     </div>
     <div class="grid-toolbar">
@@ -794,6 +795,7 @@ function matchesFilters(ex, q, region, equipment){
   if (q && !ex.name_he.includes(q)) return false;
   if (equipment === 'none' && ex.equipment !== 'none') return false;
   if (equipment === 'any' && ex.equipment === 'none') return false;
+  if (equipment === 'gym' && ex.equipment !== 'gym') return false;
   return true;
 }
 
