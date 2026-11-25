@@ -246,6 +246,12 @@
   }
   .builder .patient-field input:focus, .builder .patient-field select:focus{border-color:var(--teal); outline:none;}
 
+  .builder .check-field{
+    display:flex; align-items:center; gap:var(--sp-2); cursor:pointer;
+    font-size:var(--text-sm); color:var(--ink-soft);
+  }
+  .builder .check-field input{width:16px; height:16px; accent-color:var(--teal); cursor:pointer;}
+
   .free-text{display:flex; flex-direction:column; gap:var(--sp-2);}
   .free-text label{font-size:var(--text-sm); color:var(--ink-soft);}
   .free-text textarea{
@@ -427,6 +433,7 @@
       border-radius:3px;
     }
     .p-exercise .p-thumb img, .p-exercise .p-thumb svg{width:100%; height:100%; object-fit:contain;}
+    .p-exercise h3{font-size:16.5px; margin-bottom:3px;}
     .p-exercise .p-region{
       font-family:'Roboto Mono',monospace; font-size:10px; text-transform:uppercase;
       letter-spacing:.05em; color:var(--region-color, var(--ink-soft)); margin-bottom:8px;
@@ -509,6 +516,10 @@
         <option value="he">עברית</option>
         <option value="ru">רוסית — Русский</option>
       </select>
+    </label>
+    <label class="check-field">
+      <input type="checkbox" id="printNames">
+      <span>הדפס גם את שמות התרגילים</span>
     </label>
     <label class="patient-field">
       המטפל/ת המפיק/ה (חובה להדפסה — יודפס על הדף)
@@ -753,6 +764,11 @@ function init(){
     document.getElementById('search').addEventListener('input', renderGrid);
     document.getElementById('regionFilter').addEventListener('change', renderGrid);
     document.getElementById('equipmentFilter').addEventListener('change', renderGrid);
+    const namesBox = document.getElementById('printNames');
+    try { namesBox.checked = localStorage.getItem('printNames') === '1'; } catch (e) { /* storage unavailable: stays off */ }
+    namesBox.addEventListener('change', () => {
+      try { localStorage.setItem('printNames', namesBox.checked ? '1' : '0'); } catch (e) { /* not worth surfacing */ }
+    });
     const sizeInput = document.getElementById('cardSize');
     const applyCardSize = px => document.documentElement.style.setProperty('--card-min', px + 'px');
     try { const saved = localStorage.getItem('cardSize'); if (saved) sizeInput.value = saved; } catch (e) { /* storage unavailable: default size */ }
@@ -1123,6 +1139,7 @@ function buildPrintSheet(){
   sheet.forEach((s, idx)=>{
     const ex = s.ex;
     const exName = lang === 'ru' ? (ex.name_ru || ex.name_he) : ex.name_he;
+    const showNames = document.getElementById('printNames').checked; // off by default: names are often clinical jargon
     // Russian: untouched fields use the curated Russian default; fields the therapist edited
     // are honoured (dosage + bank notes are translated, hand-typed instructions print as typed).
     const repsEdited = s.reps !== ex.default_reps;
@@ -1142,6 +1159,7 @@ function buildPrintSheet(){
       <div class="p-num">${idx+1}</div>
       <div class="p-thumb"><img src="./images/${ex.image_file}" alt="${escapeAttr(exName)}"></div>
       <div>
+        ${showNames ? `<h3>${exName}</h3>` : ''}
         <div class="p-region">${regionLabels[ex.region]}</div>
         <div class="p-dose">${strings.dose(s.sets, reps)}${notes ? ' — ' + notes : ''}</div>
         <div class="p-instructions">${instructions}</div>
