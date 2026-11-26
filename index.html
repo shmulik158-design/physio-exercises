@@ -719,7 +719,7 @@ let PARAGRAPHS = [];  // same shape — longer blocks for the closing note at th
 
 // Loads a { he, ru } bank file. A missing file just means "no bank yet" — not an error the therapist needs to see.
 function loadBank(file){
-  return fetch(file)
+  return fetch(file, { cache: 'no-cache' })
     .then(r => r.ok ? r.json() : [])
     .then(items => (Array.isArray(items) ? items : [])
       .map(n => typeof n === 'string' ? { he: n, ru: '' } : { he: n.he || '', ru: n.ru || '' })
@@ -750,8 +750,13 @@ function populateParagraphPicker(){
   });
 }
 
-fetch('./exercises.json')
-  .then(r => r.json())
+// 'no-cache' = always revalidate with the server (a 304 still reuses the cached copy), so a freshly
+// published exercise list is never hidden behind a stale cached file.
+fetch('./exercises.json', { cache: 'no-cache' })
+  .then(r => {
+    if (!r.ok) throw new Error(`HTTP ${r.status}`); // a 404 page would otherwise fail later as a confusing JSON error
+    return r.json();
+  })
   .then(data => {
     EXERCISES = data.map(ex => ({
       ...ex,
@@ -763,12 +768,19 @@ fetch('./exercises.json')
   })
   .catch(err => {
     console.error("Failed to load exercises.json:", err);
-    document.getElementById('grid').innerHTML = `
-      <div style="padding: 20px; color: #c33; font-size: 14px;">
-        <strong>שגיאה:</strong> לא הצליח לטעון את exercises.json.<br>
-        ודא שהקובץ נמצא באותה תיקייה כמו index.html
-      </div>
-    `;
+    // Opening index.html straight from a folder (file://) is the classic cause: browsers block fetch() there.
+    const advice = location.protocol === 'file:'
+      ? 'נראה שהדף נפתח כקובץ מהמחשב ולא דרך האתר. יש לפתוח אותו דרך כתובת האתר.'
+      : 'בדוק את החיבור לאינטרנט ורענן את הדף (Ctrl+Shift+R). אם הבעיה נמשכת, פנה אלינו עם הפרטים הטכניים שמופיעים למטה.';
+    const box = document.createElement('div');
+    box.style.cssText = 'padding:20px; color:#c33; font-size:14px; line-height:1.6;';
+    box.innerHTML = `<strong>שגיאה:</strong> לא הצלחנו לטעון את רשימת התרגילים.<br>${advice}`;
+    const tech = document.createElement('div');
+    tech.dir = 'ltr';
+    tech.style.cssText = 'margin-top:8px; font-size:12px; color:#888; text-align:left;';
+    tech.textContent = `${location.href} — ${err && err.message ? err.message : err}`; // textContent: the message is not trusted HTML
+    box.appendChild(tech);
+    document.getElementById('grid').replaceChildren(box);
   });
 let sheet = []; // { ex, sets, reps, intensity, instructions }
 
